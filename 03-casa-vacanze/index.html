@@ -3,142 +3,432 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Casa Liri — Affitto breve sul lago</title>
+<title>Casa Lìri, una casa di pietra sul Lago d'Orta</title>
+<meta name="description" content="Casa Lìri: una piccola casa di pietra fronte lago a Orta San Giulio. Quattro ospiti, vista sull'acqua, prenotazione diretta senza commissioni.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Newsreader:ital,opsz@0,6..72;1,6..72&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#fcfbf9;--ink:#23201c;--body:#5c564d;--line:#eae5dc;--green:#3a5a40;--sun:#cd8b4f;--card:#fff}
+  :root{
+    /* warm limestone paper, tinted toward the lake-green brand hue */
+    --paper: oklch(0.975 0.008 95);
+    --paper-2: oklch(0.955 0.011 92);
+    --ink: oklch(0.27 0.018 145);
+    --body: oklch(0.46 0.02 130);
+    --muted: oklch(0.6 0.018 125);
+    --line: oklch(0.9 0.012 110);
+    --line-soft: oklch(0.93 0.01 105);
+
+    /* lake pine green carries the surface */
+    --pine: oklch(0.42 0.058 158);
+    --pine-deep: oklch(0.32 0.05 160);
+    --pine-soft: oklch(0.6 0.05 158);
+
+    /* dusk lantern: muted ochre / terracotta accent */
+    --lantern: oklch(0.7 0.12 62);
+    --lantern-deep: oklch(0.6 0.13 52);
+    --gold: oklch(0.82 0.1 82);
+
+    --maxw: 1140px;
+    --ease: cubic-bezier(.22,1,.36,1);
+  }
+
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--body);font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
-  .wrap{max-width:1120px;margin:0 auto;padding:0 26px}
-  h1,h2,h3{color:var(--ink);font-family:"Cormorant Garamond",serif;font-weight:500;line-height:1.1;letter-spacing:.005em}
-  ::selection{background:var(--sun);color:#fff}
+  body{
+    background:var(--paper);
+    color:var(--body);
+    font-family:"Inter",system-ui,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    line-height:1.62;
+    font-size:17px;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  h1,h2,h3{color:var(--ink);font-family:"Fraunces",serif;font-weight:500;line-height:1.04;letter-spacing:-.01em}
+  ::selection{background:var(--lantern);color:oklch(0.99 0.01 90)}
   a{color:inherit;text-decoration:none}
-  :focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+  :focus-visible{outline:2.5px solid var(--lantern-deep);outline-offset:3px;border-radius:2px}
 
-  nav{position:sticky;top:0;z-index:50;background:rgba(252,251,249,.82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
-  .logo{font-family:"Cormorant Garamond",serif;font-size:1.5rem;font-weight:600;color:var(--ink)}
-  .logo span{color:var(--sun)}
-  .nav-links{display:flex;gap:28px;font-size:.92rem}
-  .nav-links a:hover{color:var(--green)}
-  .book{background:var(--green);color:#fff;padding:10px 20px;border-radius:100px;font-size:.9rem;font-weight:500;transition:.2s}
-  .book:hover{background:#2f4a34}
-  @media(max-width:720px){.nav-links{display:none}}
+  .skip{position:absolute;left:-999px;top:0;background:var(--pine);color:var(--paper);padding:12px 18px;border-radius:0 0 10px 0;z-index:100;font-size:.9rem}
+  .skip:focus{left:0}
 
-  .hero{position:relative;min-height:82vh;display:flex;align-items:flex-end;border-radius:0 0 26px 26px;overflow:hidden;
-    background:linear-gradient(180deg,rgba(20,30,22,.15),rgba(20,30,22,.72)),
-    linear-gradient(120deg,#6f8f6a,#3a5a40 55%,#243a28)}
-  .hero::before{content:"";position:absolute;inset:0;background:
-    radial-gradient(circle at 78% 22%,rgba(244,210,150,.5),transparent 42%),
-    radial-gradient(circle at 20% 80%,rgba(58,90,64,.6),transparent 50%);mix-blend-mode:screen}
-  .hero-content{position:relative;padding:54px 0 60px;color:#fff}
-  .hero-content .wrap{max-width:1120px}
-  .pin{font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:#f4d796;font-weight:600;margin-bottom:16px}
-  .hero h1{color:#fff;font-size:clamp(3rem,8vw,6rem);font-weight:500;max-width:14ch}
-  .hero p{margin-top:18px;font-size:1.2rem;color:#ece8df;max-width:44ch}
-  .hero-cta{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
-  .btn-sun{background:var(--sun);color:#fff;padding:15px 30px;border-radius:100px;font-weight:500;transition:.2s}
-  .btn-sun:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(205,139,79,.4)}
-  .rating{display:flex;align-items:center;gap:9px;font-size:.92rem;color:#ece8df}
-  .stars{color:#f4d796;letter-spacing:2px}
+  /* ---- nav: solid paper, hairline, no glass ---- */
+  nav{position:sticky;top:0;z-index:50;background:var(--paper);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:"Fraunces",serif;font-size:1.42rem;font-weight:600;color:var(--ink);letter-spacing:-.01em;display:flex;align-items:baseline;gap:.5ch}
+  .logo .dot{width:7px;height:7px;border-radius:50%;background:var(--lantern);display:inline-block;transform:translateY(-1px)}
+  .nav-links{display:flex;gap:30px;font-size:.93rem;color:var(--muted)}
+  .nav-links a{position:relative;padding:4px 0;transition:color .3s var(--ease)}
+  .nav-links a::after{content:"";position:absolute;left:0;bottom:-1px;width:100%;height:1px;background:var(--pine);transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease)}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-links a:hover::after{transform:scaleX(1)}
+  .book{background:var(--pine);color:var(--paper);padding:11px 22px;border-radius:100px;font-size:.9rem;font-weight:500;transition:background .3s var(--ease),transform .3s var(--ease)}
+  .book:hover{background:var(--pine-deep);transform:translateY(-1px)}
+  @media(max-width:760px){.nav-links{display:none}}
 
-  .feat{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;padding:54px 0;border-bottom:1px solid var(--line)}
-  @media(max-width:760px){.feat{grid-template-columns:1fr 1fr}}
-  .feat .f{text-align:center}
-  .feat .f .ic{width:48px;height:48px;margin:0 auto 12px;border-radius:13px;background:#f1ede4;display:grid;place-items:center}
-  .feat .f h3{font-family:"Inter";font-size:1rem;color:var(--ink);font-weight:600}
-  .feat .f p{font-size:.86rem;margin-top:3px}
+  /* ---- hero ---- */
+  .hero{padding:clamp(56px,11vh,118px) 0 clamp(48px,8vh,90px)}
+  .hero .wrap{display:grid;grid-template-columns:1.05fr .95fr;gap:clamp(36px,5vw,72px);align-items:end}
+  @media(max-width:880px){.hero .wrap{grid-template-columns:1fr;gap:40px;align-items:start}}
 
-  section{padding:80px 0}
-  .gallery{display:grid;grid-template-columns:2fr 1fr 1fr;grid-auto-rows:170px;gap:14px}
-  .gallery>div{border-radius:16px;background-size:cover;background-position:center;position:relative;overflow:hidden}
-  .g1{grid-row:span 2;background:linear-gradient(135deg,#7a9b74,#3a5a40)}
-  .g2{background:linear-gradient(135deg,#d9a86c,#b0763d)}
-  .g3{background:linear-gradient(135deg,#9fb2c9,#5d7491)}
-  .g4{background:linear-gradient(135deg,#c2b59b,#8a7c5f)}
-  .g5{background:linear-gradient(135deg,#88a982,#4a6b50)}
-  @media(max-width:760px){.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:130px}.g1{grid-row:span 2}}
+  .place{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lantern-deep);font-weight:600;display:flex;align-items:center;gap:12px;margin-bottom:26px}
+  .place::before{content:"";width:34px;height:1px;background:var(--lantern-deep);opacity:.6}
+  .hero h1{font-size:clamp(2.9rem,7.4vw,5.4rem);font-weight:500;letter-spacing:-.025em;color:var(--ink)}
+  .hero h1 em{font-style:italic;font-weight:400;color:var(--pine)}
+  .hero .lede{margin-top:26px;font-family:"Newsreader",serif;font-size:clamp(1.18rem,2.2vw,1.42rem);line-height:1.5;color:var(--body);max-width:34ch}
+  .hero-cta{margin-top:34px;display:flex;gap:20px;flex-wrap:wrap;align-items:center}
+  .btn{background:var(--lantern-deep);color:oklch(0.99 0.012 88);padding:15px 30px;border-radius:100px;font-weight:500;font-size:.96rem;transition:transform .4s var(--ease),box-shadow .4s var(--ease);box-shadow:0 8px 24px -12px oklch(0.6 0.13 52 / .6)}
+  .btn:hover{transform:translateY(-2px);box-shadow:0 16px 34px -14px oklch(0.6 0.13 52 / .65)}
+  .quiet-link{font-size:.95rem;color:var(--muted);border-bottom:1px solid var(--line);padding-bottom:2px;transition:color .3s var(--ease),border-color .3s var(--ease)}
+  .quiet-link:hover{color:var(--ink);border-color:var(--pine)}
 
-  .split{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
-  @media(max-width:820px){.split{grid-template-columns:1fr;gap:32px}}
-  .split h2{font-size:clamp(2.2rem,5vw,3.2rem)}
-  .split p{margin-top:16px}
-  .amen{margin-top:24px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
-  .amen li{list-style:none;display:flex;gap:10px;align-items:center;font-size:.95rem}
-  .amen li::before{content:"✓";color:var(--green);font-weight:700}
-  .photo-block{aspect-ratio:4/3;border-radius:20px;background:linear-gradient(150deg,#cd8b4f,#7a9b74);box-shadow:0 30px 70px -40px rgba(58,90,64,.5)}
+  /* hero photo placeholder: view from the window at dawn */
+  .window{
+    position:relative;aspect-ratio:4/5;border-radius:18px;overflow:hidden;
+    background:
+      linear-gradient(180deg, oklch(0.86 0.045 230 / .55), transparent 40%),
+      linear-gradient(0deg, oklch(0.55 0.05 200 / .5), transparent 55%),
+      linear-gradient(170deg, oklch(0.8 0.07 78) 0%, oklch(0.72 0.06 120) 36%, oklch(0.5 0.06 200) 64%, oklch(0.38 0.05 215) 100%);
+    box-shadow:0 40px 80px -50px oklch(0.32 0.05 160 / .55);
+  }
+  .window::before{
+    /* far shore + island silhouette */
+    content:"";position:absolute;left:0;right:0;bottom:38%;height:8%;
+    background:oklch(0.4 0.04 175 / .55);
+    -webkit-mask:radial-gradient(40% 120% at 30% 100%, #000 60%, transparent 62%) 0 0/120px 100% repeat-x;
+    mask:radial-gradient(40% 120% at 30% 100%, #000 60%, transparent 62%) 0 0/120px 100% repeat-x;
+  }
+  .window .sun{position:absolute;top:18%;right:22%;width:54px;height:54px;border-radius:50%;background:oklch(0.92 0.09 84);filter:blur(2px);opacity:.85}
+  .window .label{position:absolute;left:16px;bottom:14px;font-size:.74rem;letter-spacing:.08em;color:oklch(0.99 0.01 90 / .9);background:oklch(0.3 0.04 160 / .42);backdrop-filter:blur(1px);padding:5px 11px;border-radius:100px;display:flex;align-items:center;gap:7px}
+  .window .label::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--gold)}
 
-  .book-cta{background:var(--green);border-radius:26px;color:#fff;text-align:center;padding:64px 30px;position:relative;overflow:hidden}
-  .book-cta::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 80% 20%,rgba(244,210,150,.32),transparent 45%)}
-  .book-cta>*{position:relative}
-  .book-cta h2{color:#fff;font-size:clamp(2.2rem,5vw,3.2rem)}
-  .book-cta p{color:#d8e4d6;margin:14px auto 28px;max-width:42ch}
-  .price{font-family:"Cormorant Garamond",serif;font-size:1.4rem;color:#f4d796;margin-bottom:24px}
-  .price b{font-size:2.6rem;color:#fff}
+  /* ---- intro strip: editorial, replaces stat row ---- */
+  .intro{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--paper-2)}
+  .intro .wrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(28px,5vw,70px);padding:clamp(40px,6vh,68px) 28px;align-items:center}
+  @media(max-width:760px){.intro .wrap{grid-template-columns:1fr;gap:22px}}
+  .intro .num{font-family:"Fraunces",serif;font-size:clamp(3rem,8vw,5rem);color:var(--pine);font-weight:400;line-height:.9}
+  .intro .num small{display:block;font-family:"Inter";font-size:.8rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500;margin-top:10px}
+  .intro p{font-family:"Newsreader",serif;font-size:clamp(1.22rem,2.4vw,1.6rem);line-height:1.5;color:var(--ink);max-width:46ch}
 
-  footer{padding:40px 0;text-align:center;font-size:.85rem;color:#9a958b}
+  /* ---- section rhythm ---- */
+  .section{padding:clamp(72px,11vh,124px) 0}
+  .eyebrow{font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--lantern-deep);font-weight:600;margin-bottom:18px}
 
-  .reveal{opacity:0;transform:translateY(22px);transition:.7s}
+  /* ---- the house: asymmetric split ---- */
+  .house .wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:clamp(40px,6vw,84px);align-items:center}
+  @media(max-width:880px){.house .wrap{grid-template-columns:1fr;gap:40px}}
+  .house h2{font-size:clamp(2.1rem,4.6vw,3.3rem);letter-spacing:-.02em}
+  .house h2 em{font-style:italic;color:var(--pine);font-weight:400}
+  .house p{margin-top:22px;font-size:1.04rem;max-width:50ch}
+  .house p + p{margin-top:14px}
+
+  /* stone wall placeholder */
+  .stone{
+    position:relative;aspect-ratio:5/6;border-radius:18px;overflow:hidden;
+    background:
+      repeating-linear-gradient(0deg, oklch(0.74 0.022 78 / .5) 0 1px, transparent 1px 46px),
+      repeating-linear-gradient(90deg, oklch(0.7 0.02 75 / .4) 0 1px, transparent 1px 78px),
+      linear-gradient(150deg, oklch(0.82 0.03 80), oklch(0.7 0.035 95) 50%, oklch(0.6 0.04 130));
+    box-shadow:0 40px 80px -55px oklch(0.32 0.05 160 / .5);
+  }
+  .stone::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 80% 10%, oklch(0.95 0.06 88 / .35), transparent 55%)}
+  .stone .label{position:absolute;left:16px;bottom:14px;font-size:.74rem;letter-spacing:.08em;color:oklch(0.3 0.04 90 / .95);background:oklch(0.92 0.04 88 / .7);padding:5px 11px;border-radius:100px}
+
+  /* ---- inside: varied "what's here" list, not a card grid ---- */
+  .inside{background:var(--pine-deep);color:oklch(0.93 0.02 100);border-radius:26px;overflow:hidden}
+  .inside .pad{padding:clamp(44px,7vw,76px) clamp(28px,5vw,68px)}
+  .inside h2{color:oklch(0.96 0.02 95);font-size:clamp(2rem,4.4vw,3rem);max-width:16ch}
+  .inside h2 em{font-style:italic;color:var(--gold);font-weight:400}
+  .inside .sub{margin-top:18px;font-family:"Newsreader",serif;font-size:1.18rem;color:oklch(0.82 0.03 110);max-width:42ch}
+  .rooms{margin-top:44px;display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:oklch(0.42 0.05 160 / .6);border:1px solid oklch(0.42 0.05 160 / .6);border-radius:14px;overflow:hidden}
+  @media(max-width:680px){.rooms{grid-template-columns:1fr}}
+  .room{background:var(--pine-deep);padding:26px 28px;transition:background .4s var(--ease)}
+  .room:hover{background:oklch(0.36 0.052 160)}
+  .room .k{font-family:"Fraunces",serif;font-size:1.32rem;color:oklch(0.96 0.02 95);font-weight:500}
+  .room .v{margin-top:8px;font-size:.96rem;color:oklch(0.8 0.03 115);line-height:1.55}
+  .tags{margin-top:38px;display:flex;flex-wrap:wrap;gap:10px}
+  .tag{font-size:.86rem;color:oklch(0.88 0.025 105);border:1px solid oklch(0.5 0.04 160 / .55);padding:7px 15px;border-radius:100px}
+
+  /* ---- gallery: deliberately uneven ---- */
+  .gallery{display:grid;grid-template-columns:1.4fr 1fr 1fr;grid-template-rows:200px 200px;gap:14px}
+  @media(max-width:760px){.gallery{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,150px)}}
+  .frame{position:relative;border-radius:14px;overflow:hidden}
+  .frame .cap{position:absolute;left:14px;bottom:12px;font-size:.72rem;letter-spacing:.06em;color:oklch(0.99 0.01 90 / .92);background:oklch(0.28 0.04 160 / .4);padding:4px 10px;border-radius:100px;opacity:0;transform:translateY(6px);transition:opacity .4s var(--ease),transform .4s var(--ease)}
+  .frame:hover .cap{opacity:1;transform:none}
+  .frame::after{content:"";position:absolute;inset:0;background:radial-gradient(120% 90% at 75% 15%, oklch(0.95 0.05 90 / .22), transparent 60%)}
+  .f1{grid-row:span 2;background:linear-gradient(160deg, oklch(0.72 0.06 120), oklch(0.45 0.06 165))}
+  .f2{background:linear-gradient(150deg, oklch(0.78 0.09 70), oklch(0.6 0.1 52))}
+  .f3{background:linear-gradient(150deg, oklch(0.74 0.05 230), oklch(0.5 0.05 215))}
+  .f4{background:linear-gradient(150deg, oklch(0.8 0.035 88), oklch(0.62 0.04 110))}
+  .f5{background:linear-gradient(150deg, oklch(0.7 0.055 150), oklch(0.42 0.055 168))}
+  .gallery-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;gap:24px;flex-wrap:wrap}
+  .gallery-head h2{font-size:clamp(1.9rem,4vw,2.7rem)}
+  .gallery-head p{font-family:"Newsreader",serif;font-size:1.1rem;color:var(--body);max-width:36ch}
+
+  /* ---- the place / Orta ---- */
+  .orta .wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,84px);align-items:center}
+  @media(max-width:880px){.orta .wrap{grid-template-columns:1fr;gap:36px}}
+  .orta h2{font-size:clamp(2rem,4.4vw,3rem);max-width:14ch}
+  .orta h2 em{font-style:italic;color:var(--pine);font-weight:400}
+  .walk{margin-top:30px;display:flex;flex-direction:column}
+  .walk li{list-style:none;display:grid;grid-template-columns:auto 1fr;gap:18px;padding:18px 0;border-top:1px solid var(--line);align-items:baseline}
+  .walk li:last-child{border-bottom:1px solid var(--line)}
+  .walk .min{font-family:"Fraunces",serif;font-size:1.05rem;color:var(--pine);white-space:nowrap;font-weight:500}
+  .walk .what b{display:block;color:var(--ink);font-weight:600;font-size:1rem;font-family:"Inter"}
+  .walk .what span{font-size:.92rem;color:var(--muted)}
+  /* lake-from-above placeholder */
+  .lakemap{
+    position:relative;aspect-ratio:1/1;border-radius:18px;overflow:hidden;
+    background:linear-gradient(155deg, oklch(0.8 0.04 110), oklch(0.66 0.05 135) 45%, oklch(0.5 0.06 175));
+    box-shadow:0 40px 80px -55px oklch(0.32 0.05 160 / .5);
+  }
+  .lakemap .water{position:absolute;inset:14% 20% 22% 16%;border-radius:46% 54% 50% 48%/40% 44% 56% 60%;background:linear-gradient(160deg, oklch(0.62 0.055 215), oklch(0.46 0.06 220));box-shadow:inset 0 4px 20px oklch(0.35 0.05 230 / .5)}
+  .lakemap .isle{position:absolute;top:46%;left:42%;width:42px;height:30px;border-radius:50%;background:oklch(0.7 0.06 130);box-shadow:0 4px 10px oklch(0.3 0.05 160 / .4)}
+  .lakemap .pin{position:absolute;top:64%;left:30%;width:14px;height:14px;border-radius:50% 50% 50% 0;background:var(--lantern-deep);transform:rotate(-45deg);box-shadow:0 3px 8px oklch(0.5 0.1 52 / .6)}
+  .lakemap .label{position:absolute;left:16px;bottom:14px;font-size:.74rem;letter-spacing:.08em;color:oklch(0.3 0.04 160 / .95);background:oklch(0.92 0.04 110 / .72);padding:5px 11px;border-radius:100px}
+
+  /* ---- host note ---- */
+  .note{background:var(--paper-2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .note .wrap{padding:clamp(56px,9vh,96px) 28px;max-width:760px}
+  .note blockquote{font-family:"Newsreader",serif;font-size:clamp(1.4rem,3vw,2rem);line-height:1.42;color:var(--ink);font-style:italic;letter-spacing:-.01em}
+  .note .by{margin-top:26px;display:flex;align-items:center;gap:14px;font-style:normal}
+  .note .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(150deg, oklch(0.78 0.07 70), oklch(0.55 0.06 150))}
+  .note .by .who b{display:block;color:var(--ink);font-family:"Inter";font-size:.98rem;font-weight:600}
+  .note .by .who span{font-size:.9rem;color:var(--muted)}
+
+  /* ---- booking ---- */
+  .book-cta{background:var(--pine);border-radius:26px;color:oklch(0.94 0.02 100);overflow:hidden;position:relative}
+  .book-cta::after{content:"";position:absolute;inset:0;background:radial-gradient(90% 120% at 88% 8%, oklch(0.82 0.1 80 / .28), transparent 55%);pointer-events:none}
+  .book-cta .grid{position:relative;display:grid;grid-template-columns:1.2fr 1fr;gap:clamp(36px,5vw,64px);padding:clamp(44px,7vw,72px) clamp(28px,5vw,64px);align-items:center}
+  @media(max-width:820px){.book-cta .grid{grid-template-columns:1fr;gap:36px}}
+  .book-cta h2{color:oklch(0.97 0.02 95);font-size:clamp(2rem,4.6vw,3.1rem);max-width:14ch}
+  .book-cta h2 em{font-style:italic;color:var(--gold);font-weight:400}
+  .book-cta .p{margin-top:18px;font-family:"Newsreader",serif;font-size:1.15rem;color:oklch(0.85 0.03 110);max-width:40ch}
+  .panel{background:oklch(0.97 0.012 95);border-radius:18px;padding:28px;color:var(--ink)}
+  .panel .rate{display:flex;align-items:baseline;gap:8px}
+  .panel .rate b{font-family:"Fraunces",serif;font-size:2.7rem;font-weight:500;letter-spacing:-.02em}
+  .panel .rate span{color:var(--muted);font-size:.95rem}
+  .panel .meta{margin-top:8px;font-size:.9rem;color:var(--muted)}
+  .panel .row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:22px}
+  .field{border:1px solid var(--line);border-radius:11px;padding:11px 14px;background:var(--paper)}
+  .field label{display:block;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .field .val{font-size:.98rem;color:var(--ink);margin-top:3px;font-weight:500}
+  .panel .go{margin-top:16px;width:100%;background:var(--lantern-deep);color:oklch(0.99 0.012 88);border:none;padding:15px;border-radius:11px;font-family:"Inter";font-size:.98rem;font-weight:500;cursor:pointer;transition:background .3s var(--ease)}
+  .panel .go:hover{background:oklch(0.55 0.13 50)}
+  .panel .fine{margin-top:14px;font-size:.84rem;color:var(--muted);text-align:center;display:flex;align-items:center;justify-content:center;gap:7px}
+  .panel .fine::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--pine-soft)}
+
+  /* ---- footer ---- */
+  footer{padding:64px 0 48px;border-top:1px solid var(--line)}
+  footer .wrap{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:32px}
+  @media(max-width:680px){footer .wrap{grid-template-columns:1fr;gap:28px}}
+  footer .logo{margin-bottom:12px}
+  footer .blurb{font-size:.92rem;color:var(--muted);max-width:34ch}
+  footer h4{font-family:"Inter";font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;margin-bottom:14px}
+  footer ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+  footer ul a{font-size:.94rem;color:var(--body);transition:color .3s var(--ease)}
+  footer ul a:hover{color:var(--pine)}
+  .legal{max-width:var(--maxw);margin:40px auto 0;padding:22px 28px 0;border-top:1px solid var(--line-soft);font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+
+  /* ---- reveal ---- */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
   .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    *{scroll-behavior:auto!important}
+    .reveal{opacity:1;transform:none;transition:none}
+  }
 </style>
 </head>
 <body>
-<nav><div class="wrap">
-  <div class="logo">Casa <span>Lìri</span></div>
-  <div class="nav-links"><a href="#casa">La casa</a><a href="#foto">Foto</a><a href="#zona">La zona</a></div>
-  <a class="book" href="#prenota">Verifica disponibilità</a>
+<a class="skip" href="#main">Vai al contenuto</a>
+
+<nav aria-label="Principale"><div class="wrap">
+  <a class="logo" href="#" aria-label="Casa Lìri, home"><span class="dot" aria-hidden="true"></span>Casa Lìri</a>
+  <div class="nav-links">
+    <a href="#casa">La casa</a>
+    <a href="#foto">Sguardi</a>
+    <a href="#orta">Orta</a>
+  </div>
+  <a class="book" href="#prenota">Verifica le date</a>
 </div></nav>
 
-<header class="hero"><div class="hero-content"><div class="wrap">
-  <p class="pin">Lago d'Orta · 4 ospiti · vista lago</p>
-  <h1>La tua pausa, sull'acqua.</h1>
-  <p>Una casa di pietra a due passi dalla riva, dove il tempo rallenta e il telefono resta in tasca.</p>
-  <div class="hero-cta">
-    <a class="btn-sun" href="#prenota">Prenota il tuo soggiorno</a>
-    <div class="rating"><span class="stars">★★★★★</span> 4,96 · 128 recensioni</div>
+<main id="main">
+
+<header class="hero"><div class="wrap">
+  <div>
+    <p class="place">Orta San Giulio · Lago d'Orta</p>
+    <h1>Una casa di pietra<br>dove il lago <em>respira</em> piano.</h1>
+    <p class="lede">Quattro ospiti, una terrazza affacciata sull'acqua e mattine che cominciano con il rumore dei remi. Niente fretta, niente portali.</p>
+    <div class="hero-cta">
+      <a class="btn" href="#prenota">Prenota il soggiorno</a>
+      <a class="quiet-link" href="#casa">Conosci la casa</a>
+    </div>
   </div>
-</div></div></header>
+  <div class="window reveal" role="img" aria-label="Veduta del Lago d'Orta all'alba dalla finestra della casa">
+    <span class="sun" aria-hidden="true"></span>
+    <span class="label">Vista dalla camera, alle 6 del mattino</span>
+  </div>
+</div></header>
 
-<div class="wrap"><div class="feat">
-  <div class="f reveal"><div class="ic">🌅</div><h3>Vista lago</h3><p>Terrazza fronte acqua</p></div>
-  <div class="f reveal"><div class="ic">🔑</div><h3>Self check-in</h3><p>Arrivi quando vuoi</p></div>
-  <div class="f reveal"><div class="ic">🚗</div><h3>Parcheggio</h3><p>Privato e gratuito</p></div>
-  <div class="f reveal"><div class="ic">🛶</div><h3>Canoa inclusa</h3><p>Pronta sul pontile</p></div>
-</div></div>
+<section class="intro" aria-label="In breve">
+  <div class="wrap">
+    <div class="num reveal">4<small>ospiti · 60 m²</small></div>
+    <p class="reveal">A due passi dalla riva, lontano dal traffico. La casa che cerchi quando vuoi smettere di guardare l'orologio per qualche giorno.</p>
+  </div>
+</section>
 
-<section id="foto"><div class="wrap">
-  <div class="gallery reveal">
-    <div class="g1"></div><div class="g2"></div><div class="g3"></div><div class="g4"></div><div class="g5"></div>
+<section class="section house" id="casa"><div class="wrap">
+  <div class="reveal">
+    <p class="eyebrow">La casa</p>
+    <h2>Pietra fuori,<br>legno e <em>silenzio</em> dentro.</h2>
+    <p>Sessanta metri quadri raccolti su due livelli: una cucina abitabile dove si finisce sempre per chiacchierare, un camino che a febbraio scalda davvero, e una terrazza con il tavolo lungo per le cene d'estate.</p>
+    <p>È pensata per due coppie o per una famiglia. La luce entra da est, quindi ci si sveglia con il lago già acceso.</p>
+  </div>
+  <div class="stone reveal" role="img" aria-label="Dettaglio del muro in pietra a vista della casa">
+    <span class="label">Muro originale, fine '800</span>
   </div>
 </div></section>
 
-<section id="casa" style="padding-top:0"><div class="wrap split">
+<section class="section" style="padding-top:0"><div class="wrap">
+  <div class="inside reveal">
+    <div class="pad">
+      <p class="eyebrow" style="color:var(--gold)">Dentro</p>
+      <h2>Tutto al suo posto, <em>niente di troppo.</em></h2>
+      <p class="sub">Gli spazi sono pochi e curati. Quello che serve c'è, il resto lo lasci a casa.</p>
+      <div class="rooms">
+        <div class="room"><div class="k">Camera vista lago</div><div class="v">Letto matrimoniale, persiane in legno, l'acqua come prima cosa al risveglio.</div></div>
+        <div class="room"><div class="k">Seconda camera</div><div class="v">Due letti singoli affiancabili, perfetta per amici o bambini.</div></div>
+        <div class="room"><div class="k">Cucina abitabile</div><div class="v">Piano a induzione, forno, moka d'ordinanza e una tavola che invita a restare.</div></div>
+        <div class="room"><div class="k">Terrazza sull'acqua</div><div class="v">Tavolo per sei, sdraio e la canoa pronta giù al pontile.</div></div>
+      </div>
+      <div class="tags" aria-label="Dotazioni">
+        <span class="tag">Wi-Fi veloce</span>
+        <span class="tag">Camino a legna</span>
+        <span class="tag">Aria condizionata</span>
+        <span class="tag">Lavatrice</span>
+        <span class="tag">Biancheria inclusa</span>
+        <span class="tag">Parcheggio privato</span>
+        <span class="tag">Animali ammessi</span>
+        <span class="tag">Self check-in</span>
+      </div>
+    </div>
+  </div>
+</div></section>
+
+<section class="section" id="foto" style="padding-top:0"><div class="wrap">
+  <div class="gallery-head reveal">
+    <div>
+      <p class="eyebrow">Sguardi</p>
+      <h2>Qualche scorcio, in attesa del tuo.</h2>
+    </div>
+    <p>Le foto raccontano poco del silenzio. Ma danno l'idea della luce.</p>
+  </div>
+  <div class="gallery reveal">
+    <div class="frame f1" role="img" aria-label="Terrazza affacciata sul lago al tramonto"><span class="cap">La terrazza, ora dorata</span></div>
+    <div class="frame f2" role="img" aria-label="Interno della cucina con luce calda"><span class="cap">La cucina, al mattino</span></div>
+    <div class="frame f3" role="img" aria-label="Il lago visto dalla riva"><span class="cap">La riva, a due passi</span></div>
+    <div class="frame f4" role="img" aria-label="Dettaglio del soggiorno con camino"><span class="cap">Il camino, a febbraio</span></div>
+    <div class="frame f5" role="img" aria-label="Sentiero verso il pontile tra gli alberi"><span class="cap">Il sentiero al pontile</span></div>
+  </div>
+</div></section>
+
+<section class="section orta" id="orta"><div class="wrap">
   <div class="reveal">
-    <h2>Pietra, legno e silenzio.</h2>
-    <p>Sessanta metri quadri pensati per due coppie o una famiglia: cucina abitabile, camino acceso d'inverno, terrazza con tavolo per le cene lunghe d'estate.</p>
-    <ul class="amen">
-      <li>Wi-Fi veloce</li><li>Cucina attrezzata</li><li>Aria condizionata</li><li>Lavatrice</li>
-      <li>Biancheria inclusa</li><li>Animali ammessi</li>
+    <p class="eyebrow">La zona</p>
+    <h2>Orta è piccola. <em>Si gira a piedi.</em></h2>
+    <p style="margin-top:20px;max-width:46ch">Dalla porta di casa, tutto è a portata di passeggiata. L'isola di San Giulio è là davanti, e il traghetto parte ogni mezz'ora.</p>
+    <ul class="walk">
+      <li><span class="min">2 min</span><span class="what"><b>Riva e pontile</b><span>Dove ormeggia la canoa di casa</span></span></li>
+      <li><span class="min">8 min</span><span class="what"><b>Piazza Motta</b><span>Caffè, gelato e il mercato del mercoledì</span></span></li>
+      <li><span class="min">12 min</span><span class="what"><b>Isola di San Giulio</b><span>In traghetto, tra basilica e silenzio</span></span></li>
+      <li><span class="min">25 min</span><span class="what"><b>Sacro Monte</b><span>Salita nel bosco, vista che ripaga</span></span></li>
     </ul>
   </div>
-  <div class="photo-block reveal"></div>
+  <div class="lakemap reveal" role="img" aria-label="Mappa stilizzata del Lago d'Orta con l'isola di San Giulio e la posizione della casa">
+    <span class="water" aria-hidden="true"></span>
+    <span class="isle" aria-hidden="true"></span>
+    <span class="pin" aria-hidden="true"></span>
+    <span class="label">Casa Lìri · riva est</span>
+  </div>
 </div></section>
 
-<section id="prenota"><div class="wrap"><div class="book-cta reveal">
-  <div class="price"><b>110€</b> / notte · minimo 2 notti</div>
-  <h2>Il lago ti aspetta.</h2>
-  <p>Disponibilità in tempo reale e prenotazione diretta — senza commissioni dei portali.</p>
-  <a class="btn-sun" href="#">Verifica le date →</a>
-</div></div></section>
+<section class="note" aria-label="Un saluto dai proprietari">
+  <div class="wrap reveal">
+    <blockquote>"Abbiamo sistemato la casa dei nonni un sasso alla volta. Ora la affittiamo solo a chi cerca quello che cercavamo noi: un posto dove il lago si sente prima di vederlo."</blockquote>
+    <div class="by">
+      <span class="av" aria-hidden="true"></span>
+      <span class="who"><b>Marta e Giulio</b><span>I padroni di casa, a Orta da sempre</span></span>
+    </div>
+  </div>
+</section>
 
-<footer><div class="wrap">© 2026 Casa Lìri · Affitto breve · Orta San Giulio (NO) · CIR 00000000</div></footer>
+<section class="section" id="prenota"><div class="wrap">
+  <div class="book-cta reveal">
+    <div class="grid">
+      <div>
+        <p class="eyebrow" style="color:var(--gold)">Prenotazione diretta</p>
+        <h2>Il lago ti aspetta. <em>Scegli quando.</em></h2>
+        <p class="p">Disponibilità in tempo reale e prezzo finale, senza commissioni dei portali. Scrivi a noi, rispondiamo noi.</p>
+      </div>
+      <form class="panel" aria-label="Verifica disponibilità">
+        <div class="rate"><b>110€</b><span>/ notte</span></div>
+        <div class="meta">Minimo 2 notti · pulizia finale inclusa</div>
+        <div class="row">
+          <div class="field"><label for="in">Arrivo</label><div class="val" id="in">Ven 19 giu</div></div>
+          <div class="field"><label for="out">Partenza</label><div class="val" id="out">Dom 21 giu</div></div>
+        </div>
+        <button class="go" type="button">Verifica disponibilità</button>
+        <p class="fine">Risposta in giornata, di solito in un'ora</p>
+      </form>
+    </div>
+  </div>
+</div></section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <a class="logo" href="#"><span class="dot" aria-hidden="true"></span>Casa Lìri</a>
+      <p class="blurb">Una casa di pietra sul Lago d'Orta, affittata direttamente dai proprietari.</p>
+    </div>
+    <div>
+      <h4>La casa</h4>
+      <ul>
+        <li><a href="#casa">Gli spazi</a></li>
+        <li><a href="#foto">Sguardi</a></li>
+        <li><a href="#orta">Dintorni</a></li>
+        <li><a href="#prenota">Disponibilità</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Scrivici</h4>
+      <ul>
+        <li><a href="mailto:ciao@casaliri.it">ciao@casaliri.it</a></li>
+        <li><a href="tel:+390000000000">+39 0322 00 00 00</a></li>
+        <li><a href="#">Orta San Giulio (NO)</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="legal">
+    <span>© 2026 Casa Lìri · Affitto breve</span>
+    <span>CIR 003111-LOC-00000 · P.IVA 00000000000</span>
+  </div>
+</footer>
 
 <script>
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%4*60)+'ms';io.observe(el)});
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
 </script>
 </body>
 </html>

@@ -3,136 +3,410 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Frantoio Vallenova — Olio nuovo, direttamente da noi</title>
+<title>Frantoio Vallenova — L'olio nuovo 2026, direttamente dai nostri ulivi</title>
+<meta name="description" content="Extravergine biologico raccolto e franto in giornata sulle colline umbre. Spedito a casa tua, senza intermediari. Prima spremitura 2026.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=Spectral:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#1c2118;--ink:#f3f1e7;--body:#b9bca8;--line:#33392b;--olive:#9bb053;--gold:#e3c558;--card:#242a1d}
+  :root{
+    /* OKLCH neutrals tinted toward olive/bottle-green; surface carries the color (drenched) */
+    --grove:    oklch(0.26 0.045 132);   /* deep grove green, page base */
+    --grove-2:  oklch(0.30 0.050 134);   /* raised surface */
+    --grove-3:  oklch(0.34 0.052 136);   /* hairline-adjacent panels */
+    --bark:     oklch(0.21 0.035 128);   /* darkest wells */
+    --ink:      oklch(0.96 0.018 96);    /* warm bone, not #fff */
+    --body:     oklch(0.80 0.030 116);   /* sage text */
+    --muted:    oklch(0.64 0.030 120);
+    --line:     oklch(0.40 0.045 138 / .6);
+    --olive:    oklch(0.74 0.135 128);   /* fresh-leaf green */
+    --gold:     oklch(0.80 0.135 92);    /* new-oil gold */
+    --gold-deep:oklch(0.70 0.140 78);
+    --ember:    oklch(0.62 0.165 48);    /* terracotta accent for urgency */
+    --shadow:   oklch(0.14 0.030 130 / .55);
+  }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{background:var(--bg);color:var(--body);font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
-  .wrap{max-width:1080px;margin:0 auto;padding:0 26px}
-  h1,h2,h3{color:var(--ink);font-family:"Fraunces",serif;line-height:1.08;letter-spacing:-.015em}
+  body{
+    background:var(--grove);color:var(--body);
+    font-family:"Inter",system-ui,sans-serif;-webkit-font-smoothing:antialiased;
+    line-height:1.65;font-size:1.02rem;overflow-x:hidden;
+  }
+  h1,h2,h3{color:var(--ink);font-family:"Fraunces",Georgia,serif;line-height:1.04;letter-spacing:-.02em;font-weight:500}
   a{color:inherit;text-decoration:none}
-  ::selection{background:var(--gold);color:#1c2118}
-  :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  img{display:block;max-width:100%}
+  ::selection{background:var(--gold);color:var(--bark)}
+  :focus-visible{outline:2.5px solid var(--gold);outline-offset:3px;border-radius:4px}
 
-  .topbar{background:var(--olive);color:#1c2118;text-align:center;font-size:.86rem;font-weight:600;padding:9px 16px;letter-spacing:.01em}
-  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
-  .logo{font-family:"Fraunces",serif;font-weight:600;font-size:1.3rem;color:var(--ink)}
-  .logo span{color:var(--gold)}
-  .nav-cta{background:var(--gold);color:#1c2118;padding:10px 22px;border-radius:8px;font-weight:600;font-size:.9rem;transition:.2s}
-  .nav-cta:hover{transform:translateY(-1px)}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 28px}
+  .narrow{max-width:680px}
 
-  header{padding:60px 0 30px;text-align:center;position:relative;overflow:hidden}
-  header::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:120%;height:90%;
-    background:radial-gradient(ellipse,rgba(155,176,83,.22),transparent 60%);z-index:0}
-  header .wrap{position:relative;z-index:1}
-  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:7px 16px;font-size:.82rem;color:var(--body);margin-bottom:26px}
-  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--olive);box-shadow:0 0 0 4px rgba(155,176,83,.2)}
-  h1{font-size:clamp(2.8rem,7vw,5rem);font-weight:600;max-width:16ch;margin:0 auto}
-  h1 em{font-style:italic;color:var(--gold)}
-  .sub{margin:24px auto 0;font-size:1.2rem;max-width:52ch}
-  .cta-main{margin-top:38px;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
-  .btn-gold{background:var(--gold);color:#1c2118;padding:17px 38px;border-radius:12px;font-weight:700;font-size:1.05rem;transition:.2s;box-shadow:0 16px 40px -12px rgba(227,197,88,.5)}
-  .btn-gold:hover{transform:translateY(-3px)}
-  .guarantee{font-size:.88rem;color:var(--body)}
-  .guarantee b{color:var(--ink)}
+  /* ---- announcement + nav ---- */
+  .topbar{
+    background:var(--gold);color:var(--bark);text-align:center;
+    font-size:.84rem;font-weight:600;padding:10px 16px;letter-spacing:.005em;
+  }
+  .topbar b{font-weight:700}
+  nav{position:sticky;top:0;z-index:50;background:oklch(0.26 0.045 132 / .82);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .logo{font-family:"Fraunces",serif;font-weight:500;font-size:1.32rem;color:var(--ink);display:flex;align-items:baseline;gap:.45ch}
+  .logo .mark{font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;color:var(--olive);font-family:"Inter";font-weight:600}
+  .nav-cta{
+    background:transparent;color:var(--ink);padding:10px 20px;border-radius:9px;
+    font-weight:600;font-size:.9rem;border:1px solid var(--line);transition:border-color .25s,background .25s
+  }
+  .nav-cta:hover{border-color:var(--gold);background:oklch(0.80 0.135 92 / .08)}
 
-  .hero-vis{margin:54px auto 0;max-width:880px;aspect-ratio:16/8;border-radius:22px;position:relative;overflow:hidden;
-    background:linear-gradient(135deg,#3a4a26,#1c2118 60%);border:1px solid var(--line);box-shadow:0 40px 90px -50px rgba(0,0,0,.8)}
-  .hero-vis::after{content:"";position:absolute;inset:0;background:
-    radial-gradient(circle at 28% 40%,rgba(155,176,83,.4),transparent 40%),
-    radial-gradient(circle at 75% 65%,rgba(227,197,88,.3),transparent 42%)}
-  .bottle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:"Fraunces",serif;font-size:clamp(2rem,5vw,3.4rem);color:rgba(243,241,231,.92);z-index:2;text-align:center;letter-spacing:-.01em}
-  .bottle small{display:block;font-family:"Inter";font-size:.9rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+  /* ---- hero ---- */
+  header{padding:84px 0 0;position:relative}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center}
+  @media(max-width:880px){.hero-grid{grid-template-columns:1fr;gap:40px}}
 
-  .social{padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:60px}
-  .social .wrap{display:flex;justify-content:center;gap:50px;flex-wrap:wrap;text-align:center}
-  .social b{display:block;font-family:"Fraunces",serif;font-size:2.2rem;color:var(--ink)}
-  .social span{font-size:.85rem}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:10px;font-size:.78rem;font-weight:600;
+    letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin-bottom:26px;
+  }
+  .eyebrow .leaf{width:18px;height:18px;flex:none}
+  h1{font-size:clamp(2.9rem,6.6vw,4.9rem);max-width:13ch}
+  h1 em{font-style:italic;font-weight:400;color:var(--gold)}
+  .lede{
+    font-family:"Spectral",Georgia,serif;font-size:1.28rem;line-height:1.5;
+    color:var(--body);max-width:46ch;margin:28px 0 36px;
+  }
+  .cta-row{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+  .btn-gold{
+    background:linear-gradient(180deg,var(--gold),var(--gold-deep));
+    color:var(--bark);padding:18px 36px;border-radius:13px;font-weight:700;font-size:1.04rem;
+    box-shadow:0 18px 38px -16px var(--shadow),inset 0 1px 0 oklch(1 0 0 / .25);
+    transition:transform .4s cubic-bezier(.16,1,.3,1),box-shadow .4s;border:none;cursor:pointer
+  }
+  .btn-gold:hover{transform:translateY(-2px);box-shadow:0 26px 48px -18px var(--shadow),inset 0 1px 0 oklch(1 0 0 / .25)}
+  .reassure{font-size:.9rem;color:var(--muted);max-width:22ch;line-height:1.5}
+  .reassure b{color:var(--ink);font-weight:600}
 
-  section{padding:78px 0}
-  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
-  @media(max-width:760px){.steps{grid-template-columns:1fr}}
-  .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px}
-  .step .n{font-family:"Fraunces",serif;font-size:2.4rem;color:var(--gold);line-height:1}
-  .step h3{font-size:1.3rem;margin:14px 0 8px}
-  .step p{font-size:.95rem}
+  /* ---- hero bottle illustration (drawn, not stock-photo placeholder) ---- */
+  .crate{
+    position:relative;border-radius:20px;overflow:hidden;
+    background:
+      radial-gradient(120% 90% at 30% 8%, oklch(0.40 0.06 130 / .9), transparent 60%),
+      linear-gradient(165deg, var(--grove-3), var(--bark));
+    border:1px solid var(--line);
+    box-shadow:0 50px 90px -50px var(--shadow);
+    padding:38px;
+  }
+  .crate svg{width:100%;height:auto;filter:drop-shadow(0 24px 30px oklch(0.12 0.03 130 / .5))}
+  .crate .harvest-tag{
+    position:absolute;top:22px;right:22px;background:var(--ember);color:var(--ink);
+    font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    padding:7px 13px;border-radius:8px;transform:rotate(2.5deg)
+  }
 
-  .offer{max-width:560px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:46px 40px;text-align:center;position:relative}
-  .offer .ribbon{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--olive);color:#1c2118;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 18px;border-radius:100px}
-  .offer h2{font-size:1.9rem;margin-bottom:10px}
-  .price{margin:22px 0}
-  .price .old{color:var(--body);text-decoration:line-through;font-size:1.2rem}
-  .price .new{font-family:"Fraunces",serif;font-size:3.4rem;color:var(--ink);font-weight:600;margin-left:10px}
-  .price .unit{color:var(--body)}
-  .offer ul{list-style:none;text-align:left;max-width:330px;margin:22px auto 30px;display:grid;gap:12px}
-  .offer li{display:flex;gap:11px;font-size:.97rem}
-  .offer li::before{content:"✓";color:var(--olive);font-weight:700}
-  .timer{font-size:.86rem;color:var(--gold);margin-top:18px}
+  /* ---- trust strip (logos / certifications, not stat template) ---- */
+  .trust{margin-top:72px;padding:26px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .trust .wrap{display:flex;align-items:center;gap:18px 40px;flex-wrap:wrap;justify-content:space-between}
+  .trust p{font-size:.8rem;letter-spacing:.04em;color:var(--muted);text-transform:uppercase;font-weight:600;white-space:nowrap}
+  .seals{display:flex;gap:14px 32px;flex-wrap:wrap;align-items:center}
+  .seal{display:flex;align-items:center;gap:9px;font-size:.92rem;color:var(--body);font-weight:500}
+  .seal svg{width:22px;height:22px;color:var(--olive);flex:none}
 
-  footer{padding:40px 0;text-align:center;font-size:.84rem;color:#7c806e;border-top:1px solid var(--line)}
+  /* ---- story / process: editorial alternating, not card grid ---- */
+  .story{padding:104px 0}
+  .section-eyebrow{font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
+  .story h2{font-size:clamp(2.1rem,4.2vw,3.1rem);max-width:18ch}
+  .story-intro{font-family:"Spectral",serif;font-size:1.2rem;max-width:60ch;margin-top:22px;color:var(--body)}
 
-  .reveal{opacity:0;transform:translateY(22px);transition:.7s}
+  .timeline{margin-top:64px;display:grid;gap:2px}
+  .stage{
+    display:grid;grid-template-columns:auto 1fr auto;gap:30px;align-items:start;
+    padding:34px 0;border-top:1px solid var(--line);position:relative
+  }
+  .stage:last-child{border-bottom:1px solid var(--line)}
+  .stage .hour{
+    font-family:"Fraunces",serif;font-size:1.05rem;color:var(--gold);font-weight:500;
+    min-width:8ch;padding-top:4px;font-variant-numeric:tabular-nums
+  }
+  .stage h3{font-size:1.5rem;margin-bottom:8px}
+  .stage p{max-width:54ch;color:var(--body)}
+  .stage .glyph{width:46px;height:46px;color:var(--olive);opacity:.9;flex:none;align-self:center}
+  @media(max-width:680px){
+    .stage{grid-template-columns:1fr;gap:12px}
+    .stage .glyph{display:none}
+    .stage .hour{padding-top:0}
+  }
+
+  /* ---- testimonial (replaces stat template) ---- */
+  .voice{padding:96px 0;background:var(--bark);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .voice .wrap{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center}
+  @media(max-width:760px){.voice .wrap{grid-template-columns:1fr;gap:32px}}
+  .portrait{
+    width:140px;height:140px;border-radius:50%;flex:none;
+    background:linear-gradient(150deg,var(--grove-3),var(--bark));
+    border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;
+    box-shadow:0 18px 40px -22px var(--shadow)
+  }
+  .portrait svg{width:100%;height:100%}
+  blockquote{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.5rem,3vw,2.1rem);line-height:1.32;color:var(--ink);max-width:24ch}
+  blockquote + .cite{margin-top:22px;font-size:.95rem;color:var(--muted)}
+  .cite b{color:var(--body);font-weight:600;font-style:normal}
+  .stars{color:var(--gold);letter-spacing:2px;margin-bottom:14px;font-size:1.05rem}
+
+  /* ---- offer ---- */
+  .offer-sec{padding:104px 0}
+  .offer-head{text-align:center;max-width:34ch;margin:0 auto 56px}
+  .offer-head h2{font-size:clamp(2.2rem,4.4vw,3.2rem)}
+  .offer-head p{margin-top:16px;color:var(--body);font-family:"Spectral",serif;font-size:1.18rem}
+
+  .offer{
+    max-width:600px;margin:0 auto;border-radius:24px;position:relative;
+    background:linear-gradient(168deg,var(--grove-2),var(--bark));
+    border:1px solid var(--line);
+    box-shadow:0 50px 100px -50px var(--shadow);
+    padding:50px 48px 44px;
+  }
+  .offer::before{
+    content:"";position:absolute;inset:0;border-radius:24px;padding:1px;
+    background:linear-gradient(160deg,oklch(0.80 0.135 92 / .5),transparent 45%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+    -webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none
+  }
+  .ribbon{
+    position:absolute;top:-13px;left:48px;background:var(--olive);color:var(--bark);
+    font-weight:700;font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 16px;border-radius:8px
+  }
+  .offer .tier{font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:600}
+  .offer h2{font-size:2.1rem;margin:8px 0 4px}
+  .offer .desc{font-family:"Spectral",serif;color:var(--body);font-size:1.05rem}
+  .price{display:flex;align-items:baseline;gap:12px;margin:28px 0 6px}
+  .price .new{font-family:"Fraunces",serif;font-size:3.6rem;color:var(--ink);font-weight:500;line-height:1}
+  .price .old{color:var(--muted);text-decoration:line-through;font-size:1.25rem}
+  .price .unit{color:var(--muted);font-size:1rem}
+  .saving{display:inline-block;background:oklch(0.74 0.135 128 / .14);color:var(--olive);font-size:.82rem;font-weight:600;padding:4px 11px;border-radius:7px;margin-bottom:26px}
+  .offer ul{list-style:none;display:grid;gap:14px;margin:8px 0 32px}
+  .offer li{display:flex;gap:13px;align-items:flex-start;font-size:1rem;color:var(--body)}
+  .offer li svg{width:20px;height:20px;color:var(--olive);flex:none;margin-top:3px}
+  .offer .btn-gold{display:block;width:100%;text-align:center}
+  .urgency{
+    display:flex;align-items:center;justify-content:center;gap:9px;margin-top:20px;
+    font-size:.88rem;color:var(--gold)
+  }
+  .urgency .pulse{width:8px;height:8px;border-radius:50%;background:var(--ember);box-shadow:0 0 0 0 oklch(0.62 0.165 48 / .6);animation:pulse 2.4s cubic-bezier(.16,1,.3,1) infinite}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 oklch(0.62 0.165 48 / .55)}70%,100%{box-shadow:0 0 0 9px oklch(0.62 0.165 48 / 0)}}
+  .stock-line{margin-top:14px;font-size:.84rem;color:var(--muted);text-align:center}
+  .stock-bar{height:5px;border-radius:99px;background:var(--grove-3);margin:8px auto 0;max-width:280px;overflow:hidden}
+  .stock-bar i{display:block;height:100%;width:34%;background:linear-gradient(90deg,var(--gold),var(--ember));border-radius:99px}
+
+  /* ---- closing band ---- */
+  .closer{padding:96px 0;text-align:center}
+  .closer h2{font-size:clamp(2rem,4vw,2.8rem);max-width:18ch;margin:0 auto 14px}
+  .closer p{font-family:"Spectral",serif;font-size:1.18rem;max-width:48ch;margin:0 auto 34px;color:var(--body)}
+
+  footer{padding:46px 0;font-size:.85rem;color:var(--muted);border-top:1px solid var(--line)}
+  footer .wrap{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;align-items:center}
+  footer a:hover{color:var(--ink)}
+
+  /* ---- reveal ---- */
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s cubic-bezier(.16,1,.3,1),transform .8s cubic-bezier(.16,1,.3,1)}
   .reveal.in{opacity:1;transform:none}
+  @media(prefers-reduced-motion:reduce){
+    .reveal{opacity:1;transform:none;transition:none}
+    .pulse{animation:none}
+    html{scroll-behavior:auto}
+  }
 </style>
 </head>
 <body>
-<div class="topbar">🫒 Raccolta 2026 appena franta — spedizione gratis sopra i 49€</div>
+
+<div class="topbar">Prima spremitura 2026 appena uscita dal frantoio · <b>spedizione gratis sopra i 49€</b></div>
+
 <nav><div class="wrap">
-  <div class="logo">Frantoio <span>Vallenova</span></div>
+  <div class="logo">Vallenova<span class="mark">Frantoio · 1958</span></div>
   <a class="nav-cta" href="#offerta">Ordina l'olio nuovo</a>
 </div></nav>
 
 <header><div class="wrap">
-  <div class="badge reveal"><span class="dot"></span> Frangitura a freddo · entro 6 ore dalla raccolta</div>
-  <h1 class="reveal">L'olio nuovo, <em>come una volta.</em></h1>
-  <p class="sub reveal">Extravergine biologico dei nostri uliveti, spremuto e spedito direttamente a casa tua. Nessun intermediario, nessuna miscela.</p>
-  <div class="cta-main reveal">
-    <a class="btn-gold" href="#offerta">Ordina la tua lattina →</a>
-    <span class="guarantee"><b>Soddisfatto o rimborsato.</b> Spedizione in 48h.</span>
+  <div class="hero-grid">
+    <div>
+      <span class="eyebrow reveal">
+        <svg class="leaf" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 19C5 9 13 4 20 4c0 10-8 15-15 15Z"/><path d="M5 19c2-5 6-8 11-10"/></svg>
+        Colline di Vallenova · Umbria
+      </span>
+      <h1 class="reveal">L'olio nuovo, franto <em>nello stesso giorno.</em></h1>
+      <p class="lede reveal">Raccogliamo a mano e portiamo le olive al frantoio entro sera. Quello che spremiamo a freddo arriva a casa tua così com'è: un extravergine, un uliveto, nessun intermediario nel mezzo.</p>
+      <div class="cta-row reveal">
+        <a class="btn-gold" href="#offerta">Ordina la tua lattina</a>
+        <span class="reassure"><b>Soddisfatto o rimborsato.</b> A casa in 48 ore.</span>
+      </div>
+    </div>
+
+    <div class="crate reveal">
+      <span class="harvest-tag">Raccolta 2026</span>
+      <svg viewBox="0 0 320 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Lattina d'olio extravergine Vallenova">
+        <defs>
+          <linearGradient id="tin" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="oklch(0.84 0.13 92)"/>
+            <stop offset=".5" stop-color="oklch(0.74 0.14 84)"/>
+            <stop offset="1" stop-color="oklch(0.62 0.13 74)"/>
+          </linearGradient>
+          <linearGradient id="tinhi" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0" stop-color="oklch(1 0 0 / .42)"/>
+            <stop offset=".25" stop-color="oklch(1 0 0 / 0)"/>
+          </linearGradient>
+          <linearGradient id="cap" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="oklch(0.42 0.05 132)"/>
+            <stop offset="1" stop-color="oklch(0.26 0.04 130)"/>
+          </linearGradient>
+        </defs>
+        <!-- cap & spout -->
+        <rect x="138" y="14" width="44" height="30" rx="5" fill="url(#cap)"/>
+        <rect x="150" y="40" width="20" height="20" fill="oklch(0.34 0.05 130)"/>
+        <!-- tin body -->
+        <rect x="66" y="58" width="188" height="218" rx="14" fill="url(#tin)"/>
+        <rect x="66" y="58" width="188" height="218" rx="14" fill="url(#tinhi)"/>
+        <rect x="66" y="58" width="188" height="218" rx="14" fill="none" stroke="oklch(0.55 0.10 78)" stroke-width="1.5"/>
+        <!-- label -->
+        <rect x="86" y="92" width="148" height="150" rx="8" fill="oklch(0.24 0.045 132)"/>
+        <rect x="86" y="92" width="148" height="150" rx="8" fill="none" stroke="oklch(0.74 0.135 128 / .5)" stroke-width="1"/>
+        <text x="160" y="128" text-anchor="middle" font-family="Fraunces,serif" font-size="26" fill="oklch(0.96 0.018 96)" font-style="italic">Vallenova</text>
+        <line x1="108" y1="142" x2="212" y2="142" stroke="oklch(0.74 0.135 128 / .55)" stroke-width="1"/>
+        <text x="160" y="162" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="3" fill="oklch(0.80 0.135 92)">EXTRAVERGINE</text>
+        <text x="160" y="176" text-anchor="middle" font-family="Inter,sans-serif" font-size="9" letter-spacing="3" fill="oklch(0.80 0.030 116)">DI OLIVA · BIO</text>
+        <!-- little olive branch -->
+        <g stroke="oklch(0.74 0.135 128)" stroke-width="1.6" fill="none">
+          <path d="M132 198c12 0 24-6 30-16"/>
+          <path d="M188 198c-12 0-24-6-30-16"/>
+        </g>
+        <ellipse cx="146" cy="196" rx="5" ry="3.4" fill="oklch(0.74 0.135 128)"/>
+        <ellipse cx="174" cy="196" rx="5" ry="3.4" fill="oklch(0.74 0.135 128)"/>
+        <ellipse cx="160" cy="206" rx="5" ry="3.4" fill="oklch(0.80 0.135 92)"/>
+        <text x="160" y="226" text-anchor="middle" font-family="Inter,sans-serif" font-size="8.5" letter-spacing="2" fill="oklch(0.64 0.03 120)">5 LITRI · PRIMA SPREMITURA</text>
+      </svg>
+    </div>
   </div>
-  <div class="hero-vis reveal"><div class="bottle">Vallenova<small>Extravergine d'oliva</small></div></div>
+
+  <div class="trust"><div class="wrap reveal">
+    <p>Quello che c'è davvero nella lattina</p>
+    <div class="seals">
+      <span class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5Z"/><path d="m9 12 2 2 4-4"/></svg>Certificato biologico</span>
+      <span class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Franto in giornata</span>
+      <span class="seal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h13l-2-3m2 3-2 3"/><path d="M16 7h3l2 5v4h-5"/><circle cx="7" cy="18" r="2"/><circle cx="17" cy="18" r="2"/></svg>Direttamente dal produttore</span>
+    </div>
+  </div></div>
 </div></header>
 
-<div class="social"><div class="wrap reveal">
-  <div><b>4,9★</b><span>su 600+ recensioni</span></div>
-  <div><b>0 km</b><span>filiera diretta</span></div>
-  <div><b>48h</b><span>dal frantoio a casa</span></div>
-</div></div>
+<section class="story"><div class="wrap">
+  <div class="reveal">
+    <p class="section-eyebrow">Una giornata di raccolta</p>
+    <h2>Dall'albero alla bottiglia in poche ore, non in mesi di magazzino.</h2>
+    <p class="story-intro">L'olio buono è una corsa contro il tempo: più le olive aspettano, più l'acidità sale. Da noi non aspettano. Ecco cosa succede il giorno in cui ordini la prima spremitura.</p>
+  </div>
 
-<section><div class="wrap">
-  <div class="steps">
-    <div class="step reveal"><div class="n">1</div><h3>Scegli il formato</h3><p>Lattina da 3 o 5 litri, o il box assaggio per regalo.</p></div>
-    <div class="step reveal"><div class="n">2</div><h3>Ordini in un minuto</h3><p>Pagamento sicuro, niente registrazioni inutili.</p></div>
-    <div class="step reveal"><div class="n">3</div><h3>Arriva a casa</h3><p>Imballo protetto, consegna in 48 ore in tutta Italia.</p></div>
+  <div class="timeline">
+    <div class="stage reveal">
+      <span class="hour">06:30</span>
+      <div>
+        <h3>Si raccoglie a mano</h3>
+        <p>Sui terrazzamenti di Vallenova le olive si staccano una per una, al punto giusto di maturazione. Niente reti lasciate a terra per giorni.</p>
+      </div>
+      <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 40c0-18 14-30 28-30 0 18-14 30-28 30Z"/><path d="M10 40c4-9 11-15 20-19"/></svg>
+    </div>
+    <div class="stage reveal">
+      <span class="hour">17:00</span>
+      <div>
+        <h3>Al frantoio entro sera</h3>
+        <p>Le casse arrivano al nostro frantoio nello stesso giorno e vanno subito in lavorazione. Estrazione a freddo, sotto i 27°C, per non bruciare aromi e polifenoli.</p>
+      </div>
+      <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="24" cy="24" r="15"/><path d="M24 9v15l10 6"/></svg>
+    </div>
+    <div class="stage reveal">
+      <span class="hour">2 giorni</span>
+      <div>
+        <h3>A casa tua, ancora vivo</h3>
+        <p>Riempiamo la lattina, la imballiamo al riparo dalla luce e la spediamo. In 48 ore apri un olio verde, pizzicante, con il profumo del campo ancora dentro.</p>
+      </div>
+      <svg class="glyph" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M6 24h26l-4-6m4 6-4 6"/><path d="M32 14h6l4 10v8h-10"/><circle cx="14" cy="36" r="3.5"/><circle cx="34" cy="36" r="3.5"/></svg>
+    </div>
   </div>
 </div></section>
 
-<section id="offerta" style="padding-top:0"><div class="wrap">
+<section class="voice"><div class="wrap reveal">
+  <div class="portrait">
+    <svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="140" height="140" fill="oklch(0.24 0.045 132)"/>
+      <circle cx="70" cy="56" r="26" fill="oklch(0.62 0.05 70)"/>
+      <path d="M28 132c0-26 19-40 42-40s42 14 42 40Z" fill="oklch(0.40 0.05 130)"/>
+      <path d="M48 50c2-14 14-22 22-22s20 8 22 22c-6-6-14-9-22-9s-16 3-22 9Z" fill="oklch(0.30 0.03 90)"/>
+    </svg>
+  </div>
+  <div>
+    <div class="stars" aria-label="Cinque stelle su cinque">★★★★★</div>
+    <blockquote>"Ho riconosciuto il sapore dell'olio di mia nonna. Quello vero, che pizzica in gola."</blockquote>
+    <p class="cite"><b>Giulia Ferretti</b> · Bologna · ordina la lattina da 5L dal 2023</p>
+  </div>
+</div></section>
+
+<section class="offer-sec" id="offerta"><div class="wrap">
+  <div class="offer-head reveal">
+    <p class="section-eyebrow" style="text-align:center">L'offerta della raccolta</p>
+    <h2>Una lattina, scelta semplice.</h2>
+    <p>Niente catalogo infinito. La prima spremitura 2026, nel formato che dura tutto l'anno.</p>
+  </div>
+
   <div class="offer reveal">
-    <span class="ribbon">Più venduto</span>
-    <h2>Lattina 5 litri</h2>
-    <p>Raccolta 2026 · spremitura a freddo</p>
-    <div class="price"><span class="old">79€</span><span class="new">59€</span> <span class="unit">/ 5L</span></div>
+    <span class="ribbon">Più scelta dalle famiglie</span>
+    <p class="tier">Formato famiglia</p>
+    <h2>Lattina da 5 litri</h2>
+    <p class="desc">Raccolta 2026 · estrazione a freddo · biologico certificato</p>
+
+    <div class="price">
+      <span class="new">59€</span>
+      <span class="old">79€</span>
+      <span class="unit">/ 5 litri (11,80€ al litro)</span>
+    </div>
+    <span class="saving">Risparmi 20€ sulla prevendita</span>
+
     <ul>
-      <li>Extravergine biologico 100% italiano</li>
-      <li>Frangitura entro 6 ore dalla raccolta</li>
-      <li>Spedizione gratuita inclusa</li>
-      <li>Soddisfatto o rimborsato</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 13 4 4L19 7"/></svg>Extravergine biologico, 100% dai nostri ulivi</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 13 4 4L19 7"/></svg>Acidità sotto lo 0,3% garantita dall'analisi</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 13 4 4L19 7"/></svg>Spedizione gratuita, consegna in 48 ore</li>
+      <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m5 13 4 4L19 7"/></svg>Soddisfatto o rimborsato, senza domande</li>
     </ul>
-    <a class="btn-gold" href="#" style="display:block">Ordina ora →</a>
-    <p class="timer">⏳ Scorte della prima spremitura limitate</p>
+
+    <a class="btn-gold" href="#">Ordina la prima spremitura</a>
+
+    <div class="urgency"><span class="pulse"></span> La prima spremitura esce una volta sola all'anno</div>
+    <p class="stock-line">Lotto di novembre quasi esaurito</p>
+    <div class="stock-bar" role="img" aria-label="Disponibilità del lotto al 34 per cento"><i></i></div>
   </div>
 </div></section>
 
-<footer><div class="wrap">© 2026 Frantoio Vallenova · Az. Agricola · Tenuta Vallenova, Umbria · P.IVA 00000000000</div></footer>
+<section class="closer"><div class="wrap reveal">
+  <h2>Quest'anno, l'olio buono te lo porti a casa.</h2>
+  <p>Lo stesso che usiamo noi, a tavola, ogni giorno. Spedito direttamente dal frantoio, finché dura il raccolto.</p>
+  <a class="btn-gold" href="#offerta">Ordina la tua lattina</a>
+</div></section>
+
+<footer><div class="wrap">
+  <span>© 2026 Frantoio Vallenova · Società Agricola · Tenuta Vallenova, Umbria · P.IVA 00000000000</span>
+  <span><a href="#">Contatti</a> · <a href="#">Spedizioni</a> · <a href="#">Privacy</a></span>
+</div></footer>
 
 <script>
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
-  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // light parallax lift on the hero crate, transform-only
+  const crate = document.querySelector('.crate');
+  if (crate && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    addEventListener('scroll', () => {
+      const y = Math.min(window.scrollY, 600);
+      crate.style.transform = 'translateY(' + (y * -0.04) + 'px)';
+    }, { passive: true });
+  }
 </script>
 </body>
 </html>
