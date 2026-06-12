@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frantoio Vallenova — Olio nuovo, direttamente da noi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#1c2118;--ink:#f3f1e7;--body:#b9bca8;--line:#33392b;--olive:#9bb053;--gold:#e3c558;--card:#242a1d}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{background:var(--bg);color:var(--body);font-family:"Inter",sans-serif;-webkit-font-smoothing:antialiased;line-height:1.6}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 26px}
+  h1,h2,h3{color:var(--ink);font-family:"Fraunces",serif;line-height:1.08;letter-spacing:-.015em}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--gold);color:#1c2118}
+  :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+  .topbar{background:var(--olive);color:#1c2118;text-align:center;font-size:.86rem;font-weight:600;padding:9px 16px;letter-spacing:.01em}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:72px}
+  .logo{font-family:"Fraunces",serif;font-weight:600;font-size:1.3rem;color:var(--ink)}
+  .logo span{color:var(--gold)}
+  .nav-cta{background:var(--gold);color:#1c2118;padding:10px 22px;border-radius:8px;font-weight:600;font-size:.9rem;transition:.2s}
+  .nav-cta:hover{transform:translateY(-1px)}
+
+  header{padding:60px 0 30px;text-align:center;position:relative;overflow:hidden}
+  header::before{content:"";position:absolute;top:-30%;left:50%;transform:translateX(-50%);width:120%;height:90%;
+    background:radial-gradient(ellipse,rgba(155,176,83,.22),transparent 60%);z-index:0}
+  header .wrap{position:relative;z-index:1}
+  .badge{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:100px;padding:7px 16px;font-size:.82rem;color:var(--body);margin-bottom:26px}
+  .badge .dot{width:7px;height:7px;border-radius:50%;background:var(--olive);box-shadow:0 0 0 4px rgba(155,176,83,.2)}
+  h1{font-size:clamp(2.8rem,7vw,5rem);font-weight:600;max-width:16ch;margin:0 auto}
+  h1 em{font-style:italic;color:var(--gold)}
+  .sub{margin:24px auto 0;font-size:1.2rem;max-width:52ch}
+  .cta-main{margin-top:38px;display:flex;gap:16px;justify-content:center;align-items:center;flex-wrap:wrap}
+  .btn-gold{background:var(--gold);color:#1c2118;padding:17px 38px;border-radius:12px;font-weight:700;font-size:1.05rem;transition:.2s;box-shadow:0 16px 40px -12px rgba(227,197,88,.5)}
+  .btn-gold:hover{transform:translateY(-3px)}
+  .guarantee{font-size:.88rem;color:var(--body)}
+  .guarantee b{color:var(--ink)}
+
+  .hero-vis{margin:54px auto 0;max-width:880px;aspect-ratio:16/8;border-radius:22px;position:relative;overflow:hidden;
+    background:linear-gradient(135deg,#3a4a26,#1c2118 60%);border:1px solid var(--line);box-shadow:0 40px 90px -50px rgba(0,0,0,.8)}
+  .hero-vis::after{content:"";position:absolute;inset:0;background:
+    radial-gradient(circle at 28% 40%,rgba(155,176,83,.4),transparent 40%),
+    radial-gradient(circle at 75% 65%,rgba(227,197,88,.3),transparent 42%)}
+  .bottle{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-family:"Fraunces",serif;font-size:clamp(2rem,5vw,3.4rem);color:rgba(243,241,231,.92);z-index:2;text-align:center;letter-spacing:-.01em}
+  .bottle small{display:block;font-family:"Inter";font-size:.9rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-top:8px}
+
+  .social{padding:40px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-top:60px}
+  .social .wrap{display:flex;justify-content:center;gap:50px;flex-wrap:wrap;text-align:center}
+  .social b{display:block;font-family:"Fraunces",serif;font-size:2.2rem;color:var(--ink)}
+  .social span{font-size:.85rem}
+
+  section{padding:78px 0}
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+  @media(max-width:760px){.steps{grid-template-columns:1fr}}
+  .step{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:32px}
+  .step .n{font-family:"Fraunces",serif;font-size:2.4rem;color:var(--gold);line-height:1}
+  .step h3{font-size:1.3rem;margin:14px 0 8px}
+  .step p{font-size:.95rem}
+
+  .offer{max-width:560px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:24px;padding:46px 40px;text-align:center;position:relative}
+  .offer .ribbon{position:absolute;top:-14px;left:50%;transform:translateX(-50%);background:var(--olive);color:#1c2118;font-weight:700;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:7px 18px;border-radius:100px}
+  .offer h2{font-size:1.9rem;margin-bottom:10px}
+  .price{margin:22px 0}
+  .price .old{color:var(--body);text-decoration:line-through;font-size:1.2rem}
+  .price .new{font-family:"Fraunces",serif;font-size:3.4rem;color:var(--ink);font-weight:600;margin-left:10px}
+  .price .unit{color:var(--body)}
+  .offer ul{list-style:none;text-align:left;max-width:330px;margin:22px auto 30px;display:grid;gap:12px}
+  .offer li{display:flex;gap:11px;font-size:.97rem}
+  .offer li::before{content:"✓";color:var(--olive);font-weight:700}
+  .timer{font-size:.86rem;color:var(--gold);margin-top:18px}
+
+  footer{padding:40px 0;text-align:center;font-size:.84rem;color:#7c806e;border-top:1px solid var(--line)}
+
+  .reveal{opacity:0;transform:translateY(22px);transition:.7s}
+  .reveal.in{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<div class="topbar">🫒 Raccolta 2026 appena franta — spedizione gratis sopra i 49€</div>
+<nav><div class="wrap">
+  <div class="logo">Frantoio <span>Vallenova</span></div>
+  <a class="nav-cta" href="#offerta">Ordina l'olio nuovo</a>
+</div></nav>
+
+<header><div class="wrap">
+  <div class="badge reveal"><span class="dot"></span> Frangitura a freddo · entro 6 ore dalla raccolta</div>
+  <h1 class="reveal">L'olio nuovo, <em>come una volta.</em></h1>
+  <p class="sub reveal">Extravergine biologico dei nostri uliveti, spremuto e spedito direttamente a casa tua. Nessun intermediario, nessuna miscela.</p>
+  <div class="cta-main reveal">
+    <a class="btn-gold" href="#offerta">Ordina la tua lattina →</a>
+    <span class="guarantee"><b>Soddisfatto o rimborsato.</b> Spedizione in 48h.</span>
+  </div>
+  <div class="hero-vis reveal"><div class="bottle">Vallenova<small>Extravergine d'oliva</small></div></div>
+</div></header>
+
+<div class="social"><div class="wrap reveal">
+  <div><b>4,9★</b><span>su 600+ recensioni</span></div>
+  <div><b>0 km</b><span>filiera diretta</span></div>
+  <div><b>48h</b><span>dal frantoio a casa</span></div>
+</div></div>
+
+<section><div class="wrap">
+  <div class="steps">
+    <div class="step reveal"><div class="n">1</div><h3>Scegli il formato</h3><p>Lattina da 3 o 5 litri, o il box assaggio per regalo.</p></div>
+    <div class="step reveal"><div class="n">2</div><h3>Ordini in un minuto</h3><p>Pagamento sicuro, niente registrazioni inutili.</p></div>
+    <div class="step reveal"><div class="n">3</div><h3>Arriva a casa</h3><p>Imballo protetto, consegna in 48 ore in tutta Italia.</p></div>
+  </div>
+</div></section>
+
+<section id="offerta" style="padding-top:0"><div class="wrap">
+  <div class="offer reveal">
+    <span class="ribbon">Più venduto</span>
+    <h2>Lattina 5 litri</h2>
+    <p>Raccolta 2026 · spremitura a freddo</p>
+    <div class="price"><span class="old">79€</span><span class="new">59€</span> <span class="unit">/ 5L</span></div>
+    <ul>
+      <li>Extravergine biologico 100% italiano</li>
+      <li>Frangitura entro 6 ore dalla raccolta</li>
+      <li>Spedizione gratuita inclusa</li>
+      <li>Soddisfatto o rimborsato</li>
+    </ul>
+    <a class="btn-gold" href="#" style="display:block">Ordina ora →</a>
+    <p class="timer">⏳ Scorte della prima spremitura limitate</p>
+  </div>
+</div></section>
+
+<footer><div class="wrap">© 2026 Frantoio Vallenova · Az. Agricola · Tenuta Vallenova, Umbria · P.IVA 00000000000</div></footer>
+
+<script>
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.1});
+  document.querySelectorAll('.reveal').forEach((el,i)=>{el.style.transitionDelay=(i%3*70)+'ms';io.observe(el)});
+</script>
+</body>
+</html>
