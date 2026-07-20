@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>L'Armadio · Noleggio Borse di Lusso</title>
+<meta name="description" content="Noleggia borse di lusso autenticate per un giorno o una stagione. Spedizione 24h, sanificazione professionale, assicurazione inclusa." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --paper:#F5EFE6; --paper-2:#EFE7DA; --ink:#241E17; --ink-soft:#5B5245;
+    --line:#D9CEBC; --gold:#A9865C; --gold-deep:#8A6A44; --wine:#6E2A38;
+    --card:#FBF7F0; --shadow:28px 34px 60px -34px rgba(60,44,26,.45);
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Jost",system-ui,sans-serif; font-weight:300;
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,.serif{font-family:"Cormorant Garamond",Georgia,serif; font-weight:500; line-height:1.05}
+  .eyebrow{font-size:.72rem; letter-spacing:.34em; text-transform:uppercase; color:var(--gold-deep); font-weight:500}
+  .wrap{max-width:var(--maxw); margin:0 auto; padding:0 clamp(20px,5vw,56px)}
+  a{color:inherit; text-decoration:none}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit}
+  img{display:block; width:100%; height:100%; object-fit:cover}
+
+  /* ribbon */
+  .ribbon{background:var(--ink); color:var(--paper); text-align:center; font-size:.7rem; letter-spacing:.28em; text-transform:uppercase; padding:7px 12px; font-weight:400}
+
+  /* header */
+  header{position:sticky; top:0; z-index:40; background:rgba(245,239,230,.82); backdrop-filter:blur(12px); border-bottom:1px solid var(--line)}
+  .bar{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; height:78px}
+  nav.main{display:flex; gap:34px; font-size:.82rem; letter-spacing:.14em; text-transform:uppercase}
+  nav.main a{position:relative; padding:4px 0; color:var(--ink-soft); transition:color .25s}
+  nav.main a::after{content:""; position:absolute; left:0; bottom:-2px; width:0; height:1px; background:var(--gold); transition:width .3s}
+  nav.main a:hover{color:var(--ink)} nav.main a:hover::after{width:100%}
+  .brand{grid-column:2; text-align:center; font-family:"Cormorant Garamond",serif; font-size:1.7rem; letter-spacing:.18em; font-weight:600}
+  .brand small{display:block; font-family:"Jost"; font-size:.52rem; letter-spacing:.42em; text-transform:uppercase; color:var(--gold-deep); font-weight:400; margin-top:-2px}
+  .tools{grid-column:3; display:flex; justify-content:flex-end; align-items:center; gap:20px}
+  .lang{display:flex; gap:2px; font-size:.74rem; letter-spacing:.1em}
+  .lang button{padding:5px 8px; color:var(--ink-soft); border-radius:2px; transition:.2s}
+  .lang button.on{color:var(--ink); background:var(--paper-2); font-weight:500}
+  .cart-btn{position:relative; display:flex; align-items:center; gap:8px; font-size:.78rem; letter-spacing:.12em; text-transform:uppercase}
+  .cart-count{min-width:20px; height:20px; border-radius:20px; background:var(--wine); color:#fff; font-size:.66rem; display:grid; place-items:center; padding:0 5px; font-family:"Jost"}
+  .burger{display:none}
+
+  /* hero */
+  .hero{position:relative; padding:clamp(48px,7vw,96px) 0 clamp(60px,8vw,110px)}
+  .hero-grid{display:grid; grid-template-columns:1.05fr .95fr; gap:clamp(28px,5vw,72px); align-items:center}
+  .hero h1{font-size:clamp(2.9rem,7vw,5.6rem); letter-spacing:.005em}
+  .hero h1 em{font-style:italic; color:var(--wine)}
+  .hero .lead{max-width:34ch; margin:22px 0 30px; color:var(--ink-soft); font-size:1.06rem}
+  .hero-media{position:relative; aspect-ratio:4/5; border-radius:3px; overflow:hidden; box-shadow:var(--shadow)}
+  .hero-media::after{content:""; position:absolute; inset:0; box-shadow:inset 0 0 0 1px rgba(255,255,255,.25); pointer-events:none}
+  .hero-tag{position:absolute; left:-14px; bottom:34px; background:var(--card); border:1px solid var(--line); padding:14px 20px; box-shadow:var(--shadow); font-size:.8rem}
+  .hero-tag b{font-family:"Cormorant Garamond",serif; font-size:1.5rem; display:block; font-weight:600}
+  .btn{display:inline-flex; align-items:center; gap:12px; padding:15px 30px; background:var(--ink); color:var(--paper); font-size:.8rem; letter-spacing:.2em; text-transform:uppercase; border-radius:2px; transition:.3s; border:1px solid var(--ink)}
+  .btn:hover{background:transparent; color:var(--ink)}
+  .btn.ghost{background:transparent; color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink); color:var(--paper)}
+  .arrow{transition:transform .3s} .btn:hover .arrow{transform:translateX(5px)}
+
+  /* trust strip */
+  .trust{border-top:1px solid var(--line); border-bottom:1px solid var(--line); background:var(--paper-2)}
+  .trust .wrap{display:flex; flex-wrap:wrap; justify-content:space-between; gap:14px 30px; padding-top:20px; padding-bottom:20px}
+  .trust span{display:flex; align-items:center; gap:10px; font-size:.8rem; letter-spacing:.08em; color:var(--ink-soft)}
+  .trust svg{color:var(--gold-deep); flex:0 0 auto}
+
+  /* section head */
+  section.pad{padding:clamp(64px,9vw,120px) 0}
+  .shead{text-align:center; max-width:640px; margin:0 auto clamp(40px,6vw,66px)}
+  .shead h2{font-size:clamp(2.2rem,5vw,3.5rem); margin:14px 0 0}
+  .shead p{color:var(--ink-soft); margin-top:16px}
+
+  /* how */
+  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,3vw,40px)}
+  .step{text-align:center; padding:0 12px}
+  .step .num{font-family:"Cormorant Garamond",serif; font-size:2.6rem; color:var(--gold); border:1px solid var(--line); width:74px; height:74px; border-radius:50%; display:grid; place-items:center; margin:0 auto 22px; background:var(--card)}
+  .step h3{font-size:1.55rem; margin-bottom:8px}
+  .step p{color:var(--ink-soft); font-size:.95rem; max-width:30ch; margin:0 auto}
+
+  /* collection */
+  #collezione{background:var(--paper-2)}
+  .grid{display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(20px,2.6vw,38px)}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:3px; overflow:hidden; display:flex; flex-direction:column; transition:transform .4s, box-shadow .4s}
+  .card:hover{transform:translateY(-6px); box-shadow:var(--shadow)}
+  .card .ph{position:relative; aspect-ratio:4/5; overflow:hidden; background:var(--paper)}
+  .card .ph img{transition:transform 1s ease}
+  .card:hover .ph img{transform:scale(1.05)}
+  .card .badge{position:absolute; top:12px; left:12px; background:rgba(245,239,230,.92); font-size:.62rem; letter-spacing:.2em; text-transform:uppercase; padding:6px 10px; border-radius:2px; color:var(--gold-deep)}
+  .card .body{padding:20px 22px 24px; display:flex; flex-direction:column; gap:6px; flex:1}
+  .card h3{font-size:1.65rem}
+  .card .sub{font-size:.78rem; letter-spacing:.06em; color:var(--ink-soft); text-transform:uppercase}
+  .card .price{margin-top:auto; padding-top:14px; display:flex; align-items:baseline; justify-content:space-between}
+  .card .price b{font-family:"Cormorant Garamond",serif; font-size:1.7rem; font-weight:600}
+  .card .price span{font-size:.72rem; color:var(--ink-soft)}
+  .card .rent{margin-top:14px; width:100%; text-align:center; padding:12px; border:1px solid var(--ink); font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; transition:.3s}
+  .card .rent:hover{background:var(--ink); color:var(--paper)}
+
+  /* editorial band */
+  .band{background:var(--ink); color:var(--paper)}
+  .band .wrap{display:grid; grid-template-columns:1fr 1fr; gap:clamp(30px,6vw,80px); align-items:center; padding-top:clamp(56px,8vw,100px); padding-bottom:clamp(56px,8vw,100px)}
+  .band h2{font-size:clamp(2rem,4.5vw,3.4rem); color:var(--paper)}
+  .band p{color:#D8CEBE; margin-top:18px; max-width:42ch}
+  .band .stat{display:flex; gap:44px; margin-top:34px}
+  .band .stat b{font-family:"Cormorant Garamond",serif; font-size:2.6rem; color:var(--gold); font-weight:600; display:block; line-height:1}
+  .band .stat span{font-size:.74rem; letter-spacing:.16em; text-transform:uppercase; color:#B7AC99}
+  .band-media{aspect-ratio:1/1; border-radius:3px; overflow:hidden}
+
+  /* modal / drawer shared */
+  .scrim{position:fixed; inset:0; background:rgba(36,30,23,.55); backdrop-filter:blur(3px); opacity:0; visibility:hidden; transition:.35s; z-index:60}
+  .scrim.show{opacity:1; visibility:visible}
+  .modal{position:fixed; z-index:70; left:50%; top:50%; transform:translate(-50%,-46%); width:min(920px,94vw); max-height:92vh; overflow:auto; background:var(--paper); border-radius:4px; box-shadow:var(--shadow); opacity:0; visibility:hidden; transition:.4s}
+  .modal.show{opacity:1; visibility:visible; transform:translate(-50%,-50%)}
+  .modal .m-grid{display:grid; grid-template-columns:1fr 1fr}
+  .modal .m-media{aspect-ratio:4/5; background:var(--paper-2)}
+  .modal .m-body{padding:clamp(24px,3vw,40px); display:flex; flex-direction:column}
+  .modal .close{position:absolute; top:14px; right:16px; z-index:2; width:38px; height:38px; border-radius:50%; background:var(--card); border:1px solid var(--line); font-size:1.1rem; line-height:1}
+  .m-body h3{font-size:2.4rem}
+  .m-body .sub{font-size:.76rem; letter-spacing:.14em; text-transform:uppercase; color:var(--gold-deep); margin:4px 0 14px}
+  .m-body .desc{color:var(--ink-soft); font-size:.95rem}
+  .rentbox{margin-top:22px; border:1px solid var(--line); border-radius:3px; padding:18px; background:var(--card)}
+  .dates{display:grid; grid-template-columns:1fr 1fr; gap:14px}
+  .field label{display:block; font-size:.68rem; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:6px}
+  .field input{width:100%; padding:11px 12px; border:1px solid var(--line); background:var(--paper); font-family:"Jost"; font-size:.9rem; color:var(--ink); border-radius:2px}
+  .field input:focus{outline:none; border-color:var(--gold)}
+  .calc{margin-top:16px; font-size:.9rem}
+  .calc .row{display:flex; justify-content:space-between; padding:6px 0; color:var(--ink-soft)}
+  .calc .row.tot{border-top:1px solid var(--line); margin-top:6px; padding-top:12px; color:var(--ink); font-size:1.05rem}
+  .calc .row.tot b{font-family:"Cormorant Garamond",serif; font-size:1.7rem; font-weight:600}
+  .calc .dep{font-size:.76rem; color:var(--ink-soft); margin-top:4px}
+  .err{color:var(--wine); font-size:.8rem; margin-top:10px; min-height:1.2em}
+  .add{margin-top:16px; width:100%}
+
+  /* cart drawer */
+  .drawer{position:fixed; z-index:70; top:0; right:0; height:100%; width:min(420px,100vw); background:var(--paper); box-shadow:var(--shadow); transform:translateX(100%); transition:.4s cubic-bezier(.4,0,.2,1); display:flex; flex-direction:column}
+  .drawer.show{transform:none}
+  .drawer .d-head{display:flex; justify-content:space-between; align-items:center; padding:22px 24px; border-bottom:1px solid var(--line)}
+  .drawer .d-head h3{font-size:1.7rem}
+  .drawer .items{flex:1; overflow:auto; padding:8px 24px}
+  .ci{display:grid; grid-template-columns:64px 1fr auto; gap:14px; padding:16px 0; border-bottom:1px solid var(--line)}
+  .ci .thumb{width:64px; height:80px; border-radius:2px; overflow:hidden; background:var(--paper-2)}
+  .ci h4{font-family:"Cormorant Garamond",serif; font-size:1.25rem; font-weight:600}
+  .ci .meta{font-size:.76rem; color:var(--ink-soft)}
+  .ci .rm{font-size:.7rem; letter-spacing:.1em; text-transform:uppercase; color:var(--wine); margin-top:6px}
+  .ci .amt{font-family:"Cormorant Garamond",serif; font-size:1.2rem; font-weight:600}
+  .empty{text-align:center; color:var(--ink-soft); padding:60px 20px; font-size:.95rem}
+  .d-foot{border-top:1px solid var(--line); padding:20px 24px}
+  .d-foot .tt{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:4px}
+  .d-foot .tt b{font-family:"Cormorant Garamond",serif; font-size:1.9rem; font-weight:600}
+  .d-foot .note{font-size:.74rem; color:var(--ink-soft); margin-bottom:16px}
+  .pay{display:grid; gap:10px}
+  .pay .paypal{background:#ffc439; color:#111; padding:13px; border-radius:3px; font-weight:600; letter-spacing:.02em; text-align:center; font-size:.9rem}
+  .pay .ccard{background:var(--ink); color:var(--paper); padding:13px; border-radius:3px; text-align:center; font-size:.78rem; letter-spacing:.16em; text-transform:uppercase}
+  .pay .secure{text-align:center; font-size:.7rem; color:var(--ink-soft); letter-spacing:.06em; margin-top:4px; display:flex; align-items:center; justify-content:center; gap:6px}
+
+  /* footer */
+  footer{background:var(--ink); color:#C9BFAF; padding:clamp(50px,7vw,84px) 0 34px}
+  footer .cols{display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:30px}
+  footer .brand-f{font-family:"Cormorant Garamond",serif; font-size:1.8rem; letter-spacing:.14em; color:var(--paper)}
+  footer h5{font-size:.72rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold); margin-bottom:14px}
+  footer a{display:block; color:#B7AC99; font-size:.9rem; padding:4px 0; transition:.2s}
+  footer a:hover{color:var(--paper)}
+  footer .bottom{border-top:1px solid #3a3229; margin-top:44px; padding-top:22px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; font-size:.76rem; color:#8a8072}
+
+  /* reveal */
+  .rv{opacity:0; transform:translateY(22px); transition:opacity .8s ease, transform .8s ease}
+  .rv.in{opacity:1; transform:none}
+  @media (prefers-reduced-motion:reduce){.rv{opacity:1; transform:none; transition:none}}
+
+  /* responsive */
+  @media(max-width:900px){
+    .hero-grid{grid-template-columns:1fr; gap:40px} .hero-media{max-width:440px}
+    .band .wrap{grid-template-columns:1fr} .band-media{order:-1; max-height:360px}
+    footer .cols{grid-template-columns:1fr 1fr}
+  }
+  @media(max-width:720px){
+    nav.main{display:none} .burger{display:block}
+    .bar{grid-template-columns:auto 1fr auto; height:64px}
+    .brand{grid-column:2; font-size:1.4rem}
+    .tools{grid-column:3; gap:12px}
+    .cart-btn span.lbl{display:none}
+    .steps{grid-template-columns:1fr; gap:34px}
+    .grid{grid-template-columns:1fr 1fr; gap:16px}
+    .modal .m-grid{grid-template-columns:1fr} .modal .m-media{aspect-ratio:16/10}
+    .trust .wrap{justify-content:flex-start}
+    footer .cols{grid-template-columns:1fr}
+  }
+  @media(max-width:440px){ .grid{grid-template-columns:1fr} }
+</style>
+</head>
+<body>
+<div class="ribbon" data-it="Anteprima dimostrativa · L'Armadio non è un negozio reale" data-en="Demo preview · L'Armadio is not a real store">Anteprima dimostrativa · L'Armadio non è un negozio reale</div>
+
+<header>
+  <div class="wrap bar">
+    <button class="burger" aria-label="Menu">☰</button>
+    <nav class="main">
+      <a href="#collezione" data-it="Collezione" data-en="Collection">Collezione</a>
+      <a href="#come" data-it="Come funziona" data-en="How it works">Come funziona</a>
+      <a href="#storia" data-it="La Maison" data-en="The House">La Maison</a>
+    </nav>
+    <a href="#top" class="brand">L'ARMADIO<small data-it="Borse a noleggio" data-en="Bag rental">Borse a noleggio</small></a>
+    <div class="tools">
+      <div class="lang" role="group" aria-label="Lingua">
+        <button data-lang="it" class="on">IT</button><button data-lang="en">EN</button>
+      </div>
+      <button class="cart-btn" id="openCart">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+        <span class="lbl" data-it="Carrello" data-en="Cart">Carrello</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <p class="eyebrow rv" data-it="Noleggio · Milano" data-en="Rental · Milan">Noleggio · Milano</p>
+        <h1 class="rv" style="transition-delay:.08s" data-it="Il lusso non si<br>compra. Si <em>indossa</em>." data-en="Luxury isn't<br>bought. It's <em>worn</em>.">Il lusso non si<br>compra. Si <em>indossa</em>.</h1>
+        <p class="lead rv" style="transition-delay:.16s" data-it="Borse iconiche autenticate, per un giorno o per una stagione. Le ricevi a casa in 24 ore, le restituisci quando vuoi." data-en="Iconic authenticated bags, for a day or a season. Delivered to your door in 24 hours, returned whenever you like.">Borse iconiche autenticate, per un giorno o per una stagione. Le ricevi a casa in 24 ore, le restituisci quando vuoi.</p>
+        <div class="rv" style="transition-delay:.24s; display:flex; gap:14px; flex-wrap:wrap">
+          <a href="#collezione" class="btn" data-it="Scopri la collezione" data-en="Explore the collection">Scopri la collezione<span class="arrow">→</span></a>
+          <a href="#come" class="btn ghost" data-it="Come funziona" data-en="How it works">Come funziona</a>
+        </div>
+      </div>
+      <div class="rv" style="transition-delay:.2s">
+        <div class="hero-media">
+          <img src="img/bag-1.jpg" alt="Borsa top-handle in pelle caramello" />
+        </div>
+        <div class="hero-tag">
+          <span class="eyebrow" data-it="A partire da" data-en="From">A partire da</span>
+          <b>€25<span style="font-family:Jost; font-size:.9rem; font-weight:300"> /giorno</span></b>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST -->
+  <div class="trust">
+    <div class="wrap">
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m9 12 2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg><span data-it="Autenticità garantita" data-en="Guaranteed authentic">Autenticità garantita</span></span>
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h11v8H3z"/><path d="M14 10h4l3 3v2h-7z"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg><span data-it="Spedizione in 24h" data-en="24h delivery">Spedizione in 24h</span></span>
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3s7 2 7 9-7 9-7 9-7-2-7-9 7-9 7-9Z"/><path d="M9 12l2 2 4-4"/></svg><span data-it="Sanificazione professionale" data-en="Professional sanitisation">Sanificazione professionale</span></span>
+      <span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2 4 5v6c0 5 3.5 8 8 11 4.5-3 8-6 8-11V5l-8-3Z"/></svg><span data-it="Assicurazione inclusa" data-en="Insurance included">Assicurazione inclusa</span></span>
+    </div>
+  </div>
+
+  <!-- HOW -->
+  <section class="pad" id="come">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow rv" data-it="Semplice" data-en="Simple">Semplice</p>
+        <h2 class="rv" data-it="Tre passi, zero pensieri" data-en="Three steps, no worries">Tre passi, zero pensieri</h2>
+        <p class="rv" data-it="Nessun acquisto impulsivo. Solo la borsa giusta, per il tempo che ti serve." data-en="No impulse buys. Just the right bag, for as long as you need it.">Nessun acquisto impulsivo. Solo la borsa giusta, per il tempo che ti serve.</p>
+      </div>
+      <div class="steps">
+        <div class="step rv"><div class="num">I</div><h3 data-it="Scegli" data-en="Choose">Scegli</h3><p data-it="Sfoglia la collezione e trova la borsa perfetta per la tua occasione." data-en="Browse the collection and find the perfect bag for your occasion.">Sfoglia la collezione e trova la borsa perfetta per la tua occasione.</p></div>
+        <div class="step rv" style="transition-delay:.12s"><div class="num">II</div><h3 data-it="Noleggia" data-en="Rent">Noleggia</h3><p data-it="Seleziona le date. Paghi solo i giorni che usi, cauzione rimborsabile." data-en="Pick your dates. Pay only for the days you use, refundable deposit.">Seleziona le date. Paghi solo i giorni che usi, cauzione rimborsabile.</p></div>
+        <div class="step rv" style="transition-delay:.24s"><div class="num">III</div><h3 data-it="Restituisci" data-en="Return">Restituisci</h3><p data-it="Rispedisci con l'etichetta prepagata. Alla pulizia pensiamo noi." data-en="Send it back with the prepaid label. We handle the cleaning.">Rispedisci con l'etichetta prepagata. Alla pulizia pensiamo noi.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION -->
+  <section class="pad" id="collezione">
+    <div class="wrap">
+      <div class="shead">
+        <p class="eyebrow rv" data-it="La Collezione" data-en="The Collection">La Collezione</p>
+        <h2 class="rv" data-it="Icone da indossare" data-en="Icons to wear">Icone da indossare</h2>
+        <p class="rv" data-it="Una selezione curata. Ogni borsa è autenticata e assicurata." data-en="A curated selection. Every bag is authenticated and insured.">Una selezione curata. Ogni borsa è autenticata e assicurata.</p>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+  </section>
+
+  <!-- BAND -->
+  <section class="band" id="storia">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow rv" style="color:var(--gold)" data-it="La Maison" data-en="The House">La Maison</p>
+        <h2 class="rv" data-it="Un guardaroba infinito, senza possederlo" data-en="An endless wardrobe, without owning it">Un guardaroba infinito, senza possederlo</h2>
+        <p class="rv" data-it="Nata a Milano, L'Armadio rende accessibile il lusso circolare: le borse che desideri, quando le desideri, senza il peso dell'acquisto. Più sostenibile, più libero." data-en="Born in Milan, L'Armadio makes circular luxury accessible: the bags you crave, when you crave them, without the burden of buying. More sustainable, more free.">Nata a Milano, L'Armadio rende accessibile il lusso circolare: le borse che desideri, quando le desideri, senza il peso dell'acquisto. Più sostenibile, più libero.</p>
+        <div class="stat rv">
+          <div><b>240+</b><span data-it="Borse in collezione" data-en="Bags in collection">Borse in collezione</span></div>
+          <div><b>24h</b><span data-it="Consegna in Italia" data-en="Delivery in Italy">Consegna in Italia</span></div>
+          <div><b>100%</b><span data-it="Autenticate" data-en="Authenticated">Autenticate</span></div>
+        </div>
+      </div>
+      <div class="band-media rv"><img src="img/bag-2.jpg" alt="Borsa trapuntata nera" /></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <div class="brand-f">L'ARMADIO</div>
+        <p style="margin-top:12px; max-width:34ch; font-size:.9rem" data-it="Noleggio di borse di lusso autenticate. Milano, Italia." data-en="Authenticated luxury bag rental. Milan, Italy.">Noleggio di borse di lusso autenticate. Milano, Italia.</p>
+      </div>
+      <div><h5 data-it="Naviga" data-en="Explore">Naviga</h5><a href="#collezione" data-it="Collezione" data-en="Collection">Collezione</a><a href="#come" data-it="Come funziona" data-en="How it works">Come funziona</a><a href="#storia" data-it="La Maison" data-en="The House">La Maison</a></div>
+      <div><h5 data-it="Assistenza" data-en="Support">Assistenza</h5><a href="#" data-it="Spedizioni & Resi" data-en="Shipping & Returns">Spedizioni & Resi</a><a href="#" data-it="Autenticità" data-en="Authenticity">Autenticità</a><a href="#" data-it="Domande frequenti" data-en="FAQ">Domande frequenti</a></div>
+      <div><h5 data-it="Contatti" data-en="Contact">Contatti</h5><a href="#" data-it="ciao@larmadio.it" data-en="hello@larmadio.it">ciao@larmadio.it</a><a href="#" data-it="+39 02 000 0000" data-en="+39 02 000 0000">+39 02 000 0000</a><a href="#" data-it="Instagram" data-en="Instagram">Instagram</a></div>
+    </div>
+    <div class="bottom">
+      <span>© 2026 L'Armadio</span>
+      <span data-it="Privacy · Termini · Cookie" data-en="Privacy · Terms · Cookie">Privacy · Termini · Cookie</span>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="scrim" id="scrim"></div>
+<div class="modal" id="modal" role="dialog" aria-modal="true">
+  <button class="close" id="closeModal" aria-label="Chiudi">✕</button>
+  <div class="m-grid">
+    <div class="m-media"><img id="mImg" src="" alt="" /></div>
+    <div class="m-body">
+      <h3 id="mName"></h3>
+      <div class="sub" id="mSub"></div>
+      <p class="desc" id="mDesc"></p>
+      <div class="rentbox">
+        <div class="dates">
+          <div class="field"><label data-it="Ritiro" data-en="Pick-up">Ritiro</label><input type="date" id="dFrom"></div>
+          <div class="field"><label data-it="Reso" data-en="Return">Reso</label><input type="date" id="dTo"></div>
+        </div>
+        <div class="calc">
+          <div class="row"><span id="mDaysLbl">—</span><span id="mDaysVal">—</span></div>
+          <div class="row tot"><span data-it="Totale noleggio" data-en="Rental total">Totale noleggio</span><b id="mTotal">€0</b></div>
+          <div class="dep" id="mDep"></div>
+        </div>
+        <div class="err" id="mErr"></div>
+        <button class="btn add" id="addCart" data-it="Aggiungi al carrello" data-en="Add to cart">Aggiungi al carrello →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="drawer" id="drawer">
+  <div class="d-head">
+    <h3 data-it="Il tuo noleggio" data-en="Your rental">Il tuo noleggio</h3>
+    <button class="close" id="closeDrawer" aria-label="Chiudi" style="position:static">✕</button>
+  </div>
+  <div class="items" id="cartItems"></div>
+  <div class="d-foot" id="dFoot" style="display:none">
+    <div class="tt"><span data-it="Totale" data-en="Total">Totale</span><b id="cartTotal">€0</b></div>
+    <div class="note" id="cartDepNote"></div>
+    <div class="pay">
+      <div class="paypal">PayPal</div>
+      <div class="ccard" data-it="Carta di credito" data-en="Credit card">Carta di credito</div>
+      <div class="secure"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="1"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg><span data-it="Pagamento sicuro e criptato" data-en="Secure encrypted payment">Pagamento sicuro e criptato</span></div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ---------- data ---------- */
+const BAGS = [
+  {id:"portofino", img:"img/bag-1.jpg", name:"Portofino", sub_it:"Top-handle · pelle caramello", sub_en:"Top-handle · caramel leather", perDay:39, dep:400, badge_it:"Icona", badge_en:"Icon",
+   d_it:"Struttura netta e manico rigido: la borsa da giorno che diventa serata. Pelle liscia color caramello, ferramenta dorata.", d_en:"Clean structure, rigid handle: the day bag that turns into an evening one. Smooth caramel leather, gold hardware."},
+  {id:"notturno", img:"img/bag-2.jpg", name:"Notturno", sub_it:"Trapuntata · catena", sub_en:"Quilted · chain", perDay:45, dep:600, badge_it:"Best seller", badge_en:"Best seller",
+   d_it:"Il nero che non tradisce. Trapuntatura matelassé e tracolla a catena, per ogni occasione importante.", d_en:"The black that never fails. Matelassé quilting and a chain strap, for every important occasion."},
+  {id:"perla", img:"img/bag-3.jpg", name:"Perla", sub_it:"Mini crossbody · avorio", sub_en:"Mini crossbody · ivory", perDay:29, dep:300, badge_it:"Novità", badge_en:"New",
+   d_it:"Minuta e luminosa. Una mini in avorio che alleggerisce qualsiasi look, dal giorno all'aperitivo.", d_en:"Petite and luminous. An ivory mini that lightens any look, from day to aperitivo."},
+  {id:"amarena", img:"img/bag-4.jpg", name:"Amarena", sub_it:"Hobo · camoscio bordeaux", sub_en:"Hobo · bordeaux suede", perDay:35, dep:350, badge_it:"Autunno", badge_en:"Autumn",
+   d_it:"Morbida e avvolgente. Camoscio bordeaux che cade sulla spalla con nonchalance couture.", d_en:"Soft and enveloping. Bordeaux suede that drapes over the shoulder with couture nonchalance."},
+  {id:"stella", img:"img/bag-5.jpg", name:"Stella", sub_it:"Clutch da sera · champagne", sub_en:"Evening clutch · champagne", perDay:25, dep:250, badge_it:"Sera", badge_en:"Evening",
+   d_it:"Piccola gioia da sera. Raso champagne per cerimonie, gala e serate che meritano una firma.", d_en:"A small evening jewel. Champagne satin for ceremonies, galas and nights that deserve a signature."},
+  {id:"miele", img:"img/bag-6.jpg", name:"Miele", sub_it:"Bucket · pelle cognac", sub_en:"Bucket · cognac leather", perDay:32, dep:320, badge_it:"Versatile", badge_en:"Versatile",
+   d_it:"Il secchiello che tiene tutto con stile. Pelle martellata cognac, chiusura a coulisse.", d_en:"The bucket that holds everything in style. Cognac pebbled leather, drawstring closure."}
+];
+
+/* ---------- i18n ---------- */
+let LANG = "it";
+function fmt(n){ return "€" + n.toLocaleString(LANG==="it"?"it-IT":"en-GB"); }
+function t(it,en){ return LANG==="it"?it:en; }
+function applyLang(){
+  document.documentElement.lang = LANG;
+  document.querySelectorAll("[data-it]").forEach(el=>{
+    el.innerHTML = el.getAttribute(LANG==="it"?"data-it":"data-en");
+  });
+  document.querySelectorAll(".lang button").forEach(b=>b.classList.toggle("on", b.dataset.lang===LANG));
+  renderGrid(); renderCart();
+  if(current) refreshCalc();
+}
+
+/* ---------- rental math (pure) ---------- */
+// returns {days, subtotal, error} — error is a code, not text
+function computeRental(fromStr, toStr, perDay){
+  if(!fromStr || !toStr) return {days:0, subtotal:0, error:"empty"};
+  const from = new Date(fromStr), to = new Date(toStr);
+  if(isNaN(from) || isNaN(to)) return {days:0, subtotal:0, error:"invalid"};
+  const ms = to - from;
+  const days = Math.round(ms / 86400000);
+  if(days < 1) return {days:0, subtotal:0, error:"order"};
+  return {days, subtotal: days*perDay, error:null};
+}
+
+/* ---------- grid ---------- */
+function renderGrid(){
+  const g = document.getElementById("grid");
+  g.innerHTML = BAGS.map(b=>`
+    <article class="card rv" data-id="${b.id}">
+      <div class="ph"><span class="badge">${t(b.badge_it,b.badge_en)}</span><img src="${b.img}" alt="${b.name}" loading="lazy"></div>
+      <div class="body">
+        <h3>${b.name}</h3>
+        <div class="sub">${t(b.sub_it,b.sub_en)}</div>
+        <div class="price"><b>${fmt(b.perDay)}<span> /${t("giorno","day")}</span></b><span>${t("cauzione","deposit")} ${fmt(b.dep)}</span></div>
+        <button class="rent">${t("Noleggia","Rent")}</button>
+      </div>
+    </article>`).join("");
+  g.querySelectorAll(".card").forEach(c=>{
+    c.querySelector(".rent").addEventListener("click",()=>openModal(c.dataset.id));
+    c.querySelector(".ph").addEventListener("click",()=>openModal(c.dataset.id));
+  });
+  observeReveal();
+}
+
+/* ---------- modal ---------- */
+let current = null;
+const $ = id => document.getElementById(id);
+function openModal(id){
+  current = BAGS.find(b=>b.id===id);
+  $("mImg").src = current.img; $("mImg").alt = current.name;
+  $("mName").textContent = current.name;
+  $("mSub").textContent = t(current.sub_it,current.sub_en);
+  $("mDesc").textContent = t(current.d_it,current.d_en);
+  const today = new Date(); today.setDate(today.getDate()+1);
+  const min = today.toISOString().slice(0,10);
+  $("dFrom").min = min; $("dTo").min = min; $("dFrom").value=""; $("dTo").value="";
+  $("mErr").textContent=""; refreshCalc();
+  $("scrim").classList.add("show"); $("modal").classList.add("show");
+  document.body.style.overflow="hidden";
+}
+function closeModal(){ $("modal").classList.remove("show"); if(!drawerOpen()) $("scrim").classList.remove("show"); document.body.style.overflow=""; current=null; }
+function refreshCalc(){
+  if(!current) return;
+  const r = computeRental($("dFrom").value, $("dTo").value, current.perDay);
+  const daysWord = n => LANG==="it" ? (n===1?"giorno":"giorni") : (n===1?"day":"days");
+  if(r.error==="order"){ $("mErr").textContent = t("La data di reso deve essere successiva al ritiro.","Return date must be after pick-up."); }
+  else { $("mErr").textContent=""; }
+  if(r.error){
+    $("mDaysLbl").textContent = t("Seleziona le date","Select your dates");
+    $("mDaysVal").textContent = "—"; $("mTotal").textContent = fmt(0);
+    $("mDep").textContent = t(`Cauzione rimborsabile ${fmt(current.dep)} · assicurazione inclusa`,`Refundable deposit ${fmt(current.dep)} · insurance included`);
+    return;
+  }
+  $("mDaysLbl").textContent = `${fmt(current.perDay)} × ${r.days} ${daysWord(r.days)}`;
+  $("mDaysVal").textContent = fmt(r.subtotal);
+  $("mTotal").textContent = fmt(r.subtotal);
+  $("mDep").textContent = t(`+ cauzione rimborsabile ${fmt(current.dep)} · assicurazione inclusa`,`+ refundable deposit ${fmt(current.dep)} · insurance included`);
+}
+$("dFrom").addEventListener("change",()=>{ if($("dTo").value && $("dTo").value < $("dFrom").value) $("dTo").value=$("dFrom").value; $("dTo").min=$("dFrom").value; refreshCalc(); });
+$("dTo").addEventListener("change",refreshCalc);
+
+/* ---------- cart ---------- */
+let CART = [];
+$("addCart").addEventListener("click",()=>{
+  const r = computeRental($("dFrom").value, $("dTo").value, current.perDay);
+  if(r.error){ $("mErr").textContent = t("Seleziona date valide per continuare.","Select valid dates to continue."); return; }
+  CART.push({id:current.id, name:current.name, img:current.img, from:$("dFrom").value, to:$("dTo").value, days:r.days, subtotal:r.subtotal, dep:current.dep});
+  renderCart(); closeModal(); openDrawer();
+});
+function renderCart(){
+  $("cartCount").textContent = CART.length;
+  const box = $("cartItems");
+  if(!CART.length){ box.innerHTML = `<div class="empty">${t("Il tuo noleggio è vuoto.","Your rental is empty.")}</div>`; $("dFoot").style.display="none"; return; }
+  const dOpt = {day:"2-digit",month:"short"};
+  box.innerHTML = CART.map((c,i)=>`
+    <div class="ci">
+      <div class="thumb"><img src="${c.img}" alt="${c.name}"></div>
+      <div>
+        <h4>${c.name}</h4>
+        <div class="meta">${new Date(c.from).toLocaleDateString(LANG,dOpt)} → ${new Date(c.to).toLocaleDateString(LANG,dOpt)} · ${c.days} ${t(c.days===1?"giorno":"giorni",c.days===1?"day":"days")}</div>
+        <button class="rm" data-i="${i}">${t("Rimuovi","Remove")}</button>
+      </div>
+      <div class="amt">${fmt(c.subtotal)}</div>
+    </div>`).join("");
+  box.querySelectorAll(".rm").forEach(b=>b.addEventListener("click",()=>{ CART.splice(+b.dataset.i,1); renderCart(); }));
+  const tot = CART.reduce((s,c)=>s+c.subtotal,0);
+  const dep = CART.reduce((s,c)=>s+c.dep,0);
+  $("cartTotal").textContent = fmt(tot);
+  $("cartDepNote").textContent = t(`+ cauzione rimborsabile ${fmt(dep)} · assicurazione e reso inclusi`,`+ refundable deposit ${fmt(dep)} · insurance and return included`);
+  $("dFoot").style.display="block";
+}
+
+/* ---------- drawer ---------- */
+function drawerOpen(){ return $("drawer").classList.contains("show"); }
+function openDrawer(){ $("drawer").classList.add("show"); $("scrim").classList.add("show"); document.body.style.overflow="hidden"; }
+function closeDrawer(){ $("drawer").classList.remove("show"); if(!$("modal").classList.contains("show")) $("scrim").classList.remove("show"); document.body.style.overflow=""; }
+$("openCart").addEventListener("click",openDrawer);
+$("closeDrawer").addEventListener("click",closeDrawer);
+$("closeModal").addEventListener("click",closeModal);
+$("scrim").addEventListener("click",()=>{ closeModal(); closeDrawer(); });
+document.addEventListener("keydown",e=>{ if(e.key==="Escape"){ closeModal(); closeDrawer(); } });
+
+/* ---------- lang buttons ---------- */
+document.querySelectorAll(".lang button").forEach(b=>b.addEventListener("click",()=>{ LANG=b.dataset.lang; applyLang(); }));
+document.querySelector(".burger").addEventListener("click",()=>document.getElementById("collezione").scrollIntoView());
+
+/* ---------- reveal on scroll ---------- */
+let io;
+function observeReveal(){
+  if(!io) io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target); } }),{threshold:.14});
+  document.querySelectorAll(".rv:not(.in)").forEach(el=>io.observe(el));
+}
+
+/* ---------- init ---------- */
+renderGrid(); renderCart(); observeReveal();
+requestAnimationFrame(()=>document.querySelectorAll(".hero .rv").forEach(el=>el.classList.add("in")));
+
+/* ---------- self-check (money logic) ---------- */
+(function selfTest(){
+  const a = computeRental("2026-08-01","2026-08-04",39); console.assert(a.days===3 && a.subtotal===117, "3 nights @39 = 117", a);
+  const b = computeRental("2026-08-04","2026-08-01",39); console.assert(b.error==="order", "reversed dates rejected", b);
+  const c = computeRental("2026-08-01","2026-08-01",39); console.assert(c.error==="order", "same day rejected", c);
+  const d = computeRental("","",39); console.assert(d.error==="empty", "empty rejected", d);
+})();
+</script>
+</body>
+</html>
