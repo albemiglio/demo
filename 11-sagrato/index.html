@@ -153,35 +153,13 @@
     "@photo-sphere-viewer/core": "./vendor/core.js"
 } }
 </script>
-<script type="module">
-import { Viewer } from '@photo-sphere-viewer/core';
-import { AutorotatePlugin } from './vendor/autorotate-plugin.js';
-
-// Anche qui la risoluzione si adatta: l'apertura non deve pesare su un telefono.
-function livelloApertura() {
-  let maxTex = 4096;
-  try {
-    const gl = document.createElement('canvas').getContext('webgl2')
-            || document.createElement('canvas').getContext('webgl');
-    if (gl) maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || 4096;
-  } catch { /* nessun WebGL: il visore non partirebbe comunque */ }
-  const lato = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
-  if (maxTex < 4096 || lato <= 900 || (navigator.deviceMemory || 8) <= 4) return 1024;
-  return lato <= 1700 ? 2048 : 4096;
-}
-
-new Viewer({
-  container: 'hero-pano',
-  panorama: `pano/hero@${livelloApertura()}.webp`,
-  defaultZoomLvl: 22,
-  defaultPitch: 0.12,
-  fisheye: false,
-  navbar: false,
-  mousewheel: false,
-  touchmoveTwoFingers: true,
-  loadingImg: null,
-  loadingTxt: '',
-  plugins: [AutorotatePlugin.withConfig({ autostartDelay: 400, autorotateSpeed: '0.42rpm', autorotatePitch: 0.12 })],
+<script>
+// Il visore pesa piu' di un megabyte: si carica a pagina gia' disegnata, sopra
+// l'immagine di posa. Chi arriva vede subito la chiesa, non uno schermo vuoto.
+addEventListener('load', () => {
+  const avvia = () => import('./js/hero.js');
+  if ('requestIdleCallback' in window) requestIdleCallback(avvia, { timeout: 1500 });
+  else setTimeout(avvia, 500);
 });
 </script>
 <script>

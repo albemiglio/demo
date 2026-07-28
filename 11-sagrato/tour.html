@@ -28,9 +28,12 @@
 <nav class="chrome glass" id="tappe" aria-label="Tappe della visita"></nav>
 
 <div class="chrome" id="comandi">
-  <button class="tondo glass" id="btn-audio" aria-pressed="false" title="Ambiente sonoro" aria-label="Ambiente sonoro">
-    <svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"/><path id="onda1" d="M15.5 8.5a5 5 0 0 1 0 7"/><path id="onda2" d="M18.5 5.5a9 9 0 0 1 0 13"/></svg>
-  </button>
+  <div id="qualita">
+    <button class="tondo glass" id="btn-qualita" aria-expanded="false" title="Qualità immagine" aria-label="Qualità immagine">
+      <svg viewBox="0 0 24 24"><path d="M4 17V9M9 17V5M14 17v-6M19 17V7"/></svg>
+    </button>
+    <div class="glass" id="menu-qualita" role="menu" hidden></div>
+  </div>
   <button class="tondo glass" id="btn-pieno" title="Schermo intero" aria-label="Schermo intero">
     <svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
   </button>
@@ -50,8 +53,6 @@
   <p id="soglia-intro"></p>
   <button id="entra" disabled>Preparazione…</button>
 </div>
-
-<audio id="ambiente" src="audio/ambiente.mp3" loop preload="auto"></audio>
 
 <script type="importmap">
 { "imports": {

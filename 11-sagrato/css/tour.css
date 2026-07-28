@@ -151,7 +151,51 @@ body {
 }
 .tondo:hover { background: rgba(245, 241, 233, 0.16); }
 .tondo svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.5; }
-.tondo[aria-pressed="true"] { color: var(--oro); }
+.tondo[aria-pressed="true"], .tondo[aria-expanded="true"] { color: var(--oro); }
+
+/* ---------- scelta della qualita' ---------- */
+
+#qualita { position: relative; }
+
+#menu-qualita {
+  position: absolute;
+  right: calc(100% + 0.55rem);
+  bottom: 0;
+  border-radius: 12px;
+  padding: 0.4rem;
+  min-width: 11.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+#menu-qualita[hidden] { display: none; }
+
+#menu-qualita button {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--avorio);
+  font: inherit;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+}
+#menu-qualita button:hover { background: rgba(245, 241, 233, 0.13); }
+#menu-qualita button[aria-checked="true"] { color: var(--oro); }
+#menu-qualita button[disabled] { opacity: 0.34; cursor: not-allowed; }
+#menu-qualita button span {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: var(--muted-scuro);
+}
+#menu-qualita button[aria-checked="true"] span { color: var(--oro); }
 
 #tappe {
   bottom: 1.35rem;

@@ -58,12 +58,17 @@ const TETTO = tetto();
 
 // Con la banda larga si salta diretti al massimo; sulle reti lente si fa un
 // gradino intermedio, cosi' l'immagine migliora invece di far aspettare.
+// null = si adatta al dispositivo; altrimenti e' la scelta fatta a mano.
+let scelto = null;
+const bersaglio = () => scelto || TETTO;
+
 function catena() {
+  const b = bersaglio();
+  if (b <= BASE) return [];
   const rete = navigator.connection?.effectiveType || '4g';
-  if (TETTO <= BASE) return [];
-  if (rete === 'slow-2g' || rete === '2g') return [2048].filter((l) => l <= TETTO);
-  if (rete === '3g') return [2048, TETTO].filter((l, i, a) => l <= TETTO && a.indexOf(l) === i);
-  return [TETTO];
+  if (!scelto && (rete === 'slow-2g' || rete === '2g')) return [Math.min(2048, b)];
+  if (!scelto && rete === '3g') return [...new Set([Math.min(2048, b), b])];
+  return [b];
 }
 
 const url = (tappa, livello) => `${tappa.pano}@${livello}.webp`;
@@ -227,30 +232,54 @@ addEventListener('keydown', (e) => { if (e.key === 'Escape') chiudiScheda(); });
 
 /* ---------- comandi ---------- */
 
-const audio = $('ambiente');
-const btnAudio = $('btn-audio');
-audio.volume = 0;
+$('btn-pieno').addEventListener('click', () => viewer.toggleFullscreen());
 
-btnAudio.addEventListener('click', () => {
-  const acceso = btnAudio.getAttribute('aria-pressed') === 'true';
-  acceso ? sfuma(audio, 0, () => audio.pause()) : (audio.play(), sfuma(audio, 0.34));
-  btnAudio.setAttribute('aria-pressed', String(!acceso));
-});
+/* ---------- scelta della qualita' ----------
+   Il livello si adatta da solo, ma resta scelta di chi guarda: sopra il tetto
+   del dispositivo la texture non si carica, quindi quelle voci restano spente. */
 
-// L'ambiente non deve entrare a schiaffo: sale e scende in un paio di secondi.
-function sfuma(el, verso, poi) {
-  const da = el.volume;
-  const t0 = performance.now();
-  const passo = (t) => {
-    const k = Math.min((t - t0) / 1400, 1);
-    el.volume = da + (verso - da) * k;
-    if (k < 1) requestAnimationFrame(passo);
-    else poi?.();
-  };
-  requestAnimationFrame(passo);
+const NOMI = { 1024: 'Bassa', 2048: 'Media', 4096: 'Alta', 7680: 'Massima' };
+const menu = $('menu-qualita');
+const btnQualita = $('btn-qualita');
+
+function disegnaMenu() {
+  menu.innerHTML = '';
+  const voci = [[null, 'Automatica', `fino a ${NOMI[TETTO].toLowerCase()}`],
+                ...LIVELLI.map((l) => [l, NOMI[l], `${l} px`])];
+  for (const [val, nome, nota] of voci) {
+    const b = document.createElement('button');
+    b.setAttribute('role', 'menuitemradio');
+    b.setAttribute('aria-checked', String(scelto === val));
+    b.innerHTML = `${nome}<span>${nota}</span>`;
+    if (val && val > TETTO) {
+      b.disabled = true;
+      b.title = 'Oltre quello che questo dispositivo riesce a mostrare';
+    } else {
+      b.addEventListener('click', () => {
+        scelto = val;
+        disegnaMenu();
+        apriMenu(false);
+        const t = tour.tappe.find((x) => x.id === virtual.getCurrentNode()?.id);
+        if (t) affina(t);
+      });
+    }
+    menu.append(b);
+  }
 }
 
-$('btn-pieno').addEventListener('click', () => viewer.toggleFullscreen());
+function apriMenu(v) {
+  menu.hidden = !v;
+  btnQualita.setAttribute('aria-expanded', String(v));
+}
+
+btnQualita.addEventListener('click', (e) => {
+  e.stopPropagation();
+  apriMenu(menu.hidden);
+});
+addEventListener('click', () => apriMenu(false));
+addEventListener('keydown', (e) => { if (e.key === 'Escape') apriMenu(false); });
+menu.addEventListener('click', (e) => e.stopPropagation());
+disegnaMenu();
 
 /* ---------- soglia ---------- */
 
@@ -260,10 +289,4 @@ viewer.addEventListener('ready', () => {
   entra.textContent = 'Entra';
 }, { once: true });
 
-entra.addEventListener('click', () => {
-  $('soglia').classList.add('via');
-  audio.play().then(() => {
-    sfuma(audio, 0.34);
-    btnAudio.setAttribute('aria-pressed', 'true');
-  }).catch(() => { /* se il browser rifiuta, resta il pulsante */ });
-});
+entra.addEventListener('click', () => $('soglia').classList.add('via'));

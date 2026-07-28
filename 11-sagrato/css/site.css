@@ -117,7 +117,14 @@ h1, h2, h3 {
 /* ---------- apertura ---------- */
 
 .hero { position: relative; height: 100svh; min-height: 34rem; overflow: hidden; background: var(--scuro); }
-#hero-pano { position: absolute; inset: 0; }
+
+/* L'immagine di posa compare al primo disegno; il visore sferico arriva dopo
+   e la copre, cosi' la pagina non aspetta due megabyte di JavaScript. */
+#hero-pano {
+  position: absolute;
+  inset: 0;
+  background: url("../pano/posa.webp") center / cover no-repeat var(--scuro);
+}
 
 .hero::after {
   content: "";
@@ -317,6 +324,19 @@ section { padding-block: clamp(4.5rem, 11vh, 9rem); }
   .chiesa figure, .chiesa--wide figure { aspect-ratio: 3 / 2; }
   .site-nav { display: none; }
   .chiesa-row { flex-direction: column; gap: 0.15rem; }
+}
+
+@media (max-width: 720px) {
+  /* il bottone accanto al marchio non ci sta: la stessa richiesta e' in fondo */
+  .site-head .btn { display: none; }
+  .site-head { padding-block: 0.9rem; }
+  .wordmark { font-size: 1.12rem; letter-spacing: 0.28em; }
+  /* su schermo tattile "trascina" e' superfluo, e finiva sopra al testo */
+  .hero-hint { display: none; }
+  .hero-copy { bottom: 2.4rem; }
+  .hero-copy h1 { font-size: clamp(2.3rem, 9.6vw, 3.3rem); margin: 0.55rem 0 0.9rem; max-width: 13ch; }
+  .hero-copy p { font-size: 0.95rem; max-width: 34ch; }
+  .eyebrow { font-size: 0.63rem; letter-spacing: 0.13em; }
 }
 
 @media (prefers-reduced-motion: reduce) {
