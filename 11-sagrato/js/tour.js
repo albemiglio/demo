@@ -125,6 +125,7 @@ const viewer = new Viewer({
       coneColor: '#c9a227',
       coneSize: 30,
       pinImage: null,
+      overlayImage: null,       // la cornice decorativa di serie stona col resto
       buttons: { close: false, north: false, reset: false, maximize: true },
       spotStyle: { size: 13, color: 'rgba(245,241,233,.55)', hoverSize: 19, hoverColor: '#c9a227', borderColor: 'rgba(20,17,9,.7)' },
       defaultZoom: 42,
