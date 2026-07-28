@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="780" viewBox="0 0 900 780">
+  <rect width="900" height="780" fill="#16120b"/>
+  <g fill="rgba(245,241,233,.15)" stroke="#f5f1e9" stroke-width="7" stroke-linejoin="round">
+    <!-- rotonda dell'Anastasis -->
+    <circle cx="242" cy="352" r="188"/>
+    <!-- katholikon e coro -->
+    <path d="M430 232h300v240H430z"/>
+    <path d="M730 262v180a90 90 0 0 0 0-180"/>
+    <!-- cortile d'ingresso -->
+    <path d="M296 590h206v150H296z"/>
+    <!-- cappella del Calvario -->
+    <path d="M502 500h136v112H502z"/>
+    <!-- cripta di sant'Elena -->
+    <path d="M742 500h124v150H742z"/>
+    <path d="M700 560h42"/>
+  </g>
+  <g fill="none" stroke="rgba(245,241,233,.42)" stroke-width="2.5">
+    <!-- edicola del Sepolcro -->
+    <rect x="206" y="300" width="72" height="106" rx="6"/>
+    <circle cx="242" cy="352" r="128" stroke-dasharray="7 11"/>
+    <!-- pietra dell'unzione -->
+    <rect x="392" y="556" width="86" height="26" rx="6"/>
+    <circle cx="580" cy="352" r="58"/>
+  </g>
+  <g fill="rgba(245,241,233,.5)">
+    <rect x="375" y="740" width="48" height="6" rx="3"/>
+  </g>
+</svg>

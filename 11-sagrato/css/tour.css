@@ -1,0 +1,318 @@
+:root {
+  --avorio: #f5f1e9;
+  --scuro: #141109;
+  --muted-scuro: #a79c88;
+  --oro: #c9a227;
+  --serif: "Cormorant Garamond", Georgia, serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SF Mono", monospace;
+  --vetro: rgba(20, 17, 9, 0.62);
+  --bordo-vetro: rgba(245, 241, 233, 0.16);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--scuro);
+  color: var(--avorio);
+  font-family: var(--sans);
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+#viewer { position: fixed; inset: 0; }
+
+.glass {
+  background: var(--vetro);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid var(--bordo-vetro);
+}
+
+/* ---------- soglia ---------- */
+
+#soglia {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  gap: 1.4rem;
+  padding: 2rem;
+  background: #100d07;
+  transition: opacity 0.9s ease, visibility 0.9s;
+}
+#soglia.via { opacity: 0; visibility: hidden; pointer-events: none; }
+
+#soglia .eyebrow {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: var(--muted-scuro);
+  margin: 0;
+}
+#soglia h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(2.2rem, 6vw, 4.2rem);
+  line-height: 1.05;
+  margin: 0;
+  max-width: 16ch;
+}
+#soglia p { color: var(--muted-scuro); margin: 0; font-size: 0.92rem; max-width: 42ch; }
+
+#entra {
+  justify-self: center;
+  margin-top: 0.6rem;
+  padding: 0.85rem 2.4rem;
+  border-radius: 999px;
+  border: 1px solid var(--avorio);
+  background: none;
+  color: var(--avorio);
+  font: inherit;
+  font-size: 0.84rem;
+  letter-spacing: 0.09em;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+}
+#entra:hover { background: var(--avorio); color: var(--scuro); }
+#entra[disabled] { opacity: 0.45; cursor: progress; }
+
+/* ---------- chrome ---------- */
+
+.chrome { position: fixed; z-index: 20; }
+
+#torna {
+  top: 1.1rem;
+  left: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.62rem 1.15rem;
+  border-radius: 999px;
+  color: var(--avorio);
+  text-decoration: none;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+#torna:hover { border-color: rgba(245, 241, 233, 0.4); }
+
+#insegna {
+  top: 1.1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border-radius: 999px;
+  padding: 0.55rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  max-width: min(92vw, 40rem);
+}
+#insegna .chiesa {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+#insegna .sep { width: 1px; height: 1.1rem; background: var(--bordo-vetro); flex: none; }
+#insegna .tappa {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  color: var(--muted-scuro);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#insegna .tappa b { color: var(--oro); font-weight: 500; }
+
+#comandi {
+  right: 1.1rem;
+  bottom: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.tondo {
+  width: 2.85rem;
+  height: 2.85rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  color: var(--avorio);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.25s, transform 0.25s;
+}
+.tondo:hover { background: rgba(245, 241, 233, 0.16); }
+.tondo svg { width: 1.05rem; height: 1.05rem; fill: none; stroke: currentColor; stroke-width: 1.5; }
+.tondo[aria-pressed="true"] { color: var(--oro); }
+
+#tappe {
+  bottom: 1.35rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.42rem 0.6rem;
+  border-radius: 999px;
+  max-width: min(86vw, 34rem);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+#tappe::-webkit-scrollbar { display: none; }
+
+#tappe button {
+  flex: none;
+  min-width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 999px;
+  border: none;
+  background: none;
+  color: var(--muted-scuro);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  cursor: pointer;
+  transition: background 0.25s, color 0.25s;
+}
+#tappe button:hover { color: var(--avorio); background: rgba(245, 241, 233, 0.12); }
+#tappe button[aria-current="true"] { background: var(--avorio); color: var(--scuro); }
+
+/* ---------- scheda dell'opera ---------- */
+
+#scheda {
+  position: fixed;
+  z-index: 30;
+  top: 0;
+  right: 0;
+  width: min(26rem, 90vw);
+  height: 100%;
+  padding: clamp(1.5rem, 4vw, 2.6rem);
+  overflow-y: auto;
+  transform: translateX(101%);
+  transition: transform 0.62s cubic-bezier(0.16, 1, 0.3, 1);
+  border-left: 1px solid var(--bordo-vetro);
+  border-top: none;
+  border-right: none;
+  border-bottom: none;
+}
+#scheda.aperta { transform: none; }
+
+#scheda .occhiello {
+  font-family: var(--mono);
+  font-size: 0.63rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: var(--oro);
+  margin: 2rem 0 0.7rem;
+}
+#scheda h2 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  line-height: 1.08;
+  margin: 0 0 1.1rem;
+}
+#scheda p { color: #d9cfba; font-size: 0.92rem; line-height: 1.72; margin: 0 0 1rem; }
+#scheda .dettagli {
+  border-top: 1px solid var(--bordo-vetro);
+  margin-top: 1.6rem;
+  padding-top: 1.1rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  color: var(--muted-scuro);
+  text-transform: uppercase;
+}
+
+#chiudi-scheda {
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  width: 2.3rem;
+  height: 2.3rem;
+  border-radius: 50%;
+  border: 1px solid var(--bordo-vetro);
+  background: none;
+  color: var(--avorio);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+#chiudi-scheda:hover { background: rgba(245, 241, 233, 0.14); }
+
+/* ---------- pastiglia dell'opera nella sfera ---------- */
+
+.opera-pin {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: rgba(20, 17, 9, 0.5);
+  border: 1px solid rgba(245, 241, 233, 0.75);
+  backdrop-filter: blur(5px);
+  color: var(--avorio);
+  font-family: var(--serif);
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 3px 18px rgba(0, 0, 0, 0.35);
+}
+.opera-pin::after {
+  content: "";
+  position: absolute;
+  inset: -0.42rem;
+  border-radius: 50%;
+  border: 1px solid rgba(245, 241, 233, 0.34);
+  animation: alone 2.9s ease-out infinite;
+}
+@keyframes alone {
+  0%   { transform: scale(0.82); opacity: 0.9; }
+  70%  { transform: scale(1.28); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+/* ---------- ritocchi ai widget della libreria ---------- */
+
+.psv-container { background: var(--scuro); }
+
+.psv-map { border-radius: 4px !important; }
+.psv-map__button { background: var(--vetro) !important; }
+/* il livello di zoom in percentuale non dice nulla a chi visita una chiesa */
+.psv-map__toolbar-text { display: none !important; }
+
+.psv-tooltip {
+  background: var(--vetro) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--bordo-vetro);
+  border-radius: 7px !important;
+  color: var(--avorio) !important;
+  font-family: var(--mono) !important;
+  font-size: 0.63rem !important;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  max-width: 15rem;
+  padding: 0.42rem 0.7rem !important;
+  box-shadow: none !important;
+}
+.psv-tooltip-arrow { display: none !important; }
+
+@media (max-width: 720px) {
+  #insegna .chiesa { font-size: 0.92rem; }
+  #insegna { max-width: calc(100vw - 2.2rem); padding: 0.46rem 0.95rem; gap: 0.6rem; }
+  #torna span { display: none; }
+  /* la planimetria si rimpicciolisce e la striscia sale sopra di essa */
+  #tappe { bottom: 9.2rem; max-width: calc(100vw - 2.2rem); }
+  #comandi { bottom: 1rem; }
+  #scheda { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opera-pin::after { animation: none; }
+  #scheda { transition: none; }
+}

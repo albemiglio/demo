@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="1000" viewBox="0 0 700 1000">
+  <rect width="700" height="1000" fill="#16120b"/>
+  <g fill="rgba(245,241,233,.15)" stroke="#f5f1e9" stroke-width="7" stroke-linejoin="round">
+    <!-- torri di facciata -->
+    <path d="M96 806h116v116H96zM488 806h116v116H488z"/>
+    <!-- corpo a tre navate -->
+    <path d="M212 806V330h276v476z"/>
+    <path d="M96 806V330h116v476M604 806V330h-116v476"/>
+    <!-- transetto -->
+    <path d="M40 452h56v128H40zM604 452h56v128h-56z"/>
+    <!-- coro poligonale -->
+    <path d="M212 330V196l88-72h100l88 72v134"/>
+  </g>
+  <g fill="none" stroke="rgba(245,241,233,.42)" stroke-width="2.5">
+    <!-- colonnati -->
+    <path d="M212 380v380M488 380v380" stroke-dasharray="5 22"/>
+    <!-- altare maggiore e pulpito -->
+    <path d="M312 214h76v46h-76z"/>
+    <circle cx="488" cy="556" r="20"/>
+    <!-- organo in controfacciata -->
+    <path d="M262 782h176v24H262z"/>
+  </g>
+  <g fill="rgba(245,241,233,.5)">
+    <rect x="326" y="936" width="48" height="6" rx="3"/>
+  </g>
+</svg>

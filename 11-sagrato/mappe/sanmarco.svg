@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="880" viewBox="0 0 800 880">
+  <rect width="800" height="880" fill="#16120b"/>
+  <g fill="rgba(245,241,233,.15)" stroke="#f5f1e9" stroke-width="7" stroke-linejoin="round">
+    <!-- nartece a U sul fronte -->
+    <path d="M118 700h564v122H118z"/>
+    <path d="M118 700V520h74v180M682 700V520h-74v180"/>
+    <!-- croce greca -->
+    <path d="M262 700V520H118V300h144V128h276v172h144v220H538v180z"/>
+    <!-- abside -->
+    <path d="M330 128V96a70 70 0 0 1 140 0v32"/>
+  </g>
+  <g fill="none" stroke="rgba(245,241,233,.42)" stroke-width="2.5">
+    <!-- iconostasi e presbiterio -->
+    <path d="M300 214h200"/>
+    <path d="M356 172h88v42h-88z"/>
+    <!-- cupole -->
+    <circle cx="400" cy="410" r="86"/>
+    <circle cx="400" cy="238" r="52"/>
+    <circle cx="400" cy="596" r="58"/>
+    <circle cx="196" cy="410" r="52"/>
+    <circle cx="604" cy="410" r="52"/>
+  </g>
+  <g fill="rgba(245,241,233,.5)">
+    <rect x="376" y="822" width="48" height="6" rx="3"/>
+  </g>
+</svg>

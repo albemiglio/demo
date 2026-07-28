@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sagrato · Tour virtuali per chiese e luoghi di culto</title>
+<meta name="description" content="Rilievi fotografici a 360° che trasformano una chiesa in una visita navigabile dal browser. Per parrocchie, rettorie, diocesi e uffici per i beni culturali." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="vendor/core.css" />
+<link rel="stylesheet" href="css/site.css" />
+</head>
+<body>
+
+<header class="site-head" id="head">
+  <a class="wordmark" href="./">Sagrato</a>
+  <nav class="site-nav">
+    <a href="#chiese">Le chiese</a>
+    <a href="#come">Come funziona</a>
+    <a href="#perche">Perché farlo</a>
+  </nav>
+  <a class="btn" href="#contatti">Richiedi un sopralluogo</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div id="hero-pano"></div>
+    <div class="hero-copy">
+      <p class="eyebrow">Tour virtuali per chiese e luoghi di culto</p>
+      <h1>Chi non può varcare la soglia, entri lo stesso.</h1>
+      <p>Rileviamo la vostra chiesa a 360° e la trasformiamo in una visita che si apre da qualsiasi telefono, senza installare nulla.</p>
+    </div>
+    <div class="hero-hint" aria-hidden="true"><span></span>Trascina per guardarti intorno</div>
+  </section>
+
+  <section id="chiese" class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Tre chiese, trenta punti di vista.</h2>
+      <p>Ogni tappa è una sfera completa: ci si gira intorno, si alza lo sguardo sulle volte, si cammina verso l'altare. Le schede raccontano quello che si sta guardando.</p>
+    </div>
+
+    <div class="chiese">
+      <a class="chiesa chiesa--wide" href="tour.html?chiesa=sanmarco" data-reveal>
+        <figure>
+          <img src="pano/cover-sanmarco.webp" alt="Interno della Basilica di San Marco a Venezia" loading="lazy" />
+          <span class="tag">In evidenza</span>
+        </figure>
+        <div class="chiesa-row">
+          <div>
+            <h3>Basilica di San Marco</h3>
+            <p class="chiesa-meta">Venezia, Italia — Consacrata nel 1094</p>
+          </div>
+          <p class="chiesa-meta">10 tappe · 8K</p>
+        </div>
+      </a>
+
+      <a class="chiesa" href="tour.html?chiesa=sepolcro" data-reveal>
+        <figure>
+          <img src="pano/cover-sepolcro.webp" alt="Interno della Basilica del Santo Sepolcro a Gerusalemme" loading="lazy" />
+        </figure>
+        <div class="chiesa-row">
+          <div>
+            <h3>Basilica del Santo Sepolcro</h3>
+            <p class="chiesa-meta">Gerusalemme — Dal IV secolo</p>
+          </div>
+          <p class="chiesa-meta">10 tappe · 8K</p>
+        </div>
+      </a>
+
+      <a class="chiesa" href="tour.html?chiesa=bruxelles" data-reveal>
+        <figure>
+          <img src="pano/cover-bruxelles.webp" alt="Interno della Cattedrale dei Santi Michele e Gudula a Bruxelles" loading="lazy" />
+        </figure>
+        <div class="chiesa-row">
+          <div>
+            <h3>Ss. Michele e Gudula</h3>
+            <p class="chiesa-meta">Bruxelles, Belgio — XIII secolo</p>
+          </div>
+          <p class="chiesa-meta">10 tappe · 8K</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section id="come" class="wrap">
+    <div class="sec-head" data-reveal>
+      <h2>Voi aprite la porta. Al resto pensiamo noi.</h2>
+      <p>Non serve che qualcuno della parrocchia sappia di tecnologia, né che compriate attrezzatura.</p>
+    </div>
+
+    <div class="passi">
+      <div class="passo" data-reveal>
+        <p class="num">01</p>
+        <h3>Il rilievo</h3>
+        <p>Veniamo noi con l'attrezzatura. Una chiesa di media grandezza si rileva in mezza giornata, e si lavora a porte chiuse: nessuna funzione interrotta, nessun visitatore nelle immagini.</p>
+      </div>
+      <div class="passo" data-reveal>
+        <p class="num">02</p>
+        <h3>Il montaggio</h3>
+        <p>Ogni punto di ripresa diventa una sfera navigabile. Colleghiamo le tappe, correggiamo le immagini e scriviamo le schede delle opere insieme a chi la chiesa la conosce davvero.</p>
+      </div>
+      <div class="passo" data-reveal>
+        <p class="num">03</p>
+        <h3>La pubblicazione</h3>
+        <p>Il tour vive a un vostro indirizzo e si apre da telefono, tablet o computer senza scaricare niente. Si può incorporare nel sito della parrocchia o della diocesi con una riga.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="perche" class="valore wrap">
+    <div class="sec-head" data-reveal>
+      <h2>A cosa serve, in concreto.</h2>
+      <p>Non è una vetrina. È un modo per far arrivare la chiesa dove le persone non riescono ad arrivare.</p>
+    </div>
+
+    <div class="valore-grid">
+      <div class="voce" data-reveal>
+        <h3>Chi resta fuori, entra</h3>
+        <p>Chi ha difficoltà motorie, chi non esce più di casa, chi è emigrato lontano e chi la chiesa la conosce solo dai racconti dei nonni. Cripte, matronei e cappelle che restano chiuse al pubblico diventano accessibili a tutti.</p>
+      </div>
+      <div class="voce" data-reveal>
+        <h3>Le opere smettono di essere invisibili</h3>
+        <p>Una tela in una cappella laterale, vista da vicino e con accanto la sua scheda: autore, epoca, storia. Quello che oggi si legge su un cartellino sbiadito, se c'è.</p>
+      </div>
+      <div class="voce" data-reveal>
+        <h3>Uno strumento per scuole e visite</h3>
+        <p>Le classi preparano la visita prima di arrivare, le guide costruiscono percorsi tematici, chi organizza pellegrinaggi mostra il luogo prima della partenza.</p>
+      </div>
+      <div class="voce" data-reveal>
+        <h3>Una traccia di come sono i luoghi oggi</h3>
+        <p>Il rilievo resta come documentazione dello stato di fatto: utile prima e dopo un restauro, e nelle richieste di contributo dove serve mostrare cosa si intende conservare.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" class="chiusura wrap">
+    <p class="eyebrow" data-reveal>Parrocchie, rettorie, diocesi, uffici per i beni culturali</p>
+    <h2 data-reveal>Cominciamo dalla vostra chiesa.</h2>
+    <p data-reveal>Un sopralluogo per capire quante tappe servono, cosa vale la pena raccontare e in quali orari si può lavorare senza disturbare nessuno.</p>
+    <a class="btn btn-solid" href="mailto:info@example.it?subject=Sopralluogo%20Sagrato" data-reveal>Scriveteci</a>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p class="nota">Sagrato — Tour virtuali per luoghi di culto</p>
+  <p class="nota"><a href="crediti.html">Crediti e fonti delle immagini</a></p>
+</footer>
+
+<script type="importmap">
+{ "imports": {
+    "three": "./vendor/three.module.js",
+    "@photo-sphere-viewer/core": "./vendor/core.js"
+} }
+</script>
+<script type="module">
+import { Viewer } from '@photo-sphere-viewer/core';
+import { AutorotatePlugin } from './vendor/autorotate-plugin.js';
+
+// Anche qui la risoluzione si adatta: l'apertura non deve pesare su un telefono.
+function livelloApertura() {
+  let maxTex = 4096;
+  try {
+    const gl = document.createElement('canvas').getContext('webgl2')
+            || document.createElement('canvas').getContext('webgl');
+    if (gl) maxTex = gl.getParameter(gl.MAX_TEXTURE_SIZE) || 4096;
+  } catch { /* nessun WebGL: il visore non partirebbe comunque */ }
+  const lato = Math.max(innerWidth, innerHeight) * (devicePixelRatio || 1);
+  if (maxTex < 4096 || lato <= 900 || (navigator.deviceMemory || 8) <= 4) return 1024;
+  return lato <= 1700 ? 2048 : 4096;
+}
+
+new Viewer({
+  container: 'hero-pano',
+  panorama: `pano/hero@${livelloApertura()}.webp`,
+  defaultZoomLvl: 22,
+  defaultPitch: 0.12,
+  fisheye: false,
+  navbar: false,
+  mousewheel: false,
+  touchmoveTwoFingers: true,
+  loadingImg: null,
+  loadingTxt: '',
+  plugins: [AutorotatePlugin.withConfig({ autostartDelay: 400, autorotateSpeed: '0.42rpm', autorotatePitch: 0.12 })],
+});
+</script>
+<script>
+// intestazione opaca appena si esce dall'apertura
+const head = document.getElementById('head');
+const onScroll = () => head.classList.toggle('solid', window.scrollY > window.innerHeight * 0.82);
+addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { rootMargin: '0px 0px -12% 0px' });
+document.querySelectorAll('[data-reveal]').forEach((el, i) => {
+  el.style.transitionDelay = `${Math.min(i % 4, 3) * 90}ms`;
+  io.observe(el);
+});
+</script>
+</body>
+</html>
