@@ -271,6 +271,124 @@ function apriScheda(v) {
   d.showModal();
 }
 
+/* ---------------------------------------------------------- consigliami */
+
+/* Due domande sole. La prima è un fatto (c'è il pomodoro o no), la seconda
+   sceglie il ripiano: il carattere della pizza lo dà già il reparto del menù. */
+const DOMANDE = [
+  {
+    chiave: 'pomodoro',
+    passo: 'Domanda 1 di 2',
+    testo: 'Con il pomodoro o senza?',
+    scelte: [
+      { id: 'si', titolo: 'Con pomodoro', sotto: 'San Marzano, datterino, salse rosse e gialle' },
+      { id: 'no', titolo: 'Senza pomodoro', sotto: 'Le bianche: creme, formaggi, verdure' },
+      { id: 'boh', titolo: 'Indifferente', sotto: 'Scegliete voi' },
+    ],
+  },
+  {
+    chiave: 'stile',
+    passo: 'Domanda 2 di 2',
+    testo: 'E stasera che voglia hai?',
+    scelte: [
+      { id: 'tradizione', titolo: 'La tradizione', sotto: 'Napoletana e verace, come si è sempre fatta' },
+      { id: 'autore', titolo: 'Qualcosa di particolare', sotto: 'Le contemporanee, fuori dal solito' },
+      { id: 'forte', titolo: 'Il pezzo forte', sotto: 'Le premiate e le pizze di Sanremo' },
+    ],
+  },
+];
+
+const RIPIANI = {
+  tradizione: ['napoletane', 'veraci'],
+  autore: ['contemporanee'],
+  forte: ['premiate', 'sanremo', 'picciotte'],
+};
+
+/** tutte le pizze del forno, con addosso la categoria di provenienza */
+const pizzeDelForno = () =>
+  DATI.categorie
+    .filter((c) => Object.values(RIPIANI).flat().includes(c.id))
+    .flatMap((c) => c.voci.map((v) => ({ ...v, categoria: c.id, reparto: c.occhiello })));
+
+function scegliPizza(risposte) {
+  const ripiano = pizzeDelForno().filter((v) => RIPIANI[risposte.stile].includes(v.categoria));
+  const conPomodoro = (v) => v.pomodoro !== false;
+  let rosa = ripiano;
+  if (risposte.pomodoro === 'si') rosa = ripiano.filter(conPomodoro);
+  if (risposte.pomodoro === 'no') rosa = ripiano.filter((v) => !conPomodoro(v));
+  // se una combinazione restasse vuota vale il ripiano intero: meglio un consiglio
+  // leggermente fuori bersaglio che un vicolo cieco
+  if (!rosa.length) rosa = ripiano;
+  return rosa[Math.floor(Math.random() * rosa.length)];
+}
+
+function apriConsiglio() {
+  const risposte = {};
+  const d = el('dialog', 'm-scheda');
+  let i = 0;
+
+  const passo = () => {
+    d.textContent = '';
+    const q = DOMANDE[i];
+    const box = el('div', 'm-quiz');
+    box.append(el('p', 'm-q-passo', q.passo));
+    box.append(el('p', 'm-q-domanda', q.testo));
+    const scelte = el('div', 'm-q-scelte');
+    for (const s of q.scelte) {
+      const b = el('button', 'm-q-scelta');
+      b.type = 'button';
+      b.append(el('span', 'm-q-titolo', s.titolo));
+      b.append(el('span', 'm-q-sotto', s.sotto));
+      b.addEventListener('click', () => {
+        risposte[q.chiave] = s.id;
+        i += 1;
+        if (i < DOMANDE.length) passo();
+        else {
+          d.close();
+          mostraSelezione(risposte);
+        }
+      });
+      scelte.append(b);
+    }
+    box.append(scelte);
+    d.append(box);
+  };
+
+  passo();
+  document.body.append(d);
+  d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+  d.addEventListener('close', () => d.remove());
+  d.showModal();
+}
+
+function mostraSelezione(risposte) {
+  const v = scegliPizza(risposte);
+  document.querySelector('.m-selezione')?.remove();
+
+  const sez = el('section', 'm-sezione m-selezione');
+  const h = el('h2', 'm-titolo');
+  h.append(el('span', 'm-t-script', 'La nostra selezione'));
+  h.append(el('span', 'm-t-occhiello', 'per te'));
+  sez.append(h);
+  sez.append(el('span', 'm-filo'));
+
+  const pomodoro = { si: 'con pomodoro', no: 'senza pomodoro', boh: 'a scelta nostra' }[risposte.pomodoro];
+  sez.append(el('p', 'm-sel-perche', `${v.reparto} · ${pomodoro}`));
+  sez.append(rigaVoce(v, apriScheda));
+
+  const ancora = el('button', 'm-sel-ancora', 'Proponimene un’altra');
+  ancora.type = 'button';
+  ancora.addEventListener('click', () => mostraSelezione(risposte));
+  sez.append(ancora);
+
+  const main = document.querySelector('main');
+  main.prepend(sez);
+  sez.scrollIntoView({
+    behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+    block: 'start',
+  });
+}
+
 /* -------------------------------------------------------------- rendering */
 
 function rendiNav(categorie) {
@@ -452,6 +570,8 @@ function rendiPiede() {
 
 rendiMenu();
 rendiPiede();
+
+document.querySelector('.m-consiglia').addEventListener('click', apriConsiglio);
 
 document.querySelector('.m-pdf').addEventListener('click', () => {
   // le note chiuse non finirebbero sul foglio

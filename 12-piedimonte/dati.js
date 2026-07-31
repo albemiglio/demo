@@ -361,6 +361,7 @@ const DATI = {
         },
         {
           id: 'nap-salsiccia',
+          pomodoro: false,
           nome: 'Salsiccia e friarielli',
           nome_en: 'Sausage and friarielli',
           descrizione: 'Friarielli, salsiccia, provola affumicata, pepe nero, basilico, olio evo',
@@ -501,6 +502,7 @@ const DATI = {
         },
         {
           id: 'nini',
+          pomodoro: false,
           nome: 'Ninì',
           nome_en: 'Ninì',
           descrizione: 'Fiordilatte, salsiccia, salame piccante, ’nduja, cipolla fresca, basilico, olio evo',
@@ -552,6 +554,7 @@ const DATI = {
         },
         {
           id: 'a-romana',
+          pomodoro: false,
           nome: 'A romana',
           nome_en: 'A romana',
           descrizione: 'Fiordilatte, guanciale, pecorino, basilico, olio evo',
@@ -561,6 +564,7 @@ const DATI = {
         },
         {
           id: 'e-creatur',
+          pomodoro: false,
           nome: 'E creatur',
           nome_en: 'E creatur',
           descrizione: 'Fiordilatte, crema di parmigiano, prosciutto cotto, mais, crocchè, basilico, olio evo',
@@ -570,6 +574,7 @@ const DATI = {
         },
         {
           id: 'nerano',
+          pomodoro: false,
           nome: 'Nerano',
           nome_en: 'Nerano',
           descrizione: 'Crema di zucchine, pancetta, fiordilatte, chips di zucchine, scaglie di grana, basilico, olio evo',
@@ -587,6 +592,7 @@ const DATI = {
       voci: [
         {
           id: 'cinque-formaggi',
+          pomodoro: false,
           nome: '5 formaggi croccante',
           nome_en: 'Crunchy five cheeses',
           descrizione:
@@ -619,6 +625,7 @@ const DATI = {
       voci: [
         {
           id: 'amadeus',
+          pomodoro: false,
           nome: 'Amadeus',
           nome_en: 'Amadeus',
           descrizione: 'Fiordilatte, funghi porcini, chips di patate, speck, olio, basilico',
@@ -628,6 +635,7 @@ const DATI = {
         },
         {
           id: 'carlo-conti',
+          pomodoro: false,
           nome: 'Carlo Conti',
           nome_en: 'Carlo Conti',
           descrizione: 'Crema di friarielli, salsiccia, provola affumicata, pepe nero, basilico, olio evo',
@@ -638,6 +646,7 @@ const DATI = {
         },
         {
           id: 'rocco-hunt',
+          pomodoro: false,
           nome: 'Rocco Hunt',
           nome_en: 'Rocco Hunt',
           descrizione: 'Patate schiacciate, pancetta in cottura, bufala affumicata, origano, pepe nero, olio, basilico',

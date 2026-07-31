@@ -156,6 +156,111 @@ body::before {
   .m-emblema circle { opacity: 1; }
 }
 
+/* ---------- consigliami ---------- */
+
+.m-c-box {
+  display: grid;
+  justify-items: center;
+  gap: 9px;
+  margin-top: 26px;
+  animation: m-fade 0.7s ease-out 2.2s both;
+}
+.m-c-occhiello {
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--muted);
+}
+.m-consiglia {
+  display: grid;
+  place-items: center;
+  width: min(100%, 380px);
+  min-height: 54px;
+  padding: 0 22px;
+  border-radius: 999px;
+  background: linear-gradient(100deg, #b98f3d, var(--oro) 38%, var(--oro-chiaro) 52%, var(--oro) 66%, #b98f3d);
+  color: #241b06;
+  box-shadow: 0 6px 22px rgba(201, 162, 78, 0.16);
+}
+.m-consiglia:active { transform: translateY(1px); }
+.m-c-azione {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+  text-transform: uppercase;
+}
+.m-c-azione::before, .m-c-azione::after { content: '✦'; margin: 0 0.7em; font-size: 10px; vertical-align: 0.22em; }
+
+/* la selezione compare in cima al menù, sopra la prima categoria */
+.m-selezione { padding-top: 30px; }
+.m-selezione .m-titolo { color: var(--oro-chiaro); }
+.m-sel-perche {
+  margin: 2px auto 10px;
+  text-align: center;
+  font-size: 13px;
+  font-style: italic;
+  color: var(--muted);
+}
+.m-sel-ancora {
+  display: block;
+  margin: 4px auto 0;
+  padding: 0 16px;
+  min-height: var(--tap);
+  background: transparent;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ---------- domande del consiglio ---------- */
+
+.m-quiz { padding: 26px 22px 22px; }
+.m-q-passo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-align: center;
+  font-variant-numeric: lining-nums;
+}
+.m-q-domanda {
+  margin: 8px 0 20px;
+  text-align: center;
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(28px, 8vw, 36px);
+  line-height: 1.3;
+  color: var(--testo);
+}
+.m-q-scelte { display: grid; gap: 10px; }
+.m-q-scelta {
+  display: grid;
+  gap: 2px;
+  width: 100%;
+  min-height: 62px;
+  padding: 12px 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--panel-2);
+  text-align: left;
+}
+.m-q-scelta:active { border-color: var(--oro); }
+.m-q-titolo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--oro);
+}
+.m-q-sotto { font-size: 14px; color: var(--muted); }
+
 /* ---------- nav categorie sticky ---------- */
 
 .m-nav {
@@ -565,7 +670,8 @@ body::before {
 
   .m-page { max-width: none; padding: 0; color: #000; }
 
-  .m-nav, .m-pdf, .m-foto, .m-chevron, .m-scheda { display: none; }
+  .m-nav, .m-pdf, .m-foto, .m-chevron, .m-scheda,
+  .m-c-box, .m-selezione, .m-sel-ancora { display: none; }
 
   .m-hero { padding: 0 0 6px; }
   .m-emblema { display: none; }
