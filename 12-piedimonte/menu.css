@@ -359,12 +359,12 @@ body::before {
 .m-voce:active { background: rgba(201, 162, 78, 0.05); }
 .m-chevron { color: var(--oro-scuro); font-size: 22px; line-height: 1; }
 
+/* gli scatti sono scontornati: il piatto galleggia sul fondo, come sul cartaceo */
 .m-foto {
   width: 92px;
   height: 92px;
-  border-radius: 8px;
-  object-fit: cover;
-  background: var(--panel-2);
+  object-fit: contain;
+  background: transparent;
 }
 /* senza foto: il monogramma su fondo oro spento, come i tondi del menù cartaceo */
 .m-foto-vuota {
@@ -487,7 +487,11 @@ body::before {
 
 .m-s-testa { position: relative; flex-shrink: 0; }
 /* height:auto è necessario: senza, l'attributo height dell'img vince sull'aspect-ratio */
-.m-s-hero { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.m-s-hero {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10;
+  object-fit: contain; /* scontornato: si mostra intero, non si ritaglia */
+  background: radial-gradient(58% 78% at 50% 46%, rgba(201, 162, 78, 0.16), transparent 70%), var(--nero);
+}
 .m-s-barra {
   display: flex; align-items: center; justify-content: space-between; gap: 12px;
   padding: 10px 12px;
