@@ -1,0 +1,611 @@
+/* Menù pubblico — brand Piedimonte 1.0: nero marmo, oro, tipografia del menù del locale.
+   Stessa impalcatura del menù Blast (hero animata, nav sticky, righe, scheda, piede). */
+
+:root {
+  --nero: #0a0a0c;
+  --panel: #131216;
+  --panel-2: #1b191e;
+  --oro: #c9a24e;
+  --oro-chiaro: #f2ddab;
+  --oro-scuro: #7d6128;
+  --testo: #f3efe7;
+  --muted: #a49a8a;
+  --line: rgba(201, 162, 78, 0.2);
+  --radius: 10px;
+  --tap: 44px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+button { border: none; cursor: pointer; font-family: inherit; color: inherit; }
+
+body {
+  background: var(--nero);
+  color: var(--testo);
+  font-family: 'EB Garamond', Georgia, serif;
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* venature del marmo nero: due sole sfumature diagonali, nessuna immagine */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(107deg, transparent 16%, rgba(201, 162, 78, 0.05) 19%, transparent 22%),
+    linear-gradient(101deg, transparent 44%, rgba(255, 255, 255, 0.022) 47%, transparent 51%),
+    linear-gradient(112deg, transparent 69%, rgba(201, 162, 78, 0.035) 72%, transparent 76%),
+    radial-gradient(120% 60% at 50% 0%, rgba(201, 162, 78, 0.06), transparent 60%);
+}
+
+.script { font-family: 'Pinyon Script', cursive; }
+.display { font-family: 'Cormorant Garamond', Georgia, serif; }
+
+.m-page {
+  min-height: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 18px 56px;
+}
+
+/* ---------- hero: serigrafia in oro che si stampa ---------- */
+
+.m-hero { text-align: center; padding: 46px 0 10px; }
+
+.m-emblema {
+  width: clamp(58px, 15vw, 78px);
+  height: auto;
+  margin-bottom: 18px;
+  fill: none;
+  stroke: var(--oro);
+  stroke-width: 3;
+  stroke-linejoin: round;
+}
+.m-emblema .m-e-punto { fill: var(--oro); stroke: none; }
+/* il marchio si "stampa": prima il tratto, poi i granelli */
+.m-emblema path { stroke-dasharray: 420; stroke-dashoffset: 420; animation: m-traccia 1.25s ease-out 0.1s forwards; }
+.m-emblema .m-e-pizza { animation-delay: 0.35s; }
+.m-emblema .m-e-spicchio { animation-delay: 0.6s; }
+.m-emblema circle { opacity: 0; animation: m-granelli 0.5s ease-out 1.1s forwards; }
+
+@keyframes m-traccia { to { stroke-dashoffset: 0; } }
+@keyframes m-granelli { to { opacity: 1; } }
+
+.m-logo-mask {
+  /* margine generoso: la maschera non deve tagliare il tracking del logo */
+  padding: 10px clamp(14px, 5vw, 34px);
+  margin: 0 calc(-1 * clamp(14px, 5vw, 34px));
+  -webkit-mask-image: linear-gradient(100deg, #000 0 42%, transparent 58% 100%);
+  mask-image: linear-gradient(100deg, #000 0 42%, transparent 58% 100%);
+  -webkit-mask-size: 250% 100%;
+  mask-size: 250% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  animation: m-wipe 1.15s ease-in-out 0.55s both;
+}
+
+@keyframes m-wipe {
+  from { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
+  to   { -webkit-mask-position: 0% 0;   mask-position: 0% 0; }
+}
+
+.m-logo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  /* la riga "#PIEDIMONTE 1.0" non va mai a capo: il passo si stringe con lo schermo */
+  font-size: clamp(23px, 6.6vw, 48px);
+  font-weight: 300;
+  line-height: 1.1;
+  letter-spacing: 0.11em;
+  text-indent: 0.11em; /* compensa il tracking per la centratura ottica */
+  white-space: nowrap;
+  /* foglia d'oro: la banda chiara scorre sulle lettere come sotto una luce */
+  background: linear-gradient(100deg,
+      var(--oro-scuro) 0%, var(--oro) 32%, var(--oro-chiaro) 46%,
+      var(--oro) 60%, var(--oro-scuro) 100%) 0 0 / 300% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: m-foglia 7s ease-in-out 1.7s infinite;
+}
+/* niente opacity sui figli: dentro un background-clip:text li renderebbe invisibili.
+   Un oro pieno più spento li smorza senza toglierli dal disegno. */
+.m-logo-hash,
+.m-logo-ver {
+  color: #8f7238;
+  -webkit-text-fill-color: #8f7238;
+}
+.m-logo-ver { margin-left: 0.3em; font-variant-numeric: lining-nums; }
+
+@keyframes m-foglia {
+  0%, 100% { background-position: 0% 0; }
+  50%      { background-position: 100% 0; }
+}
+
+.m-sotto {
+  margin-top: 6px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  text-indent: 0.4em;
+  color: var(--muted);
+  animation: m-fade 0.7s ease-out 1.5s both;
+}
+
+.m-citazione {
+  margin-top: 20px;
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(19px, 5vw, 24px);
+  line-height: 1.5;
+  color: var(--oro-chiaro);
+  opacity: 0.85;
+  animation: m-fade 0.7s ease-out 1.9s both;
+}
+
+@keyframes m-fade { from { opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .m-logo-mask { animation: none; -webkit-mask-image: none; mask-image: none; }
+  .m-logo, .m-sotto, .m-citazione, .m-emblema path, .m-emblema circle { animation: none; }
+  .m-emblema path { stroke-dashoffset: 0; }
+  .m-emblema circle { opacity: 1; }
+}
+
+/* ---------- nav categorie sticky ---------- */
+
+.m-nav {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 11px 18px;
+  margin: 22px -18px 0;
+  background: rgba(10, 10, 12, 0.82);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+  scrollbar-width: none;
+}
+.m-nav::-webkit-scrollbar { display: none; }
+
+.m-chip {
+  flex: 0 0 auto;
+  min-height: var(--tap);
+  padding: 0 17px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--testo);
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  white-space: nowrap;
+}
+.m-chip.attivo { border-color: var(--oro); color: var(--oro-chiaro); }
+
+/* ---------- sezioni ---------- */
+
+.m-sezione { padding-top: 34px; scroll-margin-top: 74px; }
+
+.m-titolo {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  text-align: center;
+}
+.m-t-script {
+  font-family: 'Pinyon Script', cursive;
+  font-size: clamp(38px, 10vw, 52px);
+  font-weight: 400;
+  line-height: 1.25;
+}
+.m-t-occhiello {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: clamp(19px, 5vw, 26px);
+  font-weight: 300;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+.m-titolo + .m-filo {
+  display: block;
+  width: min(150px, 45%);
+  height: 1px;
+  margin: 10px auto 6px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+}
+.m-nota-sezione {
+  margin: 4px auto 14px;
+  max-width: 46ch;
+  text-align: center;
+  font-size: 14px;
+  font-style: italic;
+  color: var(--muted);
+}
+
+/* ---------- voci ---------- */
+
+/* la riga è un bottone: apre la scheda del prodotto */
+.m-voce {
+  display: grid;
+  grid-template-columns: 92px 1fr auto;
+  gap: 16px;
+  align-items: center;
+  width: 100%;
+  padding: 15px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: none;
+  font-size: inherit;
+  text-align: left;
+}
+/* la carta delle acque è testo: senza foto la riga usa tutta la colonna */
+.m-voce.senza-foto { grid-template-columns: 1fr auto; }
+.m-voce:last-child { border-bottom: none; }
+.m-voce:active { background: rgba(201, 162, 78, 0.05); }
+.m-chevron { color: var(--oro-scuro); font-size: 22px; line-height: 1; }
+
+.m-foto {
+  width: 92px;
+  height: 92px;
+  border-radius: 8px;
+  object-fit: cover;
+  background: var(--panel-2);
+}
+/* senza foto: il monogramma su fondo oro spento, come i tondi del menù cartaceo */
+.m-foto-vuota {
+  display: grid;
+  place-items: center;
+  font-family: 'Pinyon Script', cursive;
+  font-size: 40px;
+  color: var(--oro);
+  background: radial-gradient(circle at 40% 35%, rgba(201, 162, 78, 0.22), rgba(201, 162, 78, 0.06));
+}
+
+.m-corpo { min-width: 0; }
+
+.m-testata {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+.m-nome {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 19px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--oro);
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.m-testata .m-prezzo { flex: 0 0 auto; }
+.m-prezzo { font-weight: 500; white-space: nowrap; font-size: 17px; color: var(--oro); }
+
+.m-descr { margin-top: 3px; font-size: 15px; line-height: 1.45; color: var(--testo); opacity: 0.86; }
+.m-nota { margin-top: 3px; font-size: 12.5px; font-style: italic; color: var(--muted); }
+
+.m-varianti { display: grid; gap: 4px; margin-top: 7px; }
+.m-var { display: flex; align-items: baseline; gap: 8px; font-size: 15px; }
+/* puntini di conduzione, come nei menù stampati */
+.m-var::after {
+  content: '';
+  flex: 1;
+  order: 1;
+  border-bottom: 1px dotted var(--oro-scuro);
+  opacity: 0.7;
+  transform: translateY(-3px);
+}
+.m-var .m-prezzo { order: 2; }
+
+/* nel listino gli allergeni sono solo simboli: il nome per esteso sta nella scheda */
+.m-allergeni { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
+.m-allergeni img { width: 21px; height: 21px; opacity: 0.9; }
+
+/* pizze premiate / della casa */
+.m-firma {
+  display: inline-block;
+  margin-top: 7px;
+  padding: 2px 9px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--oro-chiaro);
+}
+
+/* ---------- listino secco (bevande, birre, amari) ---------- */
+
+.m-listino { display: grid; gap: 2px; margin-top: 4px; }
+.m-riga {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 9px 0;
+  font-size: 16px;
+}
+.m-riga::after {
+  content: '';
+  flex: 1;
+  order: 1;
+  border-bottom: 1px dotted var(--oro-scuro);
+  opacity: 0.55;
+  transform: translateY(-4px);
+}
+.m-riga .m-prezzo { order: 2; }
+.m-r-nome {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--oro);
+}
+.m-r-nota { font-size: 13px; font-style: italic; color: var(--muted); }
+
+/* ---------- scheda prodotto (dialog) ---------- */
+
+.m-scheda {
+  width: min(560px, 100%);
+  max-width: 100%;
+  max-height: 88vh;
+  margin: auto auto 0; /* su telefono entra dal basso come un foglio */
+  padding: 0;
+  border: none;
+  border-top: 1px solid var(--line);
+  border-radius: 16px 16px 0 0;
+  background: var(--panel);
+  color: var(--testo);
+  overflow: hidden;
+}
+.m-scheda[open] { display: flex; flex-direction: column; animation: m-sale 0.22s ease-out; }
+.m-scheda::backdrop { background: rgba(0, 0, 0, 0.72); }
+@media (min-width: 640px) {
+  .m-scheda { margin: auto; border-radius: 16px; max-height: 84vh; border: 1px solid var(--line); }
+}
+@keyframes m-sale { from { transform: translateY(14px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .m-scheda[open] { animation: none; } }
+
+.m-s-testa { position: relative; flex-shrink: 0; }
+/* height:auto è necessario: senza, l'attributo height dell'img vince sull'aspect-ratio */
+.m-s-hero { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+.m-s-barra {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 12px;
+}
+/* con la foto i controlli galleggiano sopra, su una velatura scura */
+.m-s-testa.con-foto .m-s-barra {
+  position: absolute; inset: 0 0 auto;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.7), transparent);
+}
+.m-s-lingua { display: flex; gap: 2px; padding: 3px; border-radius: 999px; background: rgba(0, 0, 0, 0.55); }
+.m-s-lingua button {
+  min-height: 34px; padding: 0 14px; border-radius: 999px;
+  background: none; font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px; font-weight: 600; letter-spacing: 0.08em;
+}
+.m-s-lingua button.attivo { background: var(--oro); color: #241b06; }
+.m-s-chiudi {
+  display: grid; place-items: center;
+  width: 40px; min-height: 40px; padding: 0;
+  border-radius: 50%; background: rgba(0, 0, 0, 0.55);
+  font-size: 24px; line-height: 1;
+}
+
+.m-s-corpo { overflow-y: auto; padding: 20px 22px 30px; }
+.m-s-nome {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 26px; font-weight: 600; line-height: 1.2;
+  letter-spacing: 0.05em; text-transform: uppercase; color: var(--oro);
+}
+.m-s-prezzo { margin-top: 6px; font-size: 20px; font-weight: 500; color: var(--oro-chiaro); }
+.m-s-corpo .m-varianti { margin-top: 12px; }
+.m-s-sezione { margin-top: 22px; display: grid; gap: 8px; }
+.m-s-sezione p { font-size: 16px; line-height: 1.55; }
+.m-s-manca { margin-top: 22px; font-size: 14px; color: var(--muted); font-style: italic; }
+
+.m-s-allergeni { list-style: none; display: grid; gap: 11px; }
+.m-s-allergeni li { display: flex; align-items: center; gap: 11px; font-size: 16px; }
+.m-s-allergeni img { flex-shrink: 0; }
+.m-s-allergeni b { font-weight: 500; color: var(--oro); font-variant-numeric: lining-nums; }
+
+.m-f-titolo {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px; font-weight: 600; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--muted);
+}
+
+/* ---------- piede ---------- */
+
+.m-footer {
+  display: grid;
+  gap: 20px;
+  margin-top: 60px;
+  padding-bottom: 8px;
+  text-align: center;
+}
+
+.m-f-firma { display: grid; justify-items: center; gap: 10px; }
+.m-f-filo {
+  width: 64px; height: 1px; margin-bottom: 18px;
+  background: linear-gradient(90deg, transparent, var(--oro), transparent);
+}
+.m-f-nome {
+  font-family: 'Pinyon Script', cursive;
+  font-size: 46px; font-weight: 400; line-height: 1.2; color: var(--oro-chiaro);
+}
+.m-f-payoff {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 12px; letter-spacing: 0.3em; text-indent: 0.3em;
+  text-transform: uppercase; color: var(--muted);
+}
+.m-f-racconto {
+  max-width: 52ch; margin: 4px auto 0;
+  font-size: 15px; line-height: 1.65; color: var(--testo); opacity: 0.78;
+}
+
+.m-f-premi { display: grid; gap: 5px; font-size: 13px; color: var(--muted); }
+.m-f-premi span::before { content: '✦ '; color: var(--oro); }
+
+.m-f-azioni { display: grid; gap: 10px; }
+@media (min-width: 470px) { .m-f-azioni { grid-template-columns: 1fr 1fr; } }
+.m-f-btn {
+  display: flex; align-items: center; justify-content: center;
+  min-height: 52px; padding: 0 18px;
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); color: var(--testo);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 15px; font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; text-decoration: none;
+}
+.m-f-btn.primario { background: var(--oro); border-color: var(--oro); color: #241b06; }
+.m-f-ig { color: var(--muted); font-size: 14px; text-decoration: none; }
+
+.m-f-blocco {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: var(--panel); overflow: hidden; text-align: left;
+}
+.m-f-orari-testa {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; min-height: var(--tap); padding: 0 16px;
+  background: transparent; font-size: 15px; text-align: left;
+}
+.m-f-pallino { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; background: var(--muted); }
+.m-f-pallino.acceso { background: var(--oro); box-shadow: 0 0 8px rgba(201, 162, 78, 0.8); }
+.m-f-stato { flex: 1; }
+.m-f-stato.aperto { color: var(--oro-chiaro); }
+.m-f-freccia { color: var(--muted); }
+
+.m-f-orari { width: 100%; border-collapse: collapse; font-size: 14px; }
+.m-f-orari th, .m-f-orari td { padding: 9px 16px; border-top: 1px solid var(--line); font-weight: 400; }
+.m-f-orari th { color: var(--muted); text-align: left; }
+.m-f-orari td { text-align: right; font-variant-numeric: lining-nums; }
+.m-f-orari tr.oggi th, .m-f-orari tr.oggi td { color: var(--oro-chiaro); }
+
+.m-f-dove { display: grid; gap: 6px; padding: 16px; }
+.m-f-indirizzo { font-size: 15px; line-height: 1.5; }
+.m-f-link {
+  display: inline-flex; align-items: center; min-height: var(--tap);
+  color: var(--oro); font-size: 14px; font-weight: 600; text-decoration: none;
+}
+
+.m-f-note { text-align: left; font-size: 13.5px; color: var(--muted); }
+.m-f-note summary {
+  display: flex; align-items: center; gap: 8px;
+  min-height: var(--tap); cursor: pointer; list-style: none;
+}
+.m-f-note summary::-webkit-details-marker { display: none; }
+.m-f-note summary::after { content: '▾'; }
+.m-f-note[open] summary::after { content: '▴'; }
+.m-f-note p { line-height: 1.6; margin-bottom: 8px; }
+
+/* legenda dei 14 allergeni, come sull'ultima pagina del menù cartaceo */
+.m-legenda { text-align: left; padding: 16px; }
+.m-legenda summary { justify-content: space-between; }
+.m-l-griglia { display: grid; gap: 14px; margin-top: 10px; }
+@media (min-width: 520px) { .m-l-griglia { grid-template-columns: 1fr 1fr; gap: 14px 22px; } }
+.m-l-voce { display: grid; grid-template-columns: 40px 1fr; gap: 11px; align-items: start; }
+.m-l-voce img { width: 40px; height: 40px; }
+.m-l-nome {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 14px; font-weight: 600; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--oro);
+  font-variant-numeric: lining-nums;
+}
+.m-l-descr { font-size: 12.5px; line-height: 1.45; color: var(--muted); }
+
+.m-f-legale {
+  display: grid; gap: 4px;
+  padding-top: 18px; border-top: 1px solid var(--line);
+  font-size: 12px; color: var(--muted);
+}
+.m-f-su { justify-self: center; padding: 0 20px; min-height: var(--tap); background: transparent; color: var(--muted); font-size: 13px; }
+
+/* ---------- bottone PDF flottante ---------- */
+
+.m-pdf {
+  position: fixed;
+  right: 14px;
+  bottom: 14px;
+  z-index: 6;
+  min-height: var(--tap);
+  padding: 0 18px;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(19, 18, 22, 0.9);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  color: var(--oro);
+}
+
+/* ---------- stampa: menù pulito su bianco ---------- */
+
+@media print {
+  body { background: #fff; }
+  body::before { display: none; }
+
+  .m-page { max-width: none; padding: 0; color: #000; }
+
+  .m-nav, .m-pdf, .m-foto, .m-chevron, .m-scheda { display: none; }
+
+  .m-hero { padding: 0 0 6px; }
+  .m-emblema { display: none; }
+  .m-logo-mask { animation: none; -webkit-mask-image: none; mask-image: none; padding: 0; margin: 0; }
+  .m-logo { animation: none; background: none; -webkit-text-fill-color: #000; color: #000; font-size: 30px; }
+  .m-sotto, .m-citazione { animation: none; color: #333; }
+  .m-citazione { font-size: 16px; margin-top: 8px; }
+
+  .m-sezione { padding-top: 16px; scroll-margin-top: 0; break-inside: avoid; }
+  .m-t-script, .m-t-occhiello { color: #000; }
+  .m-t-script { font-size: 26px; }
+  .m-t-occhiello { font-size: 15px; }
+  .m-filo { background: #000 !important; }
+
+  .m-voce { display: block; padding: 5px 0; border-bottom: none; break-inside: avoid; page-break-inside: avoid; }
+  .m-nome, .m-prezzo, .m-r-nome { color: #000; font-size: 12px; }
+  .m-descr, .m-nota, .m-nota-sezione, .m-r-nota { color: #333; font-size: 10px; }
+  .m-descr { opacity: 1; }
+  .m-var, .m-riga { font-size: 11px; }
+  .m-var::after, .m-riga::after { border-color: #666; opacity: 1; }
+  .m-riga { padding: 3px 0; }
+  .m-allergeni { gap: 3px; margin-top: 4px; }
+  .m-allergeni img { width: 14px; height: 14px; }
+  .m-firma { color: #000; border-color: #000; }
+
+  /* su carta: niente bottoni, gli orari valgono più dello stato "aperto ora" */
+  .m-f-azioni, .m-f-ig, .m-f-su, .m-f-orari-testa, .m-f-link { display: none; }
+  .m-footer { margin-top: 20px; gap: 10px; }
+  .m-footer a { color: #000; }
+  .m-f-filo { background: #000; margin-bottom: 10px; }
+  .m-f-nome { color: #000; font-size: 30px; }
+  .m-f-payoff, .m-f-titolo, .m-f-legale, .m-f-note, .m-f-racconto, .m-f-premi { color: #333; }
+  .m-f-racconto { opacity: 1; font-size: 11px; }
+  .m-f-blocco { background: none; border-color: #000; }
+  .m-f-orari[hidden] { display: table; }
+  .m-f-orari th, .m-f-orari td { border-color: #999; color: #000; padding: 4px 12px; }
+  .m-f-note summary, .m-legenda summary { display: none; }
+  .m-f-note { text-align: center; }
+  .m-legenda { break-before: page; }
+  .m-l-nome { color: #000; }
+  .m-l-descr { color: #333; }
+  .m-f-legale { border-color: #000; }
+}
