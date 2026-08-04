@@ -221,13 +221,10 @@ body::before {
   font-size: 11px; font-weight: 600; letter-spacing: 0.14em;
   text-transform: uppercase; color: var(--muted);
 }
-.m-chef-premi { display: flex; align-items: center; gap: 7px; }
-.m-chef-premi img {
-  height: 26px; width: auto; border-radius: 3px;
-  opacity: 0.95;
-}
-.m-chef-premi img:first-child { border-radius: 3px; }
-@media (max-width: 340px) { .m-chef-premi img:last-child { display: none; } }
+/* i tre loghi dei premi stavano qui a 26px: il Gambero Rosso diventava una
+   macchia rossa illeggibile e il rosso litigava col nero-oro. Vivono nella
+   scheda della storia, dove hanno lo spazio per leggersi. */
+.m-chef-freccia { color: var(--oro-scuro); font-size: 22px; line-height: 1; }
 
 /* --- la storia per esteso --- */
 .m-storia { padding: 24px 22px 26px; text-align: center; }
@@ -250,10 +247,15 @@ body::before {
   font-size: 34px; color: var(--oro-chiaro);
 }
 .m-storia-premi {
-  display: flex; justify-content: center; gap: 14px;
-  margin-top: 20px; padding-top: 18px; border-top: 1px solid var(--line);
+  display: flex; justify-content: center; align-items: center; gap: 10px;
+  margin-top: 22px; padding: 14px 10px 0; border-top: 1px solid var(--line);
 }
-.m-storia-premi img { height: 46px; width: auto; border-radius: 4px; }
+.m-storia-premi img {
+  height: 54px; width: 54px; object-fit: contain;
+  padding: 6px; border-radius: 8px;
+  background: #000;
+  border: 1px solid var(--line);
+}
 
 /* ---------- consigliami ---------- */
 
