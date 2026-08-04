@@ -1,4 +1,4 @@
-/* Menù Piedimonte 1.0 — Rodia (ME).
+/* Menù Piedimonte 2.0 — Rodia (ME).
    Fonte: menù del locale (34 pagine fotografate) + scheda TheFork aggiornata al
    31/10/2025. Gli allergeni sono quelli DICHIARATI sul menù: dove il locale non
    li riporta il campo resta vuoto e la scheda rimanda al banco. */
@@ -29,7 +29,7 @@ const PANATURA_FRITTATINA = 'Panatura: acqua, sale, farina 00, mollica';
 const DATI = {
   locale: {
     nome: 'Piedimonte',
-    versione: '1.0',
+    versione: '2.0',
     payoff: 'Pizza d’autore',
     firma: 'Enzo Piedimonte',
     citazione: '«Ogni pizza è un passo verso il futuro»',
@@ -42,7 +42,7 @@ const DATI = {
     indirizzo: 'Via Lungomare 15F, Rodia — 98161 Messina',
     telefono: '090 214 8316',
     whatsapp: '+39 090 214 8316',
-    instagram: 'piedimonte_1.0',
+    instagram: 'piedimonte_2.0',
     mappa: 'https://maps.google.com/?cid=11296821929271625700',
     orari: 'mar 19:30-00:00\nmer 19:30-00:00\ngio 19:30-00:00\nven 19:30-00:00\nsab 19:30-01:00\ndom 19:30-00:00',
     riconoscimenti: [

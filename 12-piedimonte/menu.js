@@ -1,4 +1,4 @@
-/* Menù pubblico Piedimonte 1.0 — stessa impalcatura del menù Blast, senza framework. */
+/* Menù pubblico Piedimonte 2.0 — stessa impalcatura del menù Blast, senza framework. */
 
 const FOTOS = typeof FOTO !== 'undefined' ? new Set(FOTO) : new Set();
 
@@ -459,12 +459,7 @@ function rendiPiede() {
   firma.append(el('span', 'm-f-filo'));
   firma.append(el('p', 'm-f-nome', imp.firma));
   firma.append(el('p', 'm-f-payoff', imp.payoff));
-  firma.append(el('p', 'm-f-racconto', imp.racconto));
   f.append(firma);
-
-  const premi = el('div', 'm-f-premi');
-  for (const p of imp.riconoscimenti) premi.append(el('span', null, p));
-  f.append(premi);
 
   const azioni = el('div', 'm-f-azioni');
   const wa = el('a', 'm-f-btn primario', 'Scrivici su WhatsApp');
@@ -572,6 +567,45 @@ rendiMenu();
 rendiPiede();
 
 document.querySelector('.m-consiglia').addEventListener('click', apriConsiglio);
+
+document.querySelector('.m-chef').addEventListener('click', () => {
+  const imp = DATI.locale;
+  const d = el('dialog', 'm-scheda');
+  const testa = el('div', 'm-s-testa con-foto');
+  const foto = el('img', 'm-storia-foto');
+  foto.src = 'img/brand/enzo.jpg';
+  foto.alt = '';
+  testa.append(foto);
+  const barra = el('div', 'm-s-barra');
+  barra.append(el('span'));
+  const chiudi = el('button', 'm-s-chiudi', '×');
+  chiudi.type = 'button';
+  chiudi.setAttribute('aria-label', 'Chiudi');
+  chiudi.addEventListener('click', () => d.close());
+  barra.append(chiudi);
+  testa.append(barra);
+
+  const corpo = el('div', 'm-s-corpo m-storia');
+  corpo.append(el('p', 'm-storia-cit', imp.citazione));
+  corpo.append(el('p', 'm-storia-testo', imp.racconto));
+  corpo.append(el('p', 'm-storia-firma', imp.firma));
+  const premi = el('div', 'm-storia-premi');
+  for (const [f, t] of [['gambero', 'Due Spicchi Gambero Rosso'], ['50top', '50 Top Pizza'],
+                        ['sanremo', 'Casa Sanremo']]) {
+    const i = el('img');
+    i.src = `img/brand/${f}.jpg`;
+    i.alt = t;
+    i.title = t;
+    premi.append(i);
+  }
+  corpo.append(premi);
+
+  d.append(testa, corpo);
+  document.body.append(d);
+  d.addEventListener('click', (e) => { if (e.target === d) d.close(); });
+  d.addEventListener('close', () => d.remove());
+  d.showModal();
+});
 
 document.querySelector('.m-pdf').addEventListener('click', () => {
   // le note chiuse non finirebbero sul foglio
