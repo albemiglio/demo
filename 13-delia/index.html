@@ -2,213 +2,254 @@
 <html lang="it">
 <head>
 <meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 <title>Dolceria Delia &middot; Pasticceria e gelateria a Messina dal 1987</title>
 <meta name="description" content="Cannoli al pistacchio, granite con brioche, cassate e torte su ordinazione. In via Lombardo Pellegrino 3 a Messina dal 1987, con spedizioni in tutta Italia." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400;1,500&family=Great+Vibes&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:#FAF5EC; --bg2:#F3EADA; --ink:#2A211A; --muted:#6B5D4F;
-  --brass:#8A6420; --brass-ink:#6E4F18; --pist:#4C6B33;
-  --card:#FFFDF8; --line:#E7DCC8; --hair:rgba(42,33,26,.09);
-  --shadow:0 30px 70px -40px rgba(74,56,28,.45);
-  --serif:"Playfair Display",Georgia,serif; --script:"Great Vibes",cursive; --sans:"Inter",system-ui,sans-serif;
+  --bg:oklch(96.5% 0.013 85);         /* crema tinta ottone */
+  --ink:oklch(24% 0.02 70);
+  --muted:oklch(45% 0.025 75);
+  --brass:oklch(52% 0.09 85);
+  --brass-deep:oklch(42% 0.08 82);
+  --dark:oklch(21% 0.022 60);         /* bruno delle foto */
+  --dark-ink:oklch(92% 0.02 85);
+  --dark-muted:oklch(74% 0.035 82);
+  --gold:oklch(78% 0.1 90);
+  --hair:oklch(24% 0.02 70 / .14);
+  --serif:"Playfair Display",Georgia,serif;
+  --script:"Great Vibes",cursive;
+  --sans:"Inter",system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans)}
-body::before{content:"";position:fixed;inset:0;background:radial-gradient(120% 70% at 50% -8%,var(--bg2),transparent 60%);pointer-events:none;z-index:0}
-main,header,footer{position:relative;z-index:1}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--sans)}
 img{max-width:100%;display:block}
 a{color:inherit}
-.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+::selection{background:var(--gold);color:var(--dark)}
 
-.site-head{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:1060px;margin:0 auto;padding:20px 22px}
-.wordmark{font:400 34px/0.9 var(--script);color:var(--brass-ink);text-decoration:none}
-.wordmark small{display:block;font:600 10px/1.6 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--brass-ink)}
-.site-nav{display:flex;gap:22px}
-.site-nav a{text-decoration:none;font:500 14px/1 var(--sans);color:var(--muted)}
-.site-nav a:hover{color:var(--ink)}
-.btn{display:inline-block;background:var(--brass-ink);color:#FFFDF8;text-decoration:none;font:600 14px/1 var(--sans);padding:13px 20px;border-radius:100px;box-shadow:0 16px 34px -14px rgba(110,79,24,.8)}
-.btn:hover{background:#5C4213}
-.btn.ghost{background:transparent;color:var(--brass-ink);box-shadow:none;border:1px solid var(--brass)}
-@media(max-width:760px){.site-nav{display:none}}
+/* ── barra alta minima ── */
+.top{position:absolute;inset:0 0 auto 0;z-index:10;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,44px);padding-top:calc(18px + env(safe-area-inset-top))}
+.wordmark{font:400 clamp(30px,4.5vw,38px)/0.9 var(--script);color:var(--gold);text-decoration:none;text-shadow:0 1px 14px oklch(0% 0 0/.5)}
+.top-call{font:600 13px/1 var(--sans);letter-spacing:.06em;color:var(--dark-ink);text-decoration:none;border:1px solid oklch(100% 0 0/.4);padding:12px 18px;border-radius:2px}
+.top-call:hover{background:oklch(100% 0 0/.12)}
 
-.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;max-width:1060px;margin:26px auto 0;padding:26px 22px 10px}
-.eyebrow{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--brass-ink);background:rgba(138,100,32,.1);border:1px solid rgba(138,100,32,.28);border-radius:100px;padding:8px 14px;margin-bottom:20px}
-.hero h1{font:400 clamp(38px,5.6vw,60px)/1.04 var(--serif);letter-spacing:-.02em;text-wrap:balance}
-.hero h1 em{font-style:italic;color:var(--brass-ink)}
-.hero .lede{margin-top:18px;font:500 17px/1.6 var(--sans);color:var(--muted);max-width:46ch}
-.hero-cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
-.hero-img{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
-.hero-img img{aspect-ratio:4/4.6;object-fit:cover;object-position:50% 68%;width:100%}
-@media(max-width:820px){.hero{grid-template-columns:1fr}.hero-img img{aspect-ratio:4/3}}
+/* ── hero copertina ── */
+.hero{position:relative;min-height:100svh;display:flex;align-items:flex-start;justify-content:center;text-align:center;overflow:hidden;background:var(--dark)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 82%}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,oklch(15% 0.02 60/.62) 0%,oklch(15% 0.02 60/.18) 42%,oklch(15% 0.02 60/.05) 60%,oklch(15% 0.02 60/.55) 100%)}
+.hero-copy{position:relative;z-index:2;padding:clamp(96px,16svh,150px) 22px 0;max-width:680px}
+.kicker{font:600 11px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+.kicker::after{content:"";display:block;width:34px;height:1px;background:var(--gold);margin:14px auto 0;opacity:.7}
+.hero h1{margin-top:22px;font:400 clamp(44px,10vw,84px)/1.02 var(--serif);letter-spacing:-.015em;color:var(--dark-ink);text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero .lede{margin:18px auto 0;max-width:44ch;font:500 clamp(15px,2.2vw,17px)/1.6 var(--sans);color:var(--dark-muted)}
+.hero .social-proof{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 22px calc(80px + env(safe-area-inset-bottom));font:500 13px/1.5 var(--sans);color:var(--dark-muted)}
+.hero .social-proof b{color:var(--dark-ink);font-weight:600}
+.hero .social-proof a{color:var(--dark-ink)}
 
-.proof{display:flex;justify-content:center;gap:0;max-width:900px;margin:56px auto 0;padding:0 22px;flex-wrap:wrap}
-.proof div{flex:1;min-width:170px;text-align:center;padding:18px 14px;border-left:1px solid var(--hair)}
-.proof div:first-child{border-left:0}
-.proof b{display:block;font:500 30px/1.1 var(--serif);letter-spacing:-.01em}
-.proof span{font:500 12.5px/1.5 var(--sans);color:var(--muted)}
+/* ── striscia voci ── */
+.ticker{border-block:1px solid var(--hair);padding:14px 22px;text-align:center;font:600 11px/1.8 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
 
-section{padding:clamp(52px,7vw,88px) 0 0}
-.sec-head{text-align:center;max-width:640px;margin:0 auto 40px;padding:0 22px}
-.sec-head h2{font:500 clamp(26px,3.4vw,38px)/1.15 var(--serif);letter-spacing:-.015em;text-wrap:balance}
-.sec-head p{margin-top:12px;color:var(--muted);font-size:15.5px}
+/* ── specialit&agrave;: righe editoriali numerate ── */
+.spec{padding:clamp(64px,10vw,120px) 0 0}
+.spec-head{padding:0 clamp(18px,4vw,44px);max-width:1100px;margin:0 auto clamp(40px,6vw,72px)}
+.spec-head h2{font:400 clamp(34px,6vw,58px)/1.06 var(--serif);letter-spacing:-.01em;max-width:14ch}
+.spec-head p{margin-top:14px;color:var(--muted);max-width:52ch}
+.riga{display:grid;grid-template-columns:1fr;max-width:1100px;margin:0 auto clamp(48px,7vw,96px);padding:0 clamp(18px,4vw,44px);gap:clamp(18px,3vw,40px)}
+.riga figure{overflow:hidden;border-radius:3px}
+.riga img{width:100%;aspect-ratio:4/3;object-fit:cover;transition:transform 1.2s cubic-bezier(.16,1,.3,1)}
+.riga:hover img{transform:scale(1.025)}
+.riga .testo{display:flex;flex-direction:column;justify-content:flex-end}
+.riga .num{font:400 15px/1 var(--serif);font-style:italic;color:var(--brass);letter-spacing:.08em}
+.riga h3{margin-top:10px;font:400 clamp(26px,3.4vw,36px)/1.12 var(--serif)}
+.riga p{margin-top:10px;color:var(--muted);max-width:44ch;font-size:15px}
+@media(min-width:840px){
+  .riga{grid-template-columns:7fr 5fr;align-items:end}
+  .riga:nth-child(even){grid-template-columns:5fr 7fr}
+  .riga:nth-child(even) figure{order:2}
+  .riga:nth-child(3n) img{aspect-ratio:16/10}
+}
 
-.spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
-.spec{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
-.spec img{aspect-ratio:16/10;object-fit:cover;width:100%}
-.spec .txt{padding:20px 22px 24px}
-.spec h3{font:500 21px/1.25 var(--serif)}
-.spec p{margin-top:6px;color:var(--muted);font-size:14.5px}
-@media(max-width:700px){.spec-grid{grid-template-columns:1fr}}
+/* ── storia: full-bleed sull'insegna ── */
+.storia{position:relative;min-height:72svh;display:flex;align-items:flex-end;background:var(--dark)}
+.storia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 42%}
+.storia::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,oklch(15% 0.02 60/.15),oklch(15% 0.02 60/.78) 88%)}
+.storia .testo{position:relative;z-index:2;padding:120px clamp(18px,4vw,44px) clamp(44px,7vw,80px);max-width:1100px;margin:0 auto;width:100%}
+.storia h2{font:400 clamp(30px,5vw,50px)/1.08 var(--serif);color:var(--dark-ink);max-width:16ch}
+.storia p{margin-top:16px;color:var(--dark-muted);max-width:56ch;font-size:15.5px}
+.storia p b{color:var(--dark-ink);font-weight:600}
 
-.storia{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center;max-width:1060px;margin:0 auto;padding:0 22px}
-.storia .foto{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
-.storia .foto img{aspect-ratio:4/3;object-fit:cover;width:100%}
-.storia h2{font:500 clamp(26px,3.2vw,36px)/1.15 var(--serif);letter-spacing:-.015em}
-.storia p{margin-top:14px;color:var(--muted);max-width:52ch}
-@media(max-width:820px){.storia{grid-template-columns:1fr}}
+/* ── spedizioni: banda piena ── */
+.sped{background:var(--dark);color:var(--dark-ink);border-top:1px solid oklch(100% 0 0/.08)}
+.sped .in{max-width:1100px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(18px,4vw,44px)}
+.sped .kicker::after{margin-left:0}
+.sped .kicker{display:block;text-align:left}
+.sped h2{margin-top:20px;font:400 clamp(36px,7vw,64px)/1.04 var(--serif);max-width:13ch}
+.sped h2 em{font-style:italic;color:var(--gold)}
+.sped p{margin-top:16px;color:var(--dark-muted);max-width:50ch;font-size:15.5px}
+.sped .azioni{margin-top:30px;display:flex;gap:14px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;text-decoration:none;font:600 14px/1 var(--sans);letter-spacing:.03em;border-radius:2px}
+.btn.pieno{background:var(--gold);color:var(--dark)}
+.btn.pieno:hover{background:oklch(83% 0.1 90)}
+.btn.vuoto{border:1px solid oklch(100% 0 0/.35);color:var(--dark-ink)}
+.btn.vuoto:hover{background:oklch(100% 0 0/.1)}
 
-.sped{max-width:1060px;margin:0 auto;padding:0 22px}
-.sped-card{background:var(--ink);color:#F6EFE2;border-radius:26px;padding:clamp(34px,5vw,60px);text-align:center;box-shadow:var(--shadow)}
-.sped-card h2{font:400 clamp(28px,3.8vw,42px)/1.1 var(--serif);letter-spacing:-.015em;text-wrap:balance}
-.sped-card h2 em{font-style:italic;color:#D8B45E}
-.sped-card p{margin:16px auto 0;max-width:54ch;color:#CBBFA9;font-size:15.5px}
-.sped-card .hero-cta{justify-content:center}
-.sped-card .btn{background:#D8B45E;color:#2A211A;box-shadow:0 16px 34px -14px rgba(216,180,94,.5)}
-.sped-card .btn:hover{background:#C6A24C}
-.sped-card .btn.ghost{background:transparent;color:#D8B45E;border-color:#D8B45E}
+/* ── contatti: lista, non card ── */
+.contatti{max-width:1100px;margin:0 auto;padding:clamp(64px,9vw,110px) clamp(18px,4vw,44px)}
+.contatti h2{font:400 clamp(30px,5vw,46px)/1.1 var(--serif)}
+.c-riga{display:grid;grid-template-columns:1fr;gap:6px;padding:22px 0;border-bottom:1px solid var(--hair)}
+.c-riga:first-of-type{margin-top:28px;border-top:1px solid var(--hair)}
+.c-riga .et{font:600 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--brass-deep)}
+.c-riga .val{font:400 clamp(20px,3.4vw,30px)/1.25 var(--serif)}
+.c-riga .val a{text-decoration:none;border-bottom:1px solid var(--brass)}
+.c-riga .nota{font-size:14px;color:var(--muted)}
+@media(min-width:720px){.c-riga{grid-template-columns:220px 1fr auto;align-items:baseline}}
 
-.contatti{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
-.c-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
-.c-card h3{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin-bottom:12px}
-.c-card p{font-size:15px;color:var(--muted)}
-.c-card a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--brass)}
-.c-card p+p{margin-top:6px}
-@media(max-width:700px){.contatti{grid-template-columns:1fr}}
+/* ── footer ── */
+.piede{padding:26px clamp(18px,4vw,44px) calc(90px + env(safe-area-inset-bottom));text-align:center;font-size:12.5px;color:var(--muted)}
+.piede p+p{margin-top:4px}
+@media(min-width:760px){.piede{padding-bottom:34px}}
 
-.site-foot{margin-top:clamp(52px,7vw,88px);border-top:1px solid var(--hair);padding:26px 22px 34px;text-align:center}
-.site-foot p{font-size:13px;color:var(--muted)}
-.site-foot p+p{margin-top:4px}
+/* ── barra azione fissa (solo mobile) ── */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:oklch(100% 0 0/.14);border-top:1px solid oklch(100% 0 0/.14)}
+.barra a{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;padding-bottom:env(safe-area-inset-bottom);background:var(--dark);color:var(--dark-ink);text-decoration:none;font:600 14px/1 var(--sans);letter-spacing:.03em}
+.barra a:first-child{background:var(--gold);color:var(--dark)}
+@media(min-width:760px){.barra{display:none}.hero .social-proof{padding-bottom:26px}}
 
-[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+[data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 [data-reveal].in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+
+/* hero orizzontale: testo a sinistra, piatto a destra */
+@media(min-width:900px){
+  .hero{align-items:center;justify-content:flex-start;text-align:left}
+  .hero img{object-position:74% 62%}
+  .hero::after{background:linear-gradient(90deg,oklch(15% 0.02 60/.78) 0%,oklch(15% 0.02 60/.45) 42%,oklch(15% 0.02 60/.05) 68%)}
+  .hero-copy{padding:0;margin-left:clamp(44px,7vw,110px);max-width:560px}
+  .kicker::after{margin-left:0}
+  .hero .lede{margin-left:0}
+  .hero .social-proof{text-align:left;padding-left:clamp(44px,7vw,110px)}
+}
 </style>
 </head>
 <body>
 
-<header class="site-head">
-  <a class="wordmark" href="./">Delia<small>Dolceria &middot; Gelateria</small></a>
-  <nav class="site-nav">
-    <a href="#specialita">Le specialit&agrave;</a>
-    <a href="#storia">La dolceria</a>
-    <a href="#spedizioni">Spedizioni</a>
-    <a href="#contatti">Contatti</a>
-  </nav>
-  <a class="btn" href="tel:0902939171">Chiama e ordina</a>
+<header class="top">
+  <a class="wordmark" href="./">Delia</a>
+  <a class="top-call" href="tel:0902939171">Chiama</a>
 </header>
 
 <main>
   <section class="hero">
-    <div>
-      <span class="eyebrow">Messina &middot; via Lombardo Pellegrino 3 &middot; dal 1987</span>
+    <img src="img/4e.jpg" alt="Cannoli al pistacchio e tiramis&ugrave; della Dolceria Delia" />
+    <div class="hero-copy">
+      <span class="kicker">Dolceria &middot; Gelateria &middot; Messina</span>
       <h1>Ogni mattina, <em>dal 1987.</em></h1>
-      <p class="lede">Nella dolceria di via Lombardo Pellegrino il banco si riempie all&rsquo;alba: cannoli al pistacchio, granita con la brioche, cassate e frutta martorana. Come trentanove anni fa.</p>
-      <div class="hero-cta">
-        <a class="btn" href="tel:0902939171">Chiama e ordina &middot; 090 2939171</a>
-        <a class="btn ghost" href="https://www.instagram.com/delia_pasticceria/">Scrivici su Instagram</a>
-      </div>
+      <p class="lede">Cannoli al pistacchio, granita con la brioche, cassate e frutta martorana. Dal laboratorio di via Lombardo Pellegrino, come trentanove anni fa.</p>
     </div>
-    <div class="hero-img"><img src="img/4e.jpg" alt="Cannolo al pistacchio della Dolceria Delia" /></div>
+    <p class="social-proof"><b>4,8 su 5</b> &middot; 196 recensioni su <a href="https://maps.google.com/?cid=15507516673949658795">Google</a></p>
   </section>
 
-  <div class="proof" data-reveal>
-    <div><b>4,8/5</b><span>196 recensioni su Google</span></div>
-    <div><b>1987</b><span>stesso laboratorio, stessa via</span></div>
-    <div><b>Tutta Italia</b><span>spedizioni su ordinazione</span></div>
-  </div>
+  <p class="ticker">Cannoli &middot; Granite &middot; Cassate &middot; Martorana &middot; Torte &middot; Gelato &middot; Spedizioni in tutta Italia</p>
 
-  <section id="specialita">
-    <div class="sec-head" data-reveal>
+  <section id="specialita" class="spec">
+    <div class="spec-head" data-reveal>
       <h2>Quando finisce, finisce.</h2>
       <p>Si prepara in giornata quello che il banco pu&ograve; vendere in giornata. Il resto si rif&agrave; domani mattina.</p>
     </div>
-    <div class="spec-grid">
-      <article class="spec" data-reveal>
-        <img src="img/3e.jpg" alt="Banco con cannoli e cassatine ai frutti di bosco" />
-        <div class="txt"><h3>Cannoli e cassatine</h3><p>Il cannolo al pistacchio &egrave; quello di cui parlano le recensioni. Le cassatine seguono la frutta, non il calendario.</p></div>
-      </article>
-      <article class="spec" data-reveal>
-        <img src="img/8e.jpg" alt="Cassata siciliana e crostata di frutta in vetrina" />
-        <div class="txt"><h3>La cassata siciliana</h3><p>Pan di Spagna, ricotta e pasta reale. La ricetta &egrave; quella classica messinese: non c&rsquo;era niente da migliorare.</p></div>
-      </article>
-      <article class="spec" data-reveal>
-        <img src="img/7e.jpg" alt="Frutta martorana in cestini" />
-        <div class="txt"><h3>Frutta martorana</h3><p>Pasta di mandorla modellata e dipinta a mano, un cestino per volta. &Egrave; il regalo che da Messina parte pi&ugrave; spesso.</p></div>
-      </article>
-      <article class="spec" data-reveal>
-        <img src="img/6e.jpg" alt="Torta al cioccolato personalizzata con logo Delia" />
-        <div class="txt"><h3>Torte su ordinazione</h3><p>Si decide insieme, al banco o al telefono. Il giorno della festa &egrave; pronta.</p></div>
-      </article>
-    </div>
+
+    <article class="riga" data-reveal>
+      <figure><img src="img/3e.jpg" alt="Vassoi di cannoli, croissant e cassatine ai frutti di bosco" /></figure>
+      <div class="testo">
+        <span class="num">n. 01</span>
+        <h3>Cannoli e cassatine</h3>
+        <p>Il cannolo al pistacchio &egrave; quello di cui parlano le recensioni. Le cassatine seguono la frutta, non il calendario.</p>
+      </div>
+    </article>
+
+    <article class="riga" data-reveal>
+      <figure><img src="img/8e.jpg" alt="Cassata siciliana e crostata di frutta" /></figure>
+      <div class="testo">
+        <span class="num">n. 02</span>
+        <h3>La cassata siciliana</h3>
+        <p>Pan di Spagna, ricotta e pasta reale. La ricetta &egrave; quella classica messinese: non c&rsquo;era niente da migliorare.</p>
+      </div>
+    </article>
+
+    <article class="riga" data-reveal>
+      <figure><img src="img/7e.jpg" alt="Cestini di frutta martorana" /></figure>
+      <div class="testo">
+        <span class="num">n. 03</span>
+        <h3>Frutta martorana</h3>
+        <p>Pasta di mandorla modellata e dipinta a mano, un cestino per volta. &Egrave; il regalo che da Messina parte pi&ugrave; spesso.</p>
+      </div>
+    </article>
+
+    <article class="riga" data-reveal>
+      <figure><img src="img/6e.jpg" alt="Torta al cioccolato con targa Delia" /></figure>
+      <div class="testo">
+        <span class="num">n. 04</span>
+        <h3>Torte su ordinazione</h3>
+        <p>Si decide insieme, al banco o al telefono. Il giorno della festa &egrave; pronta.</p>
+      </div>
+    </article>
   </section>
 
   <section id="storia" class="storia">
-    <div class="foto" data-reveal><img src="img/1.jpg" alt="Insegna della Dolceria Delia" /></div>
-    <div data-reveal>
-      <span class="eyebrow">La dolceria</span>
+    <img src="img/1.jpg" alt="L'insegna della Dolceria Delia" />
+    <div class="testo" data-reveal>
       <h2>Le cose fatte bene hanno un indirizzo.</h2>
-      <p>Via Lombardo Pellegrino 3. Delia apre qui nel 1987, dolceria e gelateria di quartiere, e qui &egrave; rimasta: stesso laboratorio, stesso mestiere, pochi dolci fatti ogni giorno e venduti freschi.</p>
-      <p>Le 196 recensioni su Google raccontano quasi sempre le stesse tre cose: il cannolo al pistacchio, la granita con la brioche, la cortesia di chi sta al banco.</p>
+      <p>Via Lombardo Pellegrino 3. Delia apre qui nel <b>1987</b>, dolceria e gelateria di quartiere, e qui &egrave; rimasta: stesso laboratorio, stesso mestiere, pochi dolci fatti ogni giorno e venduti freschi.</p>
+      <p>Le <b>196 recensioni</b> su Google raccontano quasi sempre le stesse tre cose: il cannolo al pistacchio, la granita con la brioche, la cortesia di chi sta al banco.</p>
     </div>
   </section>
 
   <section id="spedizioni" class="sped">
-    <div class="sped-card" data-reveal>
-      <span class="eyebrow" style="background:rgba(216,180,94,.12);border-color:rgba(216,180,94,.35);color:#D8B45E">Spedizioni in tutta Italia</span>
+    <div class="in" data-reveal>
+      <span class="kicker">Spedizioni in tutta Italia</span>
       <h2>La Sicilia <em>viaggia bene.</em></h2>
       <p>Cassate, martorana e dolci da credenza partono su ordinazione verso tutta Italia. Si concorda il giorno, si prepara in giornata, si spedisce.</p>
-      <div class="hero-cta">
-        <a class="btn" href="tel:0902939171">Ordina al telefono</a>
-        <a class="btn ghost" href="https://www.instagram.com/delia_pasticceria/">Ordina da Instagram</a>
+      <div class="azioni">
+        <a class="btn pieno" href="tel:0902939171">Ordina al telefono</a>
+        <a class="btn vuoto" href="https://www.instagram.com/delia_pasticceria/">Scrivici su Instagram</a>
       </div>
     </div>
   </section>
 
-  <section id="contatti">
-    <div class="sec-head" data-reveal>
-      <h2>Dove siamo</h2>
-      <p>Nel centro di Messina, a pochi minuti dal viale San Martino.</p>
+  <section id="contatti" class="contatti">
+    <h2 data-reveal>La dolceria</h2>
+    <div class="c-riga" data-reveal>
+      <span class="et">Telefono</span>
+      <span class="val"><a href="tel:0902939171">090 2939171</a></span>
+      <span class="nota">Ordini, torte e spedizioni</span>
     </div>
-    <div class="contatti">
-      <div class="c-card" data-reveal>
-        <h3>Indirizzo</h3>
-        <p>Via Ettore Lombardo Pellegrino 3<br />98123 Messina</p>
-        <p><a href="https://maps.google.com/?cid=15507516673949658795">Apri in Google Maps</a></p>
-      </div>
-      <div class="c-card" data-reveal>
-        <h3>Telefono</h3>
-        <p><a href="tel:0902939171">090 2939171</a></p>
-        <p>Chiama per orari, ordini e spedizioni.</p>
-      </div>
-      <div class="c-card" data-reveal>
-        <h3>Social</h3>
-        <p><a href="https://www.instagram.com/delia_pasticceria/">Instagram</a></p>
-        <p><a href="https://www.facebook.com/PasticceriaDelia/">Facebook</a></p>
-      </div>
+    <div class="c-riga" data-reveal>
+      <span class="et">Indirizzo</span>
+      <span class="val">Via Ettore Lombardo Pellegrino 3, Messina</span>
+      <span class="nota"><a href="https://maps.google.com/?cid=15507516673949658795">Apri in Google Maps</a></span>
+    </div>
+    <div class="c-riga" data-reveal>
+      <span class="et">Social</span>
+      <span class="val"><a href="https://www.instagram.com/delia_pasticceria/">Instagram</a> &middot; <a href="https://www.facebook.com/PasticceriaDelia/">Facebook</a></span>
+      <span class="nota">Il banco del giorno, in foto</span>
     </div>
   </section>
 </main>
 
-<footer class="site-foot">
+<footer class="piede">
   <p>Dolceria Delia &middot; via Ettore Lombardo Pellegrino 3, Messina &middot; dal 1987</p>
   <p>Anteprima di sito non ufficiale &middot; prodotti reali dell&rsquo;attivit&agrave;, foto ritoccate &middot; <a href="https://albemiglio.it">albemiglio.it</a></p>
 </footer>
+
+<nav class="barra" aria-label="Azioni rapide">
+  <a href="tel:0902939171">Chiama e ordina</a>
+  <a href="https://www.instagram.com/delia_pasticceria/">Instagram</a>
+</nav>
 
 <script>
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
