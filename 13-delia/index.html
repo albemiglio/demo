@@ -121,6 +121,15 @@ a{color:inherit}
 .barra a:first-child{background:var(--gold);color:var(--dark)}
 @media(min-width:760px){.barra{display:none}.hero .social-proof{padding-bottom:26px}}
 
+/* velo monocromo sulle foto, alla San Gregorio */
+.riga figure{position:relative}
+.riga figure::after,.storia::before{content:"";position:absolute;inset:0;background:oklch(40% 0.06 70/.3);mix-blend-mode:color;pointer-events:none}
+.storia::before{z-index:1}
+.riga img{filter:saturate(.82) contrast(1.02)}
+/* timbro circolare */
+.timbro{position:absolute;right:clamp(16px,4vw,54px);top:clamp(84px,14svh,130px);z-index:3;width:clamp(88px,11vw,124px);opacity:.92;animation:gira 26s linear infinite}
+@media (prefers-reduced-motion:reduce){.timbro{animation:none}}
+@keyframes gira{to{transform:rotate(360deg)}}
 [data-reveal]{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1)}
 [data-reveal].in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
@@ -135,6 +144,7 @@ a{color:inherit}
   .hero .lede{margin-left:0}
   .hero .social-proof{text-align:left;padding-left:clamp(44px,7vw,110px)}
 }
+.sic{vertical-align:-4px;margin-right:7px}
 </style>
 </head>
 <body>
@@ -148,6 +158,8 @@ a{color:inherit}
 </header>
 
     <img src="img/4e.jpg" alt="Cannoli al pistacchio e tiramis&ugrave; della Dolceria Delia" />
+    <svg class="timbro" viewBox="0 0 120 120" aria-hidden="true"><defs><path id="cerchio" d="M60,60 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs><circle cx="60" cy="60" r="58" fill="none" stroke="oklch(78% 0.1 90)" stroke-width="1.4"/><circle cx="60" cy="60" r="33" fill="none" stroke="oklch(78% 0.1 90)" stroke-width="1"/><text fill="oklch(78% 0.1 90)" font-family="Inter,sans-serif" font-size="10.5" font-weight="600" letter-spacing="3.2"><textPath href="#cerchio">DOLCERIA &#183; GELATERIA &#183; MESSINA &#183; 1987 &#183; </textPath></text></svg>
+
     <div class="hero-copy">
       <span class="kicker">Dolceria &middot; Gelateria &middot; Messina</span>
       <h1>Ogni mattina, <em>dal 1987.</em></h1>
@@ -217,7 +229,7 @@ a{color:inherit}
       <p>Cassate, martorana e dolci da credenza partono su ordinazione verso tutta Italia. Si concorda il giorno, si prepara in giornata, si spedisce.</p>
       <div class="azioni">
         <a class="btn pieno" href="tel:0902939171">Ordina al telefono</a>
-        <a class="btn vuoto" href="https://www.instagram.com/delia_pasticceria/">Scrivici su Instagram</a>
+        <a class="btn vuoto" href="https://www.instagram.com/delia_pasticceria/"><svg class="sic" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" stroke="none"/></svg>Scrivici su Instagram</a>
       </div>
     </div>
   </section>
@@ -236,7 +248,7 @@ a{color:inherit}
     </div>
     <div class="c-riga" data-reveal>
       <span class="et">Social</span>
-      <span class="val"><a href="https://www.instagram.com/delia_pasticceria/">Instagram</a> &middot; <a href="https://www.facebook.com/PasticceriaDelia/">Facebook</a></span>
+      <span class="val"><a href="https://www.instagram.com/delia_pasticceria/"><svg class="sic" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" stroke="none"/></svg>Instagram</a> &nbsp; <a href="https://www.facebook.com/PasticceriaDelia/"><svg class="sic" viewBox="0 0 24 24" width="21" height="21" fill="currentColor" aria-hidden="true"><path d="M13.4 21.5v-7.2h2.7l.4-3.1h-3.1V9.2c0-.9.3-1.5 1.6-1.5h1.7V4.9c-.3 0-1.3-.1-2.4-.1-2.3 0-3.9 1.4-3.9 4v2.4H7.8v3.1h2.6v7.2z"/></svg>Facebook</a></span>
       <span class="nota">Il banco del giorno, in foto</span>
     </div>
   </section>
@@ -249,7 +261,7 @@ a{color:inherit}
 
 <nav class="barra" aria-label="Azioni rapide">
   <a href="tel:0902939171">Chiama e ordina</a>
-  <a href="https://www.instagram.com/delia_pasticceria/">Instagram</a>
+  <a href="https://www.instagram.com/delia_pasticceria/"><svg class="sic" viewBox="0 0 24 24" width="21" height="21" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5.4"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.25" fill="currentColor" stroke="none"/></svg>Instagram</a>
 </nav>
 
 <script>
