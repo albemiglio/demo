@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Pasticceria del Corso &middot; Corso Cavour 173, Messina</title>
+<meta name="description" content="La pasticceria di Francesco Sacc&agrave; su Corso Cavour a Messina: mignon, torte su ordinazione, cassata e setteveli, buffet per eventi. Consegne in Italia e all'estero." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#FBF9F4; --bg2:#F1EEE3; --ink:#20281E; --muted:#5E6558;
+  --sage:#3E5C4B; --sage-soft:rgba(62,92,75,.1); --sage-line:rgba(62,92,75,.28);
+  --terra:#A44A24;
+  --card:#FFFFFC; --line:#E4E1D3; --hair:rgba(32,40,30,.09);
+  --shadow:0 30px 70px -40px rgba(38,54,44,.4);
+  --serif:"DM Serif Display",Georgia,serif; --sans:"DM Sans",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans)}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(120% 70% at 50% -8%,var(--bg2),transparent 60%);pointer-events:none;z-index:0}
+main,header,footer{position:relative;z-index:1}
+img{max-width:100%;display:block}
+a{color:inherit}
+
+.site-head{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:1060px;margin:0 auto;padding:20px 22px}
+.wordmark{font:400 24px/1.05 var(--serif);text-decoration:none}
+.wordmark small{display:block;font:600 10px/1.6 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--sage)}
+.site-nav{display:flex;gap:22px}
+.site-nav a{text-decoration:none;font:500 14px/1 var(--sans);color:var(--muted)}
+.site-nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--sage);color:#FBF9F4;text-decoration:none;font:600 14px/1 var(--sans);padding:13px 20px;border-radius:100px;box-shadow:0 16px 34px -14px rgba(62,92,75,.7)}
+.btn:hover{background:#33503F}
+.btn.ghost{background:transparent;color:var(--sage);box-shadow:none;border:1px solid var(--sage-line)}
+@media(max-width:760px){.site-nav{display:none}}
+
+.hero{display:grid;grid-template-columns:.95fr 1.05fr;gap:44px;align-items:center;max-width:1060px;margin:26px auto 0;padding:26px 22px 10px}
+.eyebrow{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--sage);background:var(--sage-soft);border:1px solid var(--sage-line);border-radius:100px;padding:8px 14px;margin-bottom:20px}
+.hero h1{font:400 clamp(38px,5.6vw,58px)/1.06 var(--serif);text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--terra)}
+.hero .lede{margin-top:18px;font:500 17px/1.6 var(--sans);color:var(--muted);max-width:46ch}
+.hero-cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.hero-img{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.hero-img img{aspect-ratio:4/4.4;object-fit:cover;width:100%}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.hero-img img{aspect-ratio:4/3}}
+
+.proof{display:flex;justify-content:center;max-width:900px;margin:56px auto 0;padding:0 22px;flex-wrap:wrap}
+.proof div{flex:1;min-width:170px;text-align:center;padding:18px 14px;border-left:1px solid var(--hair)}
+.proof div:first-child{border-left:0}
+.proof b{display:block;font:400 30px/1.1 var(--serif)}
+.proof span{font:500 12.5px/1.5 var(--sans);color:var(--muted)}
+
+section{padding:clamp(52px,7vw,88px) 0 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 40px;padding:0 22px}
+.sec-head h2{font:400 clamp(26px,3.4vw,38px)/1.15 var(--serif);text-wrap:balance}
+.sec-head p{margin-top:12px;color:var(--muted);font-size:15.5px}
+
+.spec-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
+.spec{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.spec img{aspect-ratio:4/3.2;object-fit:cover;width:100%}
+.spec .txt{padding:18px 20px 22px}
+.spec h3{font:400 21px/1.25 var(--serif)}
+.spec p{margin-top:6px;color:var(--muted);font-size:14px}
+@media(max-width:760px){.spec-grid{grid-template-columns:1fr}}
+
+.eventi{max-width:1060px;margin:0 auto;padding:0 22px}
+.eventi-card{display:grid;grid-template-columns:1.05fr .95fr;background:var(--ink);color:#F1EEE3;border-radius:26px;overflow:hidden;box-shadow:var(--shadow)}
+.eventi-card .txt{padding:clamp(30px,4.5vw,54px);display:flex;flex-direction:column;justify-content:center}
+.eventi-card h2{font:400 clamp(26px,3.4vw,38px)/1.12 var(--serif)}
+.eventi-card h2 em{font-style:italic;color:#D9A583}
+.eventi-card p{margin-top:14px;color:#B9BDAF;max-width:50ch}
+.eventi-card .foto img{height:100%;object-fit:cover}
+.eventi-card .hero-cta{margin-top:24px}
+.eventi-card .btn{background:#D9A583;color:#20281E;box-shadow:none}
+.eventi-card .btn:hover{background:#CE9570}
+@media(max-width:820px){.eventi-card{grid-template-columns:1fr}.eventi-card .foto img{aspect-ratio:16/9}}
+
+.storia{display:grid;grid-template-columns:1.1fr .9fr;gap:44px;align-items:center;max-width:1060px;margin:0 auto;padding:0 22px}
+.storia .foto{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.storia .foto img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.storia h2{font:400 clamp(26px,3.2vw,36px)/1.15 var(--serif)}
+.storia p{margin-top:14px;color:var(--muted);max-width:52ch}
+@media(max-width:820px){.storia{grid-template-columns:1fr}}
+
+.contatti{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
+.c-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.c-card h3{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--sage);margin-bottom:12px}
+.c-card p{font-size:15px;color:var(--muted)}
+.c-card a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--sage-line)}
+.c-card p+p{margin-top:6px}
+@media(max-width:700px){.contatti{grid-template-columns:1fr}}
+
+.site-foot{margin-top:clamp(52px,7vw,88px);border-top:1px solid var(--hair);padding:26px 22px 34px;text-align:center}
+.site-foot p{font-size:13px;color:var(--muted)}
+.site-foot p+p{margin-top:4px}
+
+[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+[data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="wordmark" href="./">Pasticceria del Corso<small>Corso Cavour 173 &middot; Messina</small></a>
+  <nav class="site-nav">
+    <a href="#specialita">Il banco</a>
+    <a href="#eventi">Eventi</a>
+    <a href="#storia">Chi siamo</a>
+    <a href="#contatti">Contatti</a>
+  </nav>
+  <a class="btn" href="tel:0909018349">Ordina al telefono</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Pasticceria e gelateria artigianale &middot; dal 2016</span>
+      <h1>Su Corso Cavour, la pasticceria che lavora <em>un vassoio alla volta.</em></h1>
+      <p class="lede">Mignon, cassata, setteveli e torte su ordinazione dal laboratorio del maestro Francesco Sacc&agrave;. Per il vassoio della domenica o per il buffet di un matrimonio &mdash; e con consegne in Italia e all&rsquo;estero.</p>
+      <div class="hero-cta">
+        <a class="btn" href="tel:0909018349">Ordina &middot; 090 9018349</a>
+        <a class="btn ghost" href="mailto:pasticceriadelcorsosf@gmail.com">Chiedi un preventivo eventi</a>
+      </div>
+    </div>
+    <div class="hero-img"><img src="img/6.jpg" alt="Vassoio di pasticcini mignon assortiti" /></div>
+  </section>
+
+  <div class="proof" data-reveal>
+    <div><b>4,7/5</b><span>86 recensioni su Google</span></div>
+    <div><b>2016</b><span>il laboratorio di Francesco Sacc&agrave;</span></div>
+    <div><b>Italia &amp; estero</b><span>consegne su ordinazione</span></div>
+  </div>
+
+  <section id="specialita">
+    <div class="sec-head" data-reveal>
+      <h2>Il banco di oggi</h2>
+      <p>Tradizione siciliana e pasticceria moderna, preparate in giornata nel laboratorio dietro al banco.</p>
+    </div>
+    <div class="spec-grid">
+      <article class="spec" data-reveal>
+        <img src="img/1.jpg" alt="Vetrina con dolci siciliani assortiti" />
+        <div class="txt"><h3>La vetrina siciliana</h3><p>Cassata, cannoli, pignolata e biscotteria di mandorla: i classici, eseguiti ogni giorno.</p></div>
+      </article>
+      <article class="spec" data-reveal>
+        <img src="img/4.jpg" alt="Torte in vetrina, mimosa e fragole" />
+        <div class="txt"><h3>Torte su ordinazione</h3><p>Setteveli, mimosa, frutta fresca o su disegno: si prenotano al banco o al telefono.</p></div>
+      </article>
+      <article class="spec" data-reveal>
+        <img src="img/5.jpg" alt="Pasticcini appena preparati sul banco" />
+        <div class="txt"><h3>Mignon a vassoio</h3><p>Il vassoio si compone al momento, pezzo per pezzo, davanti a te.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="eventi" class="eventi">
+    <div class="eventi-card" data-reveal>
+      <div class="txt">
+        <span class="eyebrow" style="background:rgba(217,165,131,.12);border-color:rgba(217,165,131,.35);color:#D9A583">Matrimoni &middot; battesimi &middot; ricorrenze</span>
+        <h2>Il buffet di dolci, <em>portato dove serve</em></h2>
+        <p>Sweet table, torte cerimonia e mignon per eventi: si definisce il men&ugrave; insieme, il laboratorio prepara, noi allestiamo. Da Corso Cavour fino alla location.</p>
+        <div class="hero-cta"><a class="btn" href="mailto:pasticceriadelcorsosf@gmail.com">Chiedi un preventivo</a></div>
+      </div>
+      <div class="foto"><img src="img/3.jpg" alt="Buffet di dolci allestito per un evento all'aperto" /></div>
+    </div>
+  </section>
+
+  <section id="storia" class="storia">
+    <div data-reveal>
+      <span class="eyebrow">Chi siamo</span>
+      <h2>Il laboratorio di Francesco Sacc&agrave;</h2>
+      <p>La Pasticceria del Corso apre nel 2016 su Corso Cavour 173, nel centro di Messina. Il banco cambia con le stagioni, la mano &egrave; sempre la stessa: quella del maestro pasticcere Francesco Sacc&agrave; e della sua squadra.</p>
+      <p>Su Google ha 4,7 su 5: le recensioni parlano soprattutto dei mignon, della cassata e della granita d&rsquo;estate.</p>
+    </div>
+    <div class="foto" data-reveal><img src="img/7.jpg" alt="Il banco della pasticceria con dolci da forno" /></div>
+  </section>
+
+  <section id="contatti">
+    <div class="sec-head" data-reveal>
+      <h2>Dove siamo</h2>
+      <p>Su Corso Cavour, nel centro storico di Messina.</p>
+    </div>
+    <div class="contatti">
+      <div class="c-card" data-reveal>
+        <h3>Indirizzo</h3>
+        <p>Corso Cavour 173<br />98122 Messina</p>
+        <p><a href="https://maps.google.com/?cid=9661591588017927557">Apri in Google Maps</a></p>
+      </div>
+      <div class="c-card" data-reveal>
+        <h3>Contatti</h3>
+        <p><a href="tel:0909018349">090 9018349</a></p>
+        <p><a href="mailto:pasticceriadelcorsosf@gmail.com">pasticceriadelcorsosf@gmail.com</a></p>
+      </div>
+      <div class="c-card" data-reveal>
+        <h3>Social</h3>
+        <p><a href="https://www.facebook.com/pasticceriadelcorsomessina/">Facebook</a></p>
+        <p>Foto e novit&agrave; dal banco, ogni settimana.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>Pasticceria del Corso &middot; Corso Cavour 173, Messina &middot; dal 2016</p>
+  <p>Anteprima di sito non ufficiale &middot; foto dalla scheda Google dell&rsquo;attivit&agrave; &middot; <a href="https://albemiglio.it">albemiglio.it</a></p>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

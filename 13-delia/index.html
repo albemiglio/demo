@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dolceria Delia &middot; Pasticceria e gelateria a Messina dal 1987</title>
+<meta name="description" content="Cannoli al pistacchio, granite con brioche, cassate e torte su ordinazione. In via Lombardo Pellegrino 3 a Messina dal 1987, con spedizioni in tutta Italia." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,340;9..144,420;9..144,560&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --bg:#FAF5EC; --bg2:#F3EADA; --ink:#2A211A; --muted:#6B5D4F;
+  --brass:#8A6420; --brass-ink:#6E4F18; --pist:#4C6B33;
+  --card:#FFFDF8; --line:#E7DCC8; --hair:rgba(42,33,26,.09);
+  --shadow:0 30px 70px -40px rgba(74,56,28,.45);
+  --serif:"Fraunces",Georgia,serif; --sans:"Inter",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.6 var(--sans)}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(120% 70% at 50% -8%,var(--bg2),transparent 60%);pointer-events:none;z-index:0}
+main,header,footer{position:relative;z-index:1}
+img{max-width:100%;display:block}
+a{color:inherit}
+.wrap{max-width:1060px;margin:0 auto;padding:0 22px}
+
+.site-head{display:flex;align-items:center;justify-content:space-between;gap:18px;max-width:1060px;margin:0 auto;padding:20px 22px}
+.wordmark{font:560 26px/1 var(--serif);letter-spacing:-.02em;text-decoration:none}
+.wordmark small{display:block;font:600 10px/1.6 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--brass-ink)}
+.site-nav{display:flex;gap:22px}
+.site-nav a{text-decoration:none;font:500 14px/1 var(--sans);color:var(--muted)}
+.site-nav a:hover{color:var(--ink)}
+.btn{display:inline-block;background:var(--brass-ink);color:#FFFDF8;text-decoration:none;font:600 14px/1 var(--sans);padding:13px 20px;border-radius:100px;box-shadow:0 16px 34px -14px rgba(110,79,24,.8)}
+.btn:hover{background:#5C4213}
+.btn.ghost{background:transparent;color:var(--brass-ink);box-shadow:none;border:1px solid var(--brass)}
+@media(max-width:760px){.site-nav{display:none}}
+
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:44px;align-items:center;max-width:1060px;margin:26px auto 0;padding:26px 22px 10px}
+.eyebrow{display:inline-block;font:600 11px/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:var(--brass-ink);background:rgba(138,100,32,.1);border:1px solid rgba(138,100,32,.28);border-radius:100px;padding:8px 14px;margin-bottom:20px}
+.hero h1{font:340 clamp(38px,5.6vw,60px)/1.04 var(--serif);letter-spacing:-.02em;text-wrap:balance}
+.hero h1 em{font-style:italic;color:var(--brass-ink)}
+.hero .lede{margin-top:18px;font:500 17px/1.6 var(--sans);color:var(--muted);max-width:46ch}
+.hero-cta{display:flex;gap:12px;margin-top:26px;flex-wrap:wrap}
+.hero-img{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.hero-img img{aspect-ratio:4/4.6;object-fit:cover;object-position:50% 78%;width:100%}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.hero-img img{aspect-ratio:4/3}}
+
+.proof{display:flex;justify-content:center;gap:0;max-width:900px;margin:56px auto 0;padding:0 22px;flex-wrap:wrap}
+.proof div{flex:1;min-width:170px;text-align:center;padding:18px 14px;border-left:1px solid var(--hair)}
+.proof div:first-child{border-left:0}
+.proof b{display:block;font:420 30px/1.1 var(--serif);letter-spacing:-.01em}
+.proof span{font:500 12.5px/1.5 var(--sans);color:var(--muted)}
+
+section{padding:clamp(52px,7vw,88px) 0 0}
+.sec-head{text-align:center;max-width:640px;margin:0 auto 40px;padding:0 22px}
+.sec-head h2{font:420 clamp(26px,3.4vw,38px)/1.15 var(--serif);letter-spacing:-.015em;text-wrap:balance}
+.sec-head p{margin-top:12px;color:var(--muted);font-size:15.5px}
+
+.spec-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
+.spec{background:var(--card);border:1px solid var(--line);border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.spec img{aspect-ratio:16/10;object-fit:cover;width:100%}
+.spec .txt{padding:20px 22px 24px}
+.spec h3{font:420 21px/1.25 var(--serif)}
+.spec p{margin-top:6px;color:var(--muted);font-size:14.5px}
+@media(max-width:700px){.spec-grid{grid-template-columns:1fr}}
+
+.storia{display:grid;grid-template-columns:.9fr 1.1fr;gap:44px;align-items:center;max-width:1060px;margin:0 auto;padding:0 22px}
+.storia .foto{border-radius:22px;overflow:hidden;box-shadow:var(--shadow)}
+.storia .foto img{aspect-ratio:4/3;object-fit:cover;width:100%}
+.storia h2{font:420 clamp(26px,3.2vw,36px)/1.15 var(--serif);letter-spacing:-.015em}
+.storia p{margin-top:14px;color:var(--muted);max-width:52ch}
+@media(max-width:820px){.storia{grid-template-columns:1fr}}
+
+.sped{max-width:1060px;margin:0 auto;padding:0 22px}
+.sped-card{background:var(--ink);color:#F6EFE2;border-radius:26px;padding:clamp(34px,5vw,60px);text-align:center;box-shadow:var(--shadow)}
+.sped-card h2{font:340 clamp(28px,3.8vw,42px)/1.1 var(--serif);letter-spacing:-.015em;text-wrap:balance}
+.sped-card h2 em{font-style:italic;color:#D8B45E}
+.sped-card p{margin:16px auto 0;max-width:54ch;color:#CBBFA9;font-size:15.5px}
+.sped-card .hero-cta{justify-content:center}
+.sped-card .btn{background:#D8B45E;color:#2A211A;box-shadow:0 16px 34px -14px rgba(216,180,94,.5)}
+.sped-card .btn:hover{background:#C6A24C}
+.sped-card .btn.ghost{background:transparent;color:#D8B45E;border-color:#D8B45E}
+
+.contatti{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:1060px;margin:0 auto;padding:0 22px}
+.c-card{background:var(--card);border:1px solid var(--line);border-radius:22px;padding:24px}
+.c-card h3{font:600 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:var(--brass-ink);margin-bottom:12px}
+.c-card p{font-size:15px;color:var(--muted)}
+.c-card a{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1px solid var(--brass)}
+.c-card p+p{margin-top:6px}
+@media(max-width:700px){.contatti{grid-template-columns:1fr}}
+
+.site-foot{margin-top:clamp(52px,7vw,88px);border-top:1px solid var(--hair);padding:26px 22px 34px;text-align:center}
+.site-foot p{font-size:13px;color:var(--muted)}
+.site-foot p+p{margin-top:4px}
+
+[data-reveal]{opacity:0;transform:translateY(14px);transition:opacity .6s ease,transform .6s ease}
+[data-reveal].in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){[data-reveal]{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body>
+
+<header class="site-head">
+  <a class="wordmark" href="./">Delia<small>Dolceria &middot; Gelateria</small></a>
+  <nav class="site-nav">
+    <a href="#specialita">Le specialit&agrave;</a>
+    <a href="#storia">La dolceria</a>
+    <a href="#spedizioni">Spedizioni</a>
+    <a href="#contatti">Contatti</a>
+  </nav>
+  <a class="btn" href="tel:0902939171">Chiama e ordina</a>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <span class="eyebrow">Messina &middot; via Lombardo Pellegrino 3 &middot; dal 1987</span>
+      <h1>Trentanove anni di dolci a Messina. <em>Adesso anche a casa tua.</em></h1>
+      <p class="lede">Cannoli al pistacchio, granite con la brioche, cassate e frutta martorana: fatti in laboratorio ogni giorno, e spediti in tutta Italia per chi Messina ce l&rsquo;ha lontana.</p>
+      <div class="hero-cta">
+        <a class="btn" href="tel:0902939171">Chiama e ordina &middot; 090 2939171</a>
+        <a class="btn ghost" href="https://www.instagram.com/delia_pasticceria/">Scrivici su Instagram</a>
+      </div>
+    </div>
+    <div class="hero-img"><img src="img/4.jpg" alt="Cannolo al pistacchio della Dolceria Delia" /></div>
+  </section>
+
+  <div class="proof" data-reveal>
+    <div><b>4,8/5</b><span>196 recensioni su Google</span></div>
+    <div><b>1987</b><span>stesso laboratorio, stessa via</span></div>
+    <div><b>Tutta Italia</b><span>spedizioni su ordinazione</span></div>
+  </div>
+
+  <section id="specialita">
+    <div class="sec-head" data-reveal>
+      <h2>Quello che esce dal banco la mattina</h2>
+      <p>Pasticceria siciliana preparata in giornata: quando finisce, finisce.</p>
+    </div>
+    <div class="spec-grid">
+      <article class="spec" data-reveal>
+        <img src="img/3.jpg" alt="Banco con cannoli e cassatine ai frutti di bosco" />
+        <div class="txt"><h3>Cannoli e cassatine</h3><p>La ricotta si lavora in laboratorio; il pistacchio &egrave; quello che ha reso famoso il banco di via Lombardo Pellegrino.</p></div>
+      </article>
+      <article class="spec" data-reveal>
+        <img src="img/8.jpg" alt="Cassata siciliana e crostata di frutta in vetrina" />
+        <div class="txt"><h3>La cassata siciliana</h3><p>Pan di Spagna, ricotta e pasta reale: la versione classica messinese, intera o a fette.</p></div>
+      </article>
+      <article class="spec" data-reveal>
+        <img src="img/7.jpg" alt="Frutta martorana in cestini" />
+        <div class="txt"><h3>Frutta martorana</h3><p>Pasta di mandorla modellata e dipinta a mano, cestino per cestino. Il regalo che da Messina parte pi&ugrave; spesso.</p></div>
+      </article>
+      <article class="spec" data-reveal>
+        <img src="img/6.jpg" alt="Torta al cioccolato personalizzata con logo Delia" />
+        <div class="txt"><h3>Torte su ordinazione</h3><p>Compleanni e ricorrenze: si sceglie insieme al banco o al telefono, si ritira il giorno stesso dell&rsquo;evento.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="storia" class="storia">
+    <div class="foto" data-reveal><img src="img/1.jpg" alt="Insegna della Dolceria Delia" /></div>
+    <div data-reveal>
+      <span class="eyebrow">La dolceria</span>
+      <h2>Dal 1987, in via Lombardo Pellegrino</h2>
+      <p>Delia nasce nel centro di Messina come dolceria e gelateria di quartiere. Trentanove anni dopo &egrave; ancora l&igrave;, con lo stesso mestiere: pochi dolci, fatti ogni giorno, venduti freschi.</p>
+      <p>Le 196 recensioni su Google raccontano quasi sempre le stesse tre cose: il cannolo al pistacchio, la granita con la brioche, la cortesia al banco.</p>
+    </div>
+  </section>
+
+  <section id="spedizioni" class="sped">
+    <div class="sped-card" data-reveal>
+      <span class="eyebrow" style="background:rgba(216,180,94,.12);border-color:rgba(216,180,94,.35);color:#D8B45E">Spedizioni in tutta Italia</span>
+      <h2>Messina lontana? <em>Te la spediamo.</em></h2>
+      <p>Cassate, martorana e dolci da viaggio partono su ordinazione verso tutta Italia. Dicci cosa vuoi e per quando: al resto pensiamo noi.</p>
+      <div class="hero-cta">
+        <a class="btn" href="tel:0902939171">Ordina al telefono</a>
+        <a class="btn ghost" href="https://www.instagram.com/delia_pasticceria/">Ordina da Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti">
+    <div class="sec-head" data-reveal>
+      <h2>Dove siamo</h2>
+      <p>Nel centro di Messina, a pochi minuti dal viale San Martino.</p>
+    </div>
+    <div class="contatti">
+      <div class="c-card" data-reveal>
+        <h3>Indirizzo</h3>
+        <p>Via Ettore Lombardo Pellegrino 3<br />98123 Messina</p>
+        <p><a href="https://maps.google.com/?cid=15507516673949658795">Apri in Google Maps</a></p>
+      </div>
+      <div class="c-card" data-reveal>
+        <h3>Telefono</h3>
+        <p><a href="tel:0902939171">090 2939171</a></p>
+        <p>Chiama per orari, ordini e spedizioni.</p>
+      </div>
+      <div class="c-card" data-reveal>
+        <h3>Social</h3>
+        <p><a href="https://www.instagram.com/delia_pasticceria/">Instagram</a></p>
+        <p><a href="https://www.facebook.com/PasticceriaDelia/">Facebook</a></p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <p>Dolceria Delia &middot; via Ettore Lombardo Pellegrino 3, Messina &middot; dal 1987</p>
+  <p>Anteprima di sito non ufficiale &middot; foto dalla scheda Google dell&rsquo;attivit&agrave; &middot; <a href="https://albemiglio.it">albemiglio.it</a></p>
+</footer>
+
+<script>
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
+document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>
