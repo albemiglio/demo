@@ -7,203 +7,168 @@
 <meta name="description" content="La pasticceria di Francesco Sacc&agrave; su Corso Cavour a Messina: mignon, torte su ordinazione, cassata e setteveli, buffet per eventi. Consegne in Italia e all'estero." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet" />
 <style>
 :root{
-  --bg:oklch(99.2% 0.002 90);
-  --ink:oklch(21% 0.015 60);
-  --muted:oklch(45% 0.015 60);
-  --bruno:oklch(30% 0.05 55);
+  --chiaro:oklch(97.5% 0.008 90);
+  --scuro:oklch(24% 0.02 150);
+  --ink:oklch(22% 0.015 60);
+  --muted:oklch(46% 0.015 60);
   --oro:oklch(72% 0.06 80);
-  --bordo:oklch(88% 0.008 80);
+  --linea:oklch(88% 0.008 80);
   --serif:"EB Garamond",Georgia,serif;
   --sans:"DM Sans",system-ui,sans-serif;
 }
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
-body{background:var(--bg);color:var(--ink);font:400 15.5px/1.6 var(--sans)}
+body{background:var(--chiaro);color:var(--ink);font:400 15.5px/1.6 var(--sans)}
 img{max-width:100%;display:block}
 a{color:inherit}
-::selection{background:var(--ink);color:var(--bg)}
+::selection{background:var(--scuro);color:var(--chiaro)}
 
-.annuncio{background:var(--ink)!important;color:var(--bg)!important}
+/* header galleggiante minimo */
+.marchio{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;justify-content:center;padding:calc(14px + env(safe-area-inset-top)) 16px 10px;pointer-events:none}
+.marchio a{pointer-events:auto;font:500 clamp(17px,2.4vw,21px)/1.2 var(--serif);letter-spacing:.02em;color:oklch(98% 0.005 90);text-decoration:none;text-shadow:0 1px 12px oklch(0% 0 0/.55);background:oklch(20% 0.02 90/.25);padding:8px 16px;border-radius:100px;backdrop-filter:blur(6px)}
 
-.top{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px clamp(16px,3vw,36px);background:var(--bg);border-bottom:1px solid var(--bordo)}
-.wordmark{font:500 17px/1.2 var(--serif);text-decoration:none;letter-spacing:.02em}
-.top nav{display:none;gap:22px}
-.top nav a{text-decoration:none;font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-.top nav a:hover{color:var(--ink)}
-@media(min-width:760px){.top nav{display:flex}}
-.top-cta{font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--bg);background:var(--ink);text-decoration:none;padding:13px 20px}
-.top-cta:hover{background:var(--bruno)}
+/* BIVIO: due met&agrave; a schermo intero */
+.bivio{display:grid;grid-template-columns:1fr;min-height:100svh}
+@media(min-width:820px){.bivio{grid-template-columns:1fr 1fr}}
+.meta{position:relative;display:flex;align-items:flex-end;min-height:50svh;text-decoration:none;overflow:hidden}
+.meta>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s cubic-bezier(.16,1,.3,1)}
+.meta:hover>img{transform:scale(1.04)}
+.meta::after{content:"";position:absolute;inset:0;transition:background .5s}
+.meta.banco::after{background:linear-gradient(180deg,oklch(30% 0.02 90/.12),oklch(20% 0.02 90/.62) 92%)}
+.meta.eventi::after{background:linear-gradient(180deg,oklch(20% 0.02 150/.24),oklch(16% 0.02 150/.72) 92%)}
+.meta .testo{position:relative;z-index:2;width:100%;padding:0 clamp(20px,4vw,48px) clamp(26px,4.5vw,52px)}
+.meta small{font:700 10.5px/1 var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--oro)}
+.meta h2{margin-top:10px;font:500 clamp(34px,4.8vw,58px)/1.02 var(--serif);color:oklch(98% 0.005 90)}
+.meta p{margin-top:8px;color:oklch(88% 0.01 80);font-size:14.5px;max-width:44ch}
+.meta .vai{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font:700 12px/1 var(--sans);letter-spacing:.14em;text-transform:uppercase;color:oklch(98% 0.005 90);border-bottom:2px solid var(--oro);padding-bottom:6px}
+.meta .vai svg{transition:transform .4s}
+.meta:hover .vai svg{transform:translateX(5px)}
 
-.testata{max-width:1240px;margin:0 auto;padding:clamp(34px,5vw,60px) clamp(16px,3vw,36px) 0}
-.marchio{height:clamp(64px,9vw,96px);width:auto;margin-bottom:16px}
-.testata .occhiello{font:600 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
-.testata h1{margin-top:12px;font:700 clamp(38px,7.5vw,86px)/0.98 var(--sans);letter-spacing:-.025em;text-transform:uppercase;max-width:14ch}
-.testata h1 em{font-style:normal;color:var(--oro)}
-.testata .sotto{display:grid;grid-template-columns:1fr;gap:16px;margin-top:20px;align-items:end}
-@media(min-width:840px){.testata .sotto{grid-template-columns:1fr auto}}
-.testata .lede{max-width:56ch;color:var(--muted);font-size:15.5px}
-.azioni{display:flex;gap:10px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;text-decoration:none;font:600 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
-.btn.pieno{background:var(--ink);color:var(--bg)}
-.btn.pieno:hover{background:var(--bruno)}
-.btn.vuoto{border:1px solid var(--ink);color:var(--ink)}
-.btn.vuoto:hover{background:var(--ink);color:var(--bg)}
+/* percorso banco (chiaro) */
+.percorso{padding:clamp(52px,8vw,96px) 0 0}
+.percorso .intro{max-width:1180px;margin:0 auto clamp(26px,4vw,44px);padding:0 clamp(16px,3vw,36px);display:flex;align-items:baseline;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.percorso .intro h2{font:500 clamp(30px,4.6vw,48px)/1.05 var(--serif)}
+.percorso .intro a{font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;border-bottom:2px solid var(--oro);padding-bottom:5px;white-space:nowrap}
+.vetrina{max-width:1180px;margin:0 auto;padding:0 clamp(16px,3vw,36px);display:grid;grid-template-columns:repeat(2,1fr);gap:clamp(12px,2vw,22px)}
+@media(min-width:820px){.vetrina{grid-template-columns:repeat(4,1fr)}.vetrina figure:nth-child(2),.vetrina figure:nth-child(4){margin-top:clamp(20px,3vw,40px)}}
+.vetrina figure{margin:0}
+.vetrina img{width:100%;aspect-ratio:3/4;object-fit:cover}
+.vetrina figcaption{margin-top:9px;font:500 13.5px/1.4 var(--sans)}
+.vetrina figcaption span{display:block;font-size:12.5px;color:var(--muted);font-weight:400}
 
-.testata figure{margin-top:clamp(22px,3.5vw,40px)}
-.testata figure img{width:100%;aspect-ratio:21/9;object-fit:cover}
-@media(max-width:700px){.testata figure img{aspect-ratio:4/3}}
-.firma{display:flex;justify-content:space-between;gap:16px;margin-top:10px;font:500 12.5px/1.6 var(--sans);color:var(--muted)}
-.firma b{color:var(--ink);font-weight:700}
+/* percorso eventi (scuro, invertito) */
+.eventi-sez{margin-top:clamp(52px,8vw,96px);background:var(--scuro);color:oklch(93% 0.008 90)}
+.eventi-sez .in{max-width:1180px;margin:0 auto;padding:clamp(48px,7vw,88px) clamp(16px,3vw,36px);display:grid;grid-template-columns:1fr;gap:clamp(24px,4vw,48px);align-items:center}
+@media(min-width:860px){.eventi-sez .in{grid-template-columns:.95fr 1.05fr}}
+.eventi-sez img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.eventi-sez small{font:700 10.5px/1 var(--sans);letter-spacing:.26em;text-transform:uppercase;color:var(--oro)}
+.eventi-sez h2{margin-top:10px;font:500 clamp(28px,4.4vw,44px)/1.08 var(--serif);color:oklch(98% 0.005 90)}
+.eventi-sez p{margin-top:12px;color:oklch(80% 0.012 120);font-size:15px;max-width:50ch}
+.eventi-sez .passi{margin-top:18px;list-style:none;counter-reset:p}
+.eventi-sez .passi li{counter-increment:p;display:flex;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid oklch(93% 0.008 90/.14);font-size:14.5px}
+.eventi-sez .passi li::before{content:counter(p,decimal-leading-zero);font:500 13px/1 var(--serif);font-style:italic;color:var(--oro)}
+.eventi-sez .btn{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;margin-top:20px;background:var(--oro);color:var(--scuro);text-decoration:none;font:700 12px/1 var(--sans);letter-spacing:.12em;text-transform:uppercase}
+.eventi-sez .btn:hover{filter:brightness(1.06)}
 
-.banco{max-width:1240px;margin:0 auto;padding:clamp(48px,7vw,84px) clamp(16px,3vw,36px) 0}
-.banco>header{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:clamp(22px,3.5vw,36px)}
-.banco h2{font:700 clamp(22px,3.4vw,34px)/1.05 var(--sans);letter-spacing:-.015em;text-transform:uppercase}
-.banco>header p{display:none}
-@media(min-width:760px){.banco>header p{display:block;color:var(--muted);max-width:44ch;font-size:14px;text-align:right}}
-.colonne{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bordo);border:1px solid var(--bordo)}
-@media(min-width:760px){.colonne{grid-template-columns:repeat(4,1fr)}}
-.col{display:contents}
-.pezzo{margin:0;background:var(--bg);padding:14px}
-.pezzo img{width:100%;aspect-ratio:1/1!important;object-fit:cover}
-.pezzo .did{margin-top:12px;border:0;padding:0}
-.pezzo h3{font:700 15px/1.3 var(--sans)}
-.pezzo p{margin-top:3px;color:var(--muted);font-size:13px}
+/* chi siamo + contatti in un colpo */
+.coda{max-width:1180px;margin:0 auto;padding:clamp(52px,8vw,96px) clamp(16px,3vw,36px)}
+.coda .in{display:grid;grid-template-columns:1fr;gap:clamp(26px,4vw,56px)}
+@media(min-width:860px){.coda .in{grid-template-columns:1.1fr .9fr}}
+.coda h2{font:500 clamp(26px,4vw,38px)/1.15 var(--serif);font-style:italic}
+.coda .chi p{margin-top:12px;color:var(--muted);font-size:15.5px;max-width:58ch}
+.coda .chi b{color:var(--ink);font-weight:600}
+.recapiti{border:1px solid var(--linea);padding:clamp(20px,3vw,30px);align-self:start}
+.recapiti div{padding:12px 0;border-top:1px solid var(--linea)}
+.recapiti div:first-child{border-top:0;padding-top:0}
+.recapiti small{display:block;font:700 10px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:5px}
+.recapiti .v{font:700 16px/1.4 var(--sans)}
+.recapiti a{text-decoration:underline;text-underline-offset:3px}
+.sic{vertical-align:-4px;margin-right:6px}
 
-.eventi{position:relative;min-height:64svh;display:flex;align-items:flex-end;margin-top:clamp(48px,7vw,84px);background:var(--ink)}
-.eventi img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.eventi::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,oklch(20% 0.02 60/.08),oklch(20% 0.02 60/.7) 92%)}
-.eventi .testo{position:relative;z-index:2;width:100%;max-width:1240px;margin:0 auto;padding:110px clamp(16px,3vw,36px) clamp(30px,5vw,54px)}
-.eventi .occhiello{font:600 11px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:oklch(85% 0.05 80)}
-.eventi h2{margin-top:10px;font:700 clamp(26px,4.5vw,46px)/1.02 var(--sans);letter-spacing:-.02em;text-transform:uppercase;color:oklch(98% 0.003 90);max-width:18ch}
-.eventi p{margin-top:10px;color:oklch(88% 0.01 80);max-width:52ch;font-size:15px}
-.eventi .azioni{margin-top:20px}
-.eventi .btn.pieno{background:oklch(98% 0.003 90);color:var(--ink)}
-.eventi .btn.pieno:hover{background:var(--oro)}
-
-.storia{max-width:680px;margin:0 auto;padding:clamp(48px,7vw,84px) clamp(16px,3vw,36px)}
-.storia .segno{display:none}
-.storia h2{font:500 clamp(26px,4vw,38px)/1.2 var(--serif);font-style:italic}
-.storia p{margin-top:14px;color:var(--muted);font-size:15.5px}
-.storia p b{color:var(--ink);font-weight:600}
-
-.contatti{max-width:1240px;margin:0 auto;padding:0 clamp(16px,3vw,36px) clamp(48px,7vw,84px);display:grid;grid-template-columns:1fr;gap:1px;background:transparent}
-@media(min-width:720px){.contatti{grid-template-columns:repeat(3,1fr)}}
-.c-riga{display:block;padding:22px;border:1px solid var(--bordo);margin-top:-1px}
-.c-riga .et{display:block;font:600 10.5px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.c-riga .val{display:block;font:700 clamp(16px,2vw,19px)/1.4 var(--sans)}
-.c-riga .val a{text-decoration:underline;text-underline-offset:3px}
-.c-riga .nota{display:block;margin-top:4px;font-size:13px;color:var(--muted)}
-.sic{vertical-align:-4px;margin-right:7px}
-
-.piede{padding:22px clamp(16px,3vw,36px) calc(88px + env(safe-area-inset-bottom));text-align:center;font-size:12px;color:var(--muted);border-top:1px solid var(--bordo)}
+.piede{border-top:1px solid var(--linea);padding:20px 16px calc(84px + env(safe-area-inset-bottom));text-align:center;font-size:12px;color:var(--muted)}
 .piede p+p{margin-top:3px}
-@media(min-width:760px){.piede{padding-bottom:28px}}
+@media(min-width:820px){.piede{padding-bottom:26px}}
 
-.barra{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--bordo);border-top:1px solid var(--bordo)}
-.barra a{display:flex;align-items:center;justify-content:center;min-height:54px;padding-bottom:env(safe-area-inset-bottom);background:var(--bg);color:var(--ink);text-decoration:none;font:600 12px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase}
-.barra a:first-child{background:var(--ink);color:var(--bg)}
-@media(min-width:760px){.barra{display:none}}
-
-[data-reveal]{opacity:1;transform:none}
+/* barra mobile a due percorsi */
+.barra{position:fixed;left:0;right:0;bottom:0;z-index:50;display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--linea);border-top:1px solid var(--linea)}
+.barra a{display:flex;align-items:center;justify-content:center;min-height:52px;padding-bottom:env(safe-area-inset-bottom);background:var(--chiaro);color:var(--ink);text-decoration:none;font:700 11.5px/1 var(--sans);letter-spacing:.1em;text-transform:uppercase}
+.barra a:last-child{background:var(--scuro);color:var(--chiaro)}
+@media(min-width:820px){.barra{display:none}}
 </style>
 </head>
 <body>
 
-<div class="annuncio" style="background:oklch(33% 0.055 55);color:oklch(97.5% 0.01 90);text-align:center;font:600 11px/1.6 var(--sans);letter-spacing:.18em;text-transform:uppercase;padding:9px 16px">Consegne in Italia e all&rsquo;estero &middot; su ordinazione</div>
-<header class="top">
-  <a class="wordmark" href="./">Pasticceria del Corso</a>
-  <nav>
-    <a href="#banco">Il banco</a>
-    <a href="#eventi">Eventi</a>
-    <a href="#storia">Chi siamo</a>
-    <a href="#contatti">Contatti</a>
-  </nav>
-  <a class="top-cta" href="tel:0909018349">Ordina</a>
-</header>
+<header class="marchio"><a href="./">Pasticceria del Corso</a></header>
 
 <main>
-  <section class="testata">
-    <img class="marchio" src="img/logo.png" alt="Pasticceria del Corso, Sacc&agrave; Francesco" />
-    <span class="occhiello">Corso Cavour 173 &middot; Messina &middot; dal 2016</span>
-    <h1>Del Corso, <em>a casa tua.</em></h1>
-    <div class="sotto">
-      <p class="lede">Sfoglia le specialit&agrave; e ricevi i tuoi dolci direttamente a casa: mignon, cassate, setteveli e torte su ordinazione dal laboratorio del maestro Francesco Sacc&agrave;. Consegne in Italia e all&rsquo;estero.</p>
-      <div class="azioni">
-        <a class="btn pieno" href="tel:0909018349">Ordina &middot; 090 9018349</a>
-        <a class="btn vuoto" href="mailto:pasticceriadelcorsosf@gmail.com">Preventivo eventi</a>
+  <section class="bivio">
+    <a class="meta banco" href="#banco">
+      <img src="img/6e.jpg" alt="Vassoio di mignon assortiti" />
+      <div class="testo">
+        <small>Corso Cavour 173 &middot; Messina</small>
+        <h2>Il banco</h2>
+        <p>Mignon, cassata, setteveli e dolci tipici siciliani, preparati in giornata.</p>
+        <span class="vai">Scopri le specialit&agrave; <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
       </div>
-    </div>
-    <figure data-reveal>
-      <img src="img/6e.jpg" alt="Vassoio di mignon assortiti su tavolo di marmo" />
-      <figcaption class="firma"><span><b>4,7 su 5</b> &middot; 86 recensioni su Google</span><span>mignon del giorno</span></figcaption>
-    </figure>
+    </a>
+    <a class="meta eventi" href="#eventi">
+      <img src="img/3e.jpg" alt="Buffet di dolci per un matrimonio" />
+      <div class="testo">
+        <small>Matrimoni &middot; battesimi &middot; ricorrenze</small>
+        <h2>Gli eventi</h2>
+        <p>Torte personalizzate e sweet table per le occasioni speciali.</p>
+        <span class="vai">Chiedi un preventivo <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14m-6-6 6 6-6 6"/></svg></span>
+      </div>
+    </a>
   </section>
 
-  <section id="banco" class="banco">
-    <header data-reveal>
+  <section id="banco" class="percorso">
+    <div class="intro">
       <h2>Le nostre specialit&agrave;</h2>
-      <p>Dolci tipici siciliani, preparati in giornata nel nostro laboratorio.</p>
-    </header>
-    <div class="colonne">
-      <div class="col">
-        <figure class="pezzo alto" data-reveal>
-          <img src="img/1e.jpg" alt="Alzate con dolci siciliani assortiti" />
-          <div class="did"><h3>La vetrina siciliana</h3><p>Cassata, cannoli, pignolata e biscotteria di mandorla.</p></div>
-        </figure>
-        <figure class="pezzo largo" data-reveal>
-          <img src="img/7e.jpg" alt="Dolci da forno e fette su tagliere" />
-          <div class="did"><h3>Il forno</h3><p>Plumcake, crostate e biscotti da credenza, per la colazione di casa.</p></div>
-        </figure>
+      <a href="tel:0909018349">Ordina &middot; 090 9018349</a>
+    </div>
+    <div class="vetrina">
+      <figure><img src="img/1e.jpg" alt="Dolci siciliani su alzate" /><figcaption>La vetrina siciliana<span>cassata, cannoli, pignolata</span></figcaption></figure>
+      <figure><img src="img/5e.jpg" alt="Teglie di pasticcini" /><figcaption>Mignon a vassoio<span>assortiti, composti al banco</span></figcaption></figure>
+      <figure><img src="img/4e.jpg" alt="Torte su alzate" /><figcaption>Torte su ordinazione<span>setteveli, mimosa, frutta</span></figcaption></figure>
+      <figure><img src="img/7e.jpg" alt="Dolci da forno" /><figcaption>Il forno<span>plumcake, crostate, biscotti</span></figcaption></figure>
+    </div>
+  </section>
+
+  <section id="eventi" class="eventi-sez">
+    <div class="in">
+      <img src="img/3e.jpg" alt="Sweet table allestito in giardino" />
+      <div>
+        <small>Gli eventi</small>
+        <h2>Torte personalizzate per le occasioni speciali</h2>
+        <p>Sweet table, torte cerimonia e mignon per eventi, con allestimento sul posto.</p>
+        <ol class="passi">
+          <li>Scegli data e tipo di evento</li>
+          <li>Definiamo insieme men&ugrave; e quantit&agrave;</li>
+          <li>Il laboratorio prepara, noi allestiamo</li>
+        </ol>
+        <a class="btn" href="mailto:pasticceriadelcorsosf@gmail.com">Chiedi un preventivo</a>
       </div>
-      <div class="col">
-        <figure class="pezzo largo" data-reveal>
-          <img src="img/4e.jpg" alt="Torte su alzate di ceramica bianca" />
-          <div class="did"><h3>Torte su ordinazione</h3><p>Setteveli, mimosa, frutta fresca o su disegno: si prenotano al banco o al telefono.</p></div>
-        </figure>
-        <figure class="pezzo alto" data-reveal>
-          <img src="img/5e.jpg" alt="Teglie di pasticcini appena preparati" />
-          <div class="did"><h3>Mignon a vassoio</h3><p>Mignon assortiti, composti al banco.</p></div>
-        </figure>
+    </div>
+  </section>
+
+  <section class="coda">
+    <div class="in">
+      <div class="chi">
+        <h2>Chi siamo</h2>
+        <p>La Pasticceria del Corso apre nel <b>2016</b> su Corso Cavour 173, nel centro di Messina, dal maestro pasticcere <b>Francesco Sacc&agrave;</b>, per mantenere viva la tradizione della pasticceria siciliana.</p>
+        <p>Su Google ha <b>4,7 su 5</b> con 86 recensioni. Consegne in Italia e all&rsquo;estero, su ordinazione.</p>
       </div>
-    </div>
-  </section>
-
-  <section id="eventi" class="eventi">
-    <img src="img/3e.jpg" alt="Buffet di dolci allestito per un matrimonio all'aperto" />
-    <div class="testo" data-reveal>
-      <span class="occhiello">Matrimoni &middot; battesimi &middot; ricorrenze</span>
-      <h2>Torte personalizzate per le occasioni speciali</h2>
-      <p>Sweet table, torte cerimonia e mignon per eventi, con allestimento sul posto.</p>
-      <div class="azioni"><a class="btn pieno" href="mailto:pasticceriadelcorsosf@gmail.com">Chiedi un preventivo</a></div>
-    </div>
-  </section>
-
-  <section id="storia" class="storia" data-reveal>
-    <div class="segno"></div>
-    <h2>Chi siamo</h2>
-    <p>La Pasticceria del Corso apre nel <b>2016</b> su Corso Cavour 173, nel centro di Messina, dal maestro pasticcere <b>Francesco Sacc&agrave;</b>, per mantenere viva la tradizione della pasticceria siciliana.</p>
-    <p>Su Google ha <b>4,7 su 5</b> con 86 recensioni. Consegne in Italia e all&rsquo;estero, su ordinazione.</p>
-  </section>
-
-  <section id="contatti" class="contatti">
-    <div class="c-riga" data-reveal>
-      <span class="et">Telefono</span>
-      <span class="val"><a href="tel:0909018349">090 9018349</a></span>
-      <span class="nota">Ordini e torte</span>
-    </div>
-    <div class="c-riga" data-reveal>
-      <span class="et">Indirizzo</span>
-      <span class="val">Corso Cavour 173, Messina</span>
-      <span class="nota"><a href="https://maps.google.com/?cid=9661591588017927557">Apri in Google Maps</a></span>
-    </div>
-    <div class="c-riga" data-reveal>
-      <span class="et">Scrivici</span>
-      <span class="val"><a href="mailto:pasticceriadelcorsosf@gmail.com">pasticceriadelcorsosf@gmail.com</a></span>
-      <span class="nota"><a href="https://www.facebook.com/pasticceriadelcorsomessina/">Facebook</a></span>
+      <aside class="recapiti">
+        <div><small>Telefono</small><span class="v"><a href="tel:0909018349">090 9018349</a></span></div>
+        <div><small>Email</small><span class="v"><a href="mailto:pasticceriadelcorsosf@gmail.com">pasticceriadelcorsosf@gmail.com</a></span></div>
+        <div><small>Indirizzo</small><span class="v">Corso Cavour 173, Messina &middot; <a href="https://maps.google.com/?cid=9661591588017927557">mappa</a></span></div>
+        <div><small>Social</small><span class="v"><a href="https://www.facebook.com/pasticceriadelcorsomessina/"><svg class="sic" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M13.4 21.5v-7.2h2.7l.4-3.1h-3.1V9.2c0-.9.3-1.5 1.6-1.5h1.7V4.9c-.3 0-1.3-.1-2.4-.1-2.3 0-3.9 1.4-3.9 4v2.4H7.8v3.1h2.6v7.2z"/></svg>Facebook</a></span></div>
+      </aside>
     </div>
   </section>
 </main>
@@ -213,14 +178,9 @@ a{color:inherit}
   <p>Anteprima di sito non ufficiale &middot; prodotti reali dell&rsquo;attivit&agrave;, foto ritoccate &middot; <a href="https://albemiglio.it">albemiglio.it</a></p>
 </footer>
 
-<nav class="barra" aria-label="Azioni rapide">
-  <a href="tel:0909018349">Chiama e ordina</a>
-  <a href="mailto:pasticceriadelcorsosf@gmail.com">Preventivo eventi</a>
+<nav class="barra" aria-label="Percorsi">
+  <a href="tel:0909018349">Il banco &middot; ordina</a>
+  <a href="mailto:pasticceriadelcorsosf@gmail.com">Eventi &middot; preventivo</a>
 </nav>
-
-<script>
-const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-document.querySelectorAll('[data-reveal]').forEach(el=>io.observe(el));
-</script>
 </body>
 </html>
