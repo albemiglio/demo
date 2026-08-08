@@ -161,7 +161,8 @@ a{color:inherit}
       <div class="chi">
         <h2>Chi siamo</h2>
         <p>La Pasticceria del Corso apre nel <b>2016</b> su Corso Cavour 173, nel centro di Messina, dal maestro pasticcere <b>Francesco Sacc&agrave;</b>, per mantenere viva la tradizione della pasticceria siciliana.</p>
-        <p>Su Google ha <b>4,7 su 5</b> con 86 recensioni. Consegne in Italia e all&rsquo;estero, su ordinazione.</p>
+        <p data-rev hidden>Su Google ha <b><span data-rev-voto></span> su 5</b><span data-rev-num hidden> con <span data-rev-count></span> recensioni</span>.</p>
+        <p>Consegne in Italia e all&rsquo;estero, su ordinazione.</p>
       </div>
       <aside class="recapiti">
         <div><small>Telefono</small><span class="v"><a href="tel:0909018349">090 9018349</a></span></div>
@@ -182,5 +183,11 @@ a{color:inherit}
   <a href="tel:0909018349">Il banco &middot; ordina</a>
   <a href="mailto:pasticceriadelcorsosf@gmail.com">Eventi &middot; preventivo</a>
 </nav>
+<script>
+fetch('../data/reviews.json').then(r=>r.json()).then(d=>{const x=d.delcorso;if(!x||x.show==='none')return;
+document.querySelector('[data-rev-voto]').textContent=String(x.rating).replace('.',',');
+if(x.show==='full'){document.querySelector('[data-rev-count]').textContent=x.count;document.querySelector('[data-rev-num]').hidden=false}
+document.querySelector('[data-rev]').hidden=false}).catch(()=>{});
+</script>
 </body>
 </html>

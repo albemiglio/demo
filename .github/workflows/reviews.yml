@@ -1,0 +1,21 @@
+name: reviews
+on:
+  schedule:
+    - cron: '0 5 * * 1'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  aggiorna:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: node scripts/reviews.mjs
+        env:
+          GOOGLE_PLACES_KEY: ${{ secrets.GOOGLE_PLACES_KEY }}
+      - run: |
+          git config user.name "albemiglio"
+          git config user.email "albertomigliorato@gmail.com"
+          git add data/reviews.json
+          git diff --cached --quiet || git commit -m "Aggiorna recensioni"
+          git push
