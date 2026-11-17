@@ -275,9 +275,14 @@ html:not(.js) .scheda:first-child {
 .volta p {
   font: 400 clamp(1.25rem, 1.8vw, 1.5rem)/1.45 var(--serif);
 }
-.volta img {
+.volta img,
+.esperienze img {
+  display: block;
   width: 100%;
   height: auto;
+}
+.sala {
+  grid-column: 1 / -1;
 }
 .volta figcaption {
   max-width: 34ch;
@@ -326,6 +331,26 @@ html:not(.js) .scheda:first-child {
 }
 .esperienze a:focus-visible {
   outline-offset: -5px;
+}
+.con-foto {
+  display: grid;
+}
+.con-foto picture {
+  padding-bottom: 1.75rem;
+}
+/* the lounge photograph hangs above its own door and the next one */
+@media (min-width: 900px) {
+  .esperienze li {
+    grid-row: 2;
+  }
+  .esperienze .con-foto {
+    grid-row: 1 / span 2;
+    grid-template-rows: subgrid;
+  }
+  .con-foto picture {
+    width: 200%;
+    padding-bottom: clamp(2rem, 4vw, 3.5rem);
+  }
 }
 .esperienze h3 {
   font: 400 1.625rem/1.2 var(--serif);
@@ -404,6 +429,12 @@ a:hover > .va {
   }
   .volta {
     grid-template-columns: 1fr;
+  }
+  .sala {
+    margin: 0 calc(var(--gutter) * -1);
+  }
+  .con-foto picture {
+    order: 1;
   }
   .esperienze {
     grid-template-columns: 1fr;
@@ -575,6 +606,11 @@ a:hover > .va {
 </section>
 
 <section class="volta">
+  <picture class="sala">
+    <source type="image/avif" srcset="assets/img/sala-1280.avif 1280w, assets/img/sala-960.avif 960w, assets/img/sala-640.avif 640w" sizes="(max-width: 899px) 100vw, min(93vw, 74rem)">
+    <source type="image/webp" srcset="assets/img/sala-1280.webp 1280w, assets/img/sala-960.webp 960w, assets/img/sala-640.webp 640w" sizes="(max-width: 899px) 100vw, min(93vw, 74rem)">
+    <img src="assets/img/sala-960.webp" width="1280" height="853" alt="La sala dell’omakase: il banco curvo in legno illuminato dal basso, le sedie attorno, muri in pietra e una volta con resti di decorazioni dipinte" loading="lazy" decoding="async">
+  </picture>
   <p>Dieci posti al banco.<br>Una stella Michelin, Guida 2027.</p>
   <figure>
     <picture>
@@ -591,7 +627,12 @@ a:hover > .va {
     <h3>Il banco<svg class="va" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 11.5 7-7M5.5 4.5h6v6"/></svg></h3>
     <p>Omakase Ma Kaiseki, 150 € bevande escluse. Da mercoledì a domenica alle 20:00, la domenica anche alle 12:30.</p>
   </a></li>
-  <li><a href="https://widget.thefork.com/it/0e7ccbfa-fd6e-439c-9c6d-458a8bf1818f" target="_blank" rel="noopener" aria-label="Prenota la lounge">
+  <li class="con-foto"><picture>
+    <source type="image/avif" srcset="assets/img/bar-1280.avif 1280w, assets/img/bar-960.avif 960w, assets/img/bar-640.avif 640w" sizes="(max-width: 899px) 92vw, min(47vw, 37rem)">
+    <source type="image/webp" srcset="assets/img/bar-1280.webp 1280w, assets/img/bar-960.webp 960w, assets/img/bar-640.webp 640w" sizes="(max-width: 899px) 92vw, min(47vw, 37rem)">
+    <img src="assets/img/bar-960.webp" width="1280" height="853" alt="La lounge: un bancone da farmacia in legno davanti alle bottiglie del bar, il soppalco in alto e una lastra di vetro nel pavimento" loading="lazy" decoding="async">
+  </picture>
+  <a href="https://widget.thefork.com/it/0e7ccbfa-fd6e-439c-9c6d-458a8bf1818f" target="_blank" rel="noopener" aria-label="Prenota la lounge">
     <h3>La lounge<svg class="va" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 11.5 7-7M5.5 4.5h6v6"/></svg></h3>
     <p>Cocktail, vini, sake e piattini, dall’aperitivo al dopocena.</p>
   </a></li>
