@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Akoya, tavola di marca (bozza)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=DM+Mono:wght@400&family=Oranienbaum&family=Shippori+Mincho&display=swap">
+<style>
+@font-face { font-family: "Shippori Mincho"; src: url("../assets/fonts/shippori-mincho-400.woff2") format("woff2"); }
+:root {
+  --notte: #0f0a07;
+  --ruggine: #74362a;
+  --indaco: #212a3d;
+  --avorio: #dbcab4;
+  --porcellana: #b9c8c7;
+  --ambra: #da9737;
+  --rovere: #8f5832;
+  --carta: #ffffff;
+  --inchiostro: #1b1410;
+  --didone: "Bodoni Moda", "Bodoni 72", Didot, serif;
+  --fatti: "DM Mono", ui-monospace, Menlo, monospace;
+  --testo: -apple-system, "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--carta); color: var(--inchiostro); font: 400 17px/1.55 var(--testo); }
+img { display: block; max-width: 100%; height: auto; }
+.pagina { max-width: 1120px; margin: 0 auto; padding: 0 max(20px, 4vw) 96px; }
+.testa { background: var(--notte); color: var(--avorio); }
+.testa .pagina { padding-top: 0; padding-bottom: 40px; }
+.testa img { width: min(560px, 78vw); margin: 0 auto; padding: 56px 0 8px; }
+.testa p { max-width: 60ch; margin: 28px 0 0; }
+h1 { margin: 32px 0 0; font: 400 clamp(2rem, 5vw, 3.25rem)/1.1 var(--didone); }
+h2 { margin: 88px 0 8px; font: 400 clamp(1.75rem, 3.6vw, 2.5rem)/1.15 var(--didone); }
+.nota { max-width: 62ch; margin: 0 0 32px; color: #5b4f46; }
+.fonte, .mio { font: 400 0.75rem/1.4 var(--fatti); letter-spacing: 0.02em; }
+.fonte { color: #6b5e54; }
+.mio { display: inline-block; padding: 5px 10px; border: 1px solid var(--ruggine); color: var(--ruggine); }
+.due { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+figure { margin: 0; }
+figcaption { margin-top: 10px; }
+.essenza { display: grid; gap: 0; border-top: 1px solid #cfc4b6; }
+.essenza > div { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 32px; padding: 28px 0; border-bottom: 1px solid #cfc4b6; }
+.essenza h3 { margin: 0; font: 400 1.625rem/1.2 var(--didone); }
+.essenza blockquote { margin: 0 0 6px; font: italic 400 1.125rem/1.45 var(--didone); }
+.frasi { background: var(--notte); color: var(--avorio); margin: 0 calc(-1 * max(20px, 4vw)); padding: 56px max(20px, 4vw); display: grid; gap: 44px; }
+.frasi blockquote { margin: 0; max-width: 22ch; font: 400 clamp(1.75rem, 4.4vw, 3rem)/1.14 var(--didone); }
+.frasi .fonte { display: block; margin-top: 12px; color: #9c8b7b; }
+.colori { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.colore { border: 1px solid #cfc4b6; background: #ffffff; }
+.colore i { display: flex; align-items: flex-end; height: 132px; padding: 12px; font: normal 400 1.375rem/1 var(--didone); }
+.colore div { padding: 12px 14px 14px; }
+.colore b { display: block; font: 400 0.8125rem/1.4 var(--fatti); }
+.colore span { display: block; margin-top: 4px; font-size: 0.875rem; color: #5b4f46; }
+.prove { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; }
+.prova { padding: 28px 24px 24px; background: var(--notte); color: var(--avorio); }
+.prova h3 { margin: 0 0 10px; font-weight: 400; font-size: 2.5rem; line-height: 1.08; }
+.prova p { margin: 0 0 22px; max-width: 30ch; font-size: 1.0625rem; line-height: 1.5; }
+.prova small { display: block; font: 400 0.75rem/1.4 var(--fatti); color: #9c8b7b; }
+.prova small + small { margin-top: 18px; color: var(--avorio); }
+.striscia { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.striscia img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; }
+.regole { margin: 28px 0 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px 32px; }
+.regole li { padding-top: 12px; border-top: 1px solid #cfc4b6; }
+.voce { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
+.voce h3 { margin: 0 0 12px; font: 400 0.8125rem/1.4 var(--fatti); }
+.voce ul { margin: 0; padding: 0; list-style: none; }
+.voce li { padding: 12px 0; border-top: 1px solid #cfc4b6; font: 400 1.25rem/1.35 var(--didone); }
+.voce .no li { color: #6f635b; text-decoration: line-through; text-decoration-thickness: 1px; }
+@media (max-width: 700px) {
+  .striscia { grid-template-columns: repeat(3, 1fr); }
+  .essenza > div { grid-template-columns: 1fr; gap: 12px; }
+  h2 { margin-top: 64px; }
+}
+</style>
+</head>
+<body>
+<header class="testa">
+  <img src="img/scritta.jpg" alt="La scritta AKOYA com'è nelle loro grafiche">
+  <div class="pagina">
+    <h1>Akoya, tavola di marca</h1>
+    <p>Bozza. Foto, scritta, colori e frasi vengono dai loro materiali, soprattutto dai 139 post di Instagram. Dove la scelta è mia c'è scritto «proposta».</p>
+  </div>
+</header>
+
+<main class="pagina">
+
+<h2>Dove vive la marca</h2>
+<p class="nota">Il sito di oggi è una pagina dentro quello della galleria Musa: logo di Musa, caratteri generici, due riquadri grigi. La marca di Akoya sta su Instagram.</p>
+<div class="due">
+  <figure><img src="img/sito-oggi.jpg" alt="Il loro sito oggi"><figcaption class="fonte">spaziomusa.net/akoya, oggi</figcaption></figure>
+  <figure><img src="img/stella.jpg" alt="La loro grafica per la stella" style="max-height: 420px; width: auto"><figcaption class="fonte">Instagram, 12 11 2026: scritta stretta e alta, data e fonte in carattere da macchina</figcaption></figure>
+</div>
+
+<h2>Essenza</h2>
+<p class="nota">Quattro idee, ognuna con la frase loro da cui viene. <span class="mio">proposta</span> la sintesi a sinistra, loro le parole a destra.</p>
+<div class="essenza">
+  <div><h3>Togliere finché resta l'essenziale</h3><div><blockquote>«Cosa resta quando si elimina il superfluo?»</blockquote><blockquote>«Presenza continua, interventi minimi, nessuna parola che non sia necessaria.»</blockquote><span class="fonte">reel con chef Daddea; post sul servizio in sala</span></div></div>
+  <div><h3>Giappone non adattato</h3><div><blockquote>«Non abbiamo adattato niente. Una cucina che abbiamo accolto senza chiederle di somigliarci.»</blockquote><span class="fonte">post «Non abbiamo adattato niente»</span></div></div>
+  <div><h3>La precisione come rispetto</h3><div><blockquote>«Il lusso è quasi sempre un'equazione di millimetri.»</blockquote><blockquote>«Dalla materia prima al piatto, ogni passaggio è una forma di rispetto.»</blockquote><span class="fonte">post sull'hosomaki; reel sulla materia prima</span></div></div>
+  <div><h3>Affidarsi</h3><div><blockquote>«Fiducia. Connessione. L'omakase per noi.»</blockquote><blockquote>«L'omakase non esiste senza chi sta dall'altra parte.»</blockquote><span class="fonte">post «Fiducia»; annuncio della stella</span></div></div>
+</div>
+
+<h2>Le loro frasi</h2>
+<p class="nota">Così scrivono dei piatti: prima un'idea, poi gli ingredienti. Frasi corte, punto fermo, nessun invito.</p>
+<div class="frasi">
+  <div><blockquote>Un pesce che conosciamo bene, in una forma che non ci aspettiamo.</blockquote><span class="fonte">Shime Saba, 11 11 2026</span></div>
+  <div><blockquote>Il mare, in due consistenze.</blockquote><span class="fonte">Calamaro Somen, 16 11 2026</span></div>
+  <div><blockquote>La lama non taglia. Disegna.</blockquote><span class="fonte">reel sul taglio</span></div>
+  <div><blockquote>Il riso è il cuore del sushi.</blockquote><span class="fonte">reel sul riso</span></div>
+  <div><blockquote>Quello che sorprende è la misura.</blockquote><span class="fonte">Shime Saba, 11 11 2026</span></div>
+</div>
+
+<h2>Colori</h2>
+<p class="nota">Misurati sulle loro foto, non scelti a gusto. Il colore non sta nella grafica (bianco e nero) ma nei teli, nelle giacche, nella luce.</p>
+<div class="colori" id="colori"></div>
+
+<h2>Caratteri</h2>
+<p class="nota">La scritta AKOYA è un bodoniano strettissimo: va usata com'è, come disegno, mai riscritta con un altro carattere. Per i nomi dei piatti tre prove sullo stesso testo. <span class="mio">proposta</span> la prima, che riprende il contrasto della scritta; la terza è quella della demo di oggi.</p>
+<div class="prove">
+  <div class="prova"><h3 style="font-family: var(--didone)">Shime Saba</h3><p style="font-family: var(--didone)">Un pesce che conosciamo bene, in una forma che non ci aspettiamo.</p><small>Bodoni Moda</small><small style="font-family: var(--fatti)">12 11 2026 · Michelin Guide</small></div>
+  <div class="prova"><h3 style="font-family: Oranienbaum, serif">Shime Saba</h3><p style="font-family: Oranienbaum, serif">Un pesce che conosciamo bene, in una forma che non ci aspettiamo.</p><small>Oranienbaum</small><small style="font-family: var(--fatti)">12 11 2026 · Michelin Guide</small></div>
+  <div class="prova"><h3 style="font-family: 'Shippori Mincho', serif">Shime Saba</h3><p style="font-family: 'Shippori Mincho', serif">Un pesce che conosciamo bene, in una forma che non ci aspettiamo.</p><small>Shippori Mincho (demo di oggi)</small><small style="font-family: var(--fatti)">12 11 2026 · Michelin Guide</small></div>
+</div>
+<p class="fonte" style="margin-top: 14px">I fatti piccoli (date, posti, orari) nel carattere da macchina che usano loro nella grafica della stella.</p>
+
+<h2>Fotografia</h2>
+<p class="nota">Una mano sola e riconoscibile. È il pezzo più forte della marca.</p>
+<div class="striscia">
+  <img src="img/shime-03.jpg" alt=""><img src="img/shime-02.jpg" alt=""><img src="img/calamaro-01.jpg" alt=""><img src="img/calamaro-03.jpg" alt=""><img src="img/ritratto-04.jpg" alt=""><img src="img/ritratto-05.jpg" alt="">
+</div>
+<ul class="regole">
+  <li>Un piatto solo, su telo ruggine o indaco, mai su tovaglia bianca.</li>
+  <li>Luce radente e calda da un lato, ombra piena dall'altro.</li>
+  <li>Tre punti di vista: tre quarti, vicinissimo, dall'alto.</li>
+  <li>La mano entra solo per il gesto: versare, tagliare, posare.</li>
+  <li>Le persone: giacca avorio, sfondo di pietra, sguardo fermo.</li>
+</ul>
+
+<h2>Voce</h2>
+<div class="voce">
+  <div><h3>Così</h3><ul><li>Il mare, in due consistenze.</li><li>Fiducia. Connessione.</li><li>Il lavoro continua.</li><li>Dal mercoledì alla domenica, dalle 18.</li></ul></div>
+  <div class="no"><h3>Così no</h3><ul><li>Un viaggio di sapori indimenticabile</li><li>Prenota ora la tua esperienza esclusiva</li><li>Il dashi è versato davanti a voi</li><li>Il miglior omakase di Torino</li></ul></div>
+</div>
+
+</main>
+<script>
+const colori = [
+  ["Notte", "#0f0a07", "la pietra della sala al buio, dai ritratti", "fondo"],
+  ["Ruggine", "#74362a", "il telo sotto i piatti", "il loro segno: poco, mai per i testi lunghi"],
+  ["Indaco", "#212a3d", "il secondo telo", "fondo alternativo, sezioni della lounge"],
+  ["Avorio", "#dbcab4", "le giacche della brigata", "testi su fondo scuro"],
+  ["Porcellana", "#b9c8c7", "il piatto in ombra", "raro, per dettagli freddi"],
+  ["Ambra", "#da9737", "la luce sotto il banco", "solo luce, mai superfici piene"],
+  ["Rovere", "#8f5832", "il banco", "legno, nelle scene"],
+];
+const lin = (c) => { c /= 255; return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4; };
+const lum = (h) => 0.2126 * lin(parseInt(h.slice(1, 3), 16)) + 0.7152 * lin(parseInt(h.slice(3, 5), 16)) + 0.0722 * lin(parseInt(h.slice(5, 7), 16));
+const ratio = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((m, n) => n - m); return ((x + 0.05) / (y + 0.05)).toFixed(1); };
+document.getElementById("colori").innerHTML = colori.map(([nome, hex, da, uso]) => {
+  const chiaro = lum(hex) > 0.25, ink = chiaro ? "#0f0a07" : "#dbcab4";
+  return `<div class="colore"><i style="background:${hex};color:${ink}">${nome}</i><div><b>${hex} · ${chiaro ? "notte" : "avorio"} sopra ${ratio(hex, ink)}:1</b><span>Da: ${da}.</span><span>Uso: ${uso}.</span></div></div>`;
+}).join("");
+</script>
+</body>
+</html>
