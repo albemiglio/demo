@@ -395,7 +395,7 @@ a:hover > .va {
 
   // Metres. The guest sits at the counter: x to the right, y up, z away. The dish in front is at the origin.
   const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921]},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021]},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946]}];
-  const WOOD = [0.2154, 0.0962];
+  const WOOD = {"size": [1.728, 0.6], "pores": [0.48, 0.3], "depth": 0.2347};
   const EYE = 0.8;        // from the eye to the plate
   const CURVE = 1.6;      // radius of the line the dishes travel on; its centre is beyond the counter
   const FAR = 1.3;        // radius of the far edge of the counter
@@ -418,7 +418,9 @@ out vec4 o;
 const vec3 WARM = vec3(1.0, 0.8, 0.56);
 const vec3 DIM = vec3(0.016, 0.012, 0.009);
 
-// the lamp: a warm beam that thins with the angle from its axis and with the distance
+// the lamp: a warm beam that thins with the angle from its axis and with the distance;
+// seen from the side its lens is still bright (spill), which is what a polished surface mirrors
+float spill;
 float beam(vec3 p, out vec3 l) {
   vec3 d = uLamp - p;
   float far = length(d);
@@ -427,7 +429,9 @@ float beam(vec3 p, out vec3 l) {
   float along = max(dot(-l, normalize(axis)), 0.001);
   float off = sqrt(max(1.0 - along * along, 0.0)) / along / (0.165 * uSpread);
   off *= off;
-  return uPower * dot(axis, axis) / (far * far) / (1.0 + off * off);
+  float full = uPower * dot(axis, axis) / (far * far);
+  spill = full / (1.0 + off);
+  return full / (1.0 + off * off);
 }
 
 // from light to the screen: a soft shoulder, the curve of the display, one grain for every layer
@@ -474,10 +478,10 @@ void main() {
 }`;
 
   const COUNTER_F = HEAD + `
-uniform sampler2D uWood, uMapA, uMapB;
-uniform vec4 uPoseA, uPoseB, uOver;
-uniform vec2 uGrain;
+uniform sampler2D uWood, uPores, uMapA, uMapB;
+uniform vec4 uPoseA, uPoseB, uOver, uGrain;
 uniform vec3 uCurve;
+uniform vec2 uRim;
 uniform float uFocus, uBlur;
 in vec3 vPos;
 in float vW;
@@ -488,17 +492,25 @@ float above(sampler2D map, vec4 pose, vec2 over, vec3 q, float lod) {
   return textureLod(map, vec2(pose.z * d.x + pose.w * d.y, pose.z * d.y - pose.w * d.x) / (2.0 * over.y) + 0.5, lod).a * over.x;
 }
 
-// the shadow a dish casts here, and how closely it sits around this point
-float shadow(sampler2D map, vec4 pose, vec2 over, vec3 p, vec3 l, out float near) {
-  near = clamp((above(map, pose, over, p, 3.0) + above(map, pose, over, p, 5.0)) / 0.03, 0.0, 1.0);
-  float s = 0.0;
-  // a lamp is not a point: the further the edge that casts it, the softer the shadow
-  for (int i = 1; i <= 10; i++) {
-    float t = float(i) * 0.008;
+// the shadow a dish casts here: the way from the counter up to the lamp, stopped by whatever stands taller.
+// A lamp is not a point: the further the edge that casts it, the softer the shadow.
+// What casts it on the counter is the plate, as tall as its rim: what is taller sits inside and shades the plate itself.
+float shadow(sampler2D map, vec4 pose, vec2 over, float rim, vec3 p, vec3 l) {
+  float s = 0.0, t = 0.0012;
+  for (int i = 0; i < 24; i++) {
     vec3 q = p + l * t;
-    s = max(s, clamp((above(map, pose, over, q, 3.2 + t * 25.0) - q.y) / (0.01 + t * 0.25), 0.0, 1.0));
+    float wide = 0.003 + 0.22 * t;
+    s = max(s, clamp((min(above(map, pose, over, q, log2(wide / 0.0012)), rim) - q.y) / wide + 0.5, 0.0, 1.0));
+    t *= 1.2;
   }
   return s;
+}
+
+// how much of the room a point of the counter still sees: little under the rim of a plate, less than all next to it
+float sky(sampler2D map, vec4 pose, vec2 over, vec3 p) {
+  float under = clamp(above(map, pose, over, p, 3.0) / 0.012, 0.0, 1.0);
+  float beside = clamp(above(map, pose, over, p, 5.0) / 0.02, 0.0, 1.0);
+  return (1.0 - 0.8 * smoothstep(0.15, 1.0, under)) * (1.0 - 0.3 * beside);
 }
 
 vec3 wood(vec2 uv, float lod, vec2 ax, vec2 ay) {
@@ -509,32 +521,53 @@ vec3 wood(vec2 uv, float lod, vec2 ax, vec2 ay) {
 void main() {
   vec2 from = vPos.xz - vec2(0.0, uCurve.x);
   float rad = length(from);
-  float soft = uBlur * abs(1.0 - uFocus / vW);
+  // the photograph of a dish is sharp from its near rim to its far one: so is the counter beside it, and softer beyond
+  float soft = uBlur * max(abs(1.0 - uFocus / vW) - 0.12, 0.0);
   // the far edge, as soft as the lens leaves it at that distance
   float edge = (rad - uCurve.y) / max(fwidth(rad), 1e-5);
   float a = smoothstep(-soft - 0.8, soft + 0.8, edge);
   if (a < 0.004) discard;
 
-  // the staves follow the curve of the counter
-  vec2 uv = vec2(atan(from.x, -from.y) * uCurve.x, rad - uCurve.y) / uGrain;
+  // the grain follows the curve of the counter: metres along it and across it
+  vec2 along = vec2(-from.y, from.x) / rad, across = from / rad;
+  vec2 at = vec2(atan(from.x, -from.y) * uCurve.x, rad - uCurve.y);
+  vec2 uv = at / uGrain.xy, pv = at / uGrain.zw;
   vec2 tx = uv * vec2(textureSize(uWood, 0));
   float lod = max(log2(max(length(dFdx(tx)), length(dFdy(tx))) * (1.0 + soft)), 0.0);
   vec2 ax = dFdx(uv) * soft * 0.5, ay = dFdy(uv) * soft * 0.5;
-  vec3 w = mix(wood(uv, lod, ax, ay), wood(uv * vec2(0.43, 0.61) + vec2(0.37, 0.19), max(lod - 0.9, 0.0), ax * 0.43, ay * 0.61), 0.3);
-  vec3 albedo = pow(w, vec3(2.2));
+  vec3 rings = pow(wood(uv, lod, ax, ay), vec3(2.2));
+  // the pores lie on the rings: a little darker, a little deeper and a little rougher than the wood between them
+  vec2 px = pv * vec2(textureSize(uPores, 0));
+  float fine = max(log2(max(length(dFdx(px)), length(dFdy(px))) * (1.0 + soft)), 0.0);
+  vec2 e = exp2(fine) / vec2(textureSize(uPores, 0));
+  float pore = textureLod(uPores, pv, fine).r;
+  vec2 slope = (vec2(textureLod(uPores, pv + vec2(e.x, 0.0), fine).r, textureLod(uPores, pv + vec2(0.0, e.y), fine).r) - pore) / (e * uGrain.zw) * 0.0002;
+  vec3 albedo = rings * (1.0 + 1.5 * uCurve.z * (pore * 2.0 - 1.0));
+  vec2 tip = along * slope.x + across * slope.y;
+  vec3 n = normalize(vec3(-tip.x, 1.0, -tip.y));
 
   vec3 l;
-  float lit = beam(vPos, l) * l.y;
-  float nearA = 0.0, nearB = 0.0, sA = 0.0, sB = 0.0;
-  if (uOver.x > 0.0 && distance(vPos.xz, uPoseA.xy) < 0.36) sA = shadow(uMapA, uPoseA, uOver.xy, vPos, l, nearA);
-  if (uOver.z > 0.0 && distance(vPos.xz, uPoseB.xy) < 0.36) sB = shadow(uMapB, uPoseB, uOver.zw, vPos, l, nearB);
-  float shade = max(sA, sB), near = max(nearA, nearB);
+  float lamp = beam(vPos, l);
+  float shade = 0.0, room = 1.0;
+  if (uOver.x > 0.0 && distance(vPos.xz, uPoseA.xy) < 0.36) {
+    shade = shadow(uMapA, uPoseA, uOver.xy, uRim.x, vPos, l);
+    room = sky(uMapA, uPoseA, uOver.xy, vPos);
+  }
+  if (uOver.z > 0.0 && distance(vPos.xz, uPoseB.xy) < 0.36) {
+    shade = max(shade, shadow(uMapB, uPoseB, uOver.zw, uRim.y, vPos, l));
+    room *= sky(uMapB, uPoseB, uOver.zw, vPos);
+  }
 
-  // a satin finish: the lamp leaves a soft sheen where it would mirror towards the eye
-  vec3 v = normalize(uEye - vPos);
-  float sheen = pow(max(normalize(l + v).y, 0.0), 70.0) * 0.5 * lit * (1.0 - shade) * (0.5 + w.g);
-  // under a plate some light still comes back from the wood around it
-  vec3 c = albedo * (DIM + WARM * lit * (1.0 - 0.93 * shade)) * (1.0 - 0.55 * near) + WARM * sheen;
+  // a satin finish over the fibre: the lamp mirrors as a soft streak, drawn out across the grain, and not in the shade
+  vec3 v = normalize(uEye - vPos), h = normalize(l + v);
+  vec2 rough = vec2(0.07, 0.4) * (1.3 - 0.6 * pore);
+  float ht = dot(h.xz, along) / rough.x, hr = dot(h.xz, across) / rough.y, hn = max(dot(h, n), 0.0);
+  float lobe = ht * ht + hr * hr + hn * hn;
+  float sheen = (0.04 + 0.96 * pow(1.0 - max(dot(v, h), 0.0), 5.0)) / (4.0 * rough.x * rough.y * lobe * lobe * max(v.y, 0.2));
+  // in the shade the wood keeps the light that comes back from the wood around it, which has its colour: darker and warmer
+  vec3 oak = pow(textureLod(uWood, vec2(0.5), 12.0).rgb, vec3(2.2));
+  vec3 back = oak / max(oak.r, 1e-3) * l.y * 0.24 * shade * room;
+  vec3 c = albedo * (DIM * room + WARM * lamp * (max(dot(n, l), 0.0) * (1.0 - shade) + back)) + WARM * spill * sheen * 0.6 * (1.0 - shade);
   // the edge turns away from the light
   c *= 0.7 + 0.3 * smoothstep(0.0, 0.01, rad - uCurve.y);
   o = vec4(develop(c) * a, a);
@@ -643,7 +676,7 @@ void main() {
     else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
     if (opt.mips) gl.generateMipmap(gl.TEXTURE_2D);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, opt.mips ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
-    const wrap = opt.mirror ? gl.MIRRORED_REPEAT : gl.CLAMP_TO_EDGE;
+    const wrap = opt.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
     gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
     return t;
@@ -658,9 +691,10 @@ void main() {
 
   const scene = {};
   function fetchScene(done) {
-    let left = 2;
+    let left = 3;
     const one = () => { if (!--left) done(); };
-    load("rovere", (im) => { scene.wood = texture(im, { mips: true, mirror: true }); one(); });
+    load("rovere", (im) => { scene.wood = texture(im, { mips: true, repeat: true }); one(); });
+    load("rovere-fibra", (im) => { scene.pores = texture(im, { mips: true, repeat: true }); one(); });
     load("sala", (im) => { scene.room = texture(im); one(); });
   }
 
@@ -746,7 +780,7 @@ void main() {
 
   function render() {
     gl.clear(gl.COLOR_BUFFER_BIT);
-    if (!scene.wood || !scene.room) return;
+    if (!scene.wood || !scene.pores || !scene.room) return;
     const a = clamp(Math.floor(pos), 0, N - 1), b = Math.min(a + 1, N - 1), t = smooth(0, 1, pos - a);
     // the guest's eye: where the photographer stood for the dish in front, moving a little with the head
     const eye0 = [0, mix(DISHES[a].eye[1], DISHES[b].eye[1], t), -mix(DISHES[a].back, DISHES[b].back, t)];
@@ -816,8 +850,10 @@ void main() {
     if (one) gl.uniform4f(counter.uPoseA, one.P[0], one.P[1], one.c, one.s);
     if (two) gl.uniform4f(counter.uPoseB, two.P[0], two.P[1], two.c, two.s);
     gl.uniform4f(counter.uOver, one ? one.d.top : 0, one ? one.d.reach : 1, two ? two.d.top : 0, two ? two.d.reach : 1);
-    gl.uniform3f(counter.uCurve, CURVE, FAR, 0);
-    gl.uniform2f(counter.uGrain, WOOD[0] * 1.4, WOOD[1] * 1.4);
+    bind(3, scene.pores, counter.uPores);
+    gl.uniform2f(counter.uRim, one ? one.d.rim * 1.3 : 0, two ? two.d.rim * 1.3 : 0);
+    gl.uniform3f(counter.uCurve, CURVE, FAR, WOOD.depth);
+    gl.uniform4f(counter.uGrain, ...WOOD.size, ...WOOD.pores);
     gl.uniform4f(counter.uPose, 0, 0, 1, 0);
     gl.bindVertexArray(top);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
