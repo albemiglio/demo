@@ -688,7 +688,7 @@ void main() {
   const detent = (p) => { const n = Math.round(p), f = p - n; return n + Math.sign(f) * 4 * Math.abs(f) ** 3; };
 
   function measure() {
-    step = stage.offsetHeight * 0.5;
+    step = stage.offsetHeight * 0.5 || 1;
     start = root.offsetTop;
     const w = stage.clientWidth, h = stage.clientHeight, narrow = w < 900;
     // how wide a plate of 25 cm is on screen, and where the dish sits
