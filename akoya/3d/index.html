@@ -2,14 +2,14 @@
 <html lang="it">
 <head>
 <script>
-if (matchMedia("(prefers-reduced-motion: reduce)").matches || !document.createElement("canvas").getContext("webgl2")) location.replace("../");
+if (!document.createElement("canvas").getContext("webgl2")) location.replace("../");
 </script>
 <noscript><meta http-equiv="refresh" content="0;url=../"></noscript>
 <script>document.documentElement.classList.add("js")</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Akoya</title>
-<meta name="description" content="Omakase da dieci posti al banco e lounge a Torino, dentro Spazio Musa. Una stella Michelin nella Guida 2027.">
+<meta name="description" content="Omakase al banco e lounge a Torino, dentro Spazio Musa. Una stella Michelin nella Guida 2027.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#0b0806">
 <link rel="icon" href="data:,">
@@ -18,8 +18,7 @@ if (matchMedia("(prefers-reduced-motion: reduce)").matches || !document.createEl
 <link rel="stylesheet" href="../assets/base.css">
 <style>
 .giro {
-  --passi: 10;
-  height: calc(100svh + var(--passi) * 50svh);
+  height: 146svh;
 }
 html:not(.js) .giro {
   height: auto;
@@ -84,10 +83,23 @@ html:not(.js) .giro {
 /* the scene: one canvas behind the words */
 .scena > .tela {
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
   z-index: 1;
   width: 100%;
   height: 100%;
+}
+/* on a phone the bars of the browser fold away as the page moves: the scene goes on under them, down to where the dishes end */
+@supports (overflow: clip) and (height: 100lvh) {
+  .giro {
+    overflow: clip;
+  }
+  .scena {
+    overflow: visible;
+  }
+  .scena > .tela {
+    height: 100lvh;
+  }
 }
 
 .schede {
@@ -331,6 +343,61 @@ a:hover > .va {
     width: max-content;
   }
 }
+/* the doors are buttons: each has its edge and its ground, and turns to bone under the hand */
+.porte {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+  border: 0;
+}
+.porte > .porta {
+  border: 1px solid rgba(236, 228, 216, 0.6);
+  background: rgba(11, 8, 6, 0.45);
+  transition: color 0s 0.06s, border-color 0.25s var(--ease), transform 0.2s var(--ease);
+}
+/* the words change ink when the ground is half way, so they are never the colour of what is under them */
+.porte > .porta::before {
+  transition-duration: 0.25s;
+}
+.porta > * {
+  position: relative;
+}
+.porta .va {
+  color: inherit;
+  opacity: 0.7;
+}
+.punta .porte > .porta:hover {
+  border-color: var(--bone);
+  color: var(--ink);
+}
+.punta .porte > .porta:hover::before {
+  opacity: 1;
+}
+.porta:hover .giu {
+  transform: translateY(3px);
+}
+.porte > .porta:active {
+  border-color: var(--bone);
+  color: var(--ink);
+  transform: scale(0.98);
+}
+.porte > .porta:active::before {
+  opacity: 0.86;
+}
+.punta .porta:hover .porta-cosa,
+.porta:active .porta-cosa {
+  color: inherit;
+  text-shadow: none;
+}
+.porte > .porta:focus-visible {
+  outline-offset: 3px;
+}
+/* as the light goes down the words go with it */
+.scena > :not(.tela) {
+  opacity: var(--luce, 1);
+}
+.scena.is-buio > * {
+  pointer-events: none;
+}
 @media (max-width: 899px) {
   .atti {
     flex: 1;
@@ -356,6 +423,13 @@ a:hover > .va {
 }
 /* the numerals of every dish on the narrowest phones: closer together, between narrower arrows or none */
 @media (max-width: 389px) {
+  .porte {
+    gap: 8px;
+  }
+  .porte > .porta {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
   .freccia {
     width: 40px;
   }
@@ -391,20 +465,12 @@ a:hover > .va {
   min-height: 100svh;
   padding: var(--gutter) 0;
 }
-/* the counter goes dark as the first room comes up under it: the last dish holds still while the dark rises over it */
-.js .giro {
-  height: calc(100svh + var(--passi) * 50svh + 10rem);
+.serata:focus {
+  outline: 0;
 }
-#banco {
-  position: relative;
-}
-.js #banco::before {
-  content: "";
-  position: absolute;
-  inset: auto 0 100%;
-  height: 10rem;
-  pointer-events: none;
-  background: linear-gradient(to top, var(--ink), rgba(11, 8, 6, 0.76) 28%, rgba(11, 8, 6, 0.4) 56%, rgba(11, 8, 6, 0.11) 82%, rgba(11, 8, 6, 0));
+/* a picture without a box is not asked for: the rooms cost nothing until the guest starts to leave the dishes */
+.js:not(.via) .quadro img {
+  display: none;
 }
 .serata-testo {
   grid-area: testo;
@@ -452,19 +518,27 @@ a:hover > .va {
 .porte.una {
   grid-template-columns: 1fr;
 }
-/* each room comes up once, as it is reached */
+/* each room comes up as it is reached; from a door of the dishes, out of the dark and a little from below */
 .js .serata > * {
   opacity: 0;
-  transition: opacity 1.1s var(--ease);
-}
-.js .serata > .serata-testo {
-  transition-delay: 0.15s;
-}
-.js .serata > .porte {
-  transition-delay: 0.3s;
 }
 .js .serata.is-in > * {
   opacity: 1;
+  transition: opacity 1.1s var(--ease);
+}
+.js .serata.is-in > .serata-testo {
+  transition-delay: 0.15s;
+}
+.js .serata.is-in > .porte {
+  transition-delay: 0.3s;
+}
+.js .serata.sale > * {
+  animation: sale 1s var(--ease);
+}
+@keyframes sale {
+  from {
+    transform: translateY(1.5rem);
+  }
 }
 .js .serata:not(.is-open) > .porte {
   pointer-events: none;
@@ -523,6 +597,14 @@ a:hover > .va {
     display: grid;
     gap: 0;
     padding-top: 40px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
   }
 }
 </style>
@@ -595,11 +677,11 @@ a:hover > .va {
 
     <nav class="porte" aria-label="La serata">
       <a class="porta" href="#banco">
-        <span class="porta-nome">Il banco</span>
-        <span class="porta-cosa">Omakase, 10 posti</span>
+        <span class="porta-nome">Il banco<svg class="va giu" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></span>
+        <span class="porta-cosa">Omakase</span>
       </a>
       <a class="porta" href="#lounge">
-        <span class="porta-nome">La lounge</span>
+        <span class="porta-nome">La lounge<svg class="va giu" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v10M3.5 8.5 8 13l4.5-4.5"/></svg></span>
         <span class="porta-cosa">Aperitivo e dopocena</span>
       </a>
     </nav>
@@ -624,7 +706,7 @@ a:hover > .va {
   </div>
 </section>
 
-<section class="serata" id="banco" aria-labelledby="t-banco">
+<section class="serata" id="banco" aria-labelledby="t-banco" tabindex="-1">
   <div class="serata-testo">
     <h2 id="t-banco">Il banco</h2>
     <p class="riga">Omakase Ma Kaiseki<br>150 € bevande escluse</p>
@@ -644,12 +726,12 @@ a:hover > .va {
   <nav class="porte una" aria-label="Prenota il banco">
     <a class="porta" href="https://widget.thefork.com/it/51f7d501-5136-4ca0-b394-9ab86e1838fc" target="_blank" rel="noopener" aria-label="Prenota il banco su TheFork">
       <span class="porta-nome">Prenota<svg class="va" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 11.5 7-7M5.5 4.5h6v6"/></svg></span>
-      <span class="porta-cosa">Omakase, 10 posti</span>
+      <span class="porta-cosa">Omakase</span>
     </a>
   </nav>
 </section>
 
-<section class="serata" id="lounge" aria-labelledby="t-lounge">
+<section class="serata" id="lounge" aria-labelledby="t-lounge" tabindex="-1">
   <div class="serata-testo">
     <h2 id="t-lounge">La lounge</h2>
     <p class="riga">Cocktail, vini, sake e piattini<br>Dall’aperitivo al dopocena</p>
@@ -681,100 +763,86 @@ a:hover > .va {
 
 <script>
 (() => {
-  const root = document.querySelector(".giro");
-  const stage = root.querySelector(".scena");
-  const canvas = root.querySelector(".tela");
-  const cards = [...root.querySelectorAll(".scheda")];
-  const ticks = [...root.querySelectorAll(".atti button")];
-  const arrows = [...root.querySelectorAll(".freccia")];
-  const N = cards.length;
-  const IMG = "../assets/img/c-";
-
-  // Metres. The guest sits at the counter: x to the right, y up, z away. The dish in front is at the origin.
-  const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"rim":0.018,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921],"foot":0,"disc":0},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"rim":0.024,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021],"foot":0,"disc":0},{"slug":"calamaro","widths":[720,1000,1400],"top":0.076,"reach":0.18,"rim":0.06,"radius":0.065,"wide":0.1979,"f":6464.6,"eye":[-0.011,0.5979,-0.5811],"shot":[[3.92745,-0.30677,0.33773,0.42292],[0.0,-4.82646,-3.80855,0.67271],[0.0,-0.67237,0.74022,0.83211]],"gain":[1.241,1.097,1.081],"foot":0.02,"disc":0.065},{"slug":"granchio","widths":[480,776],"top":0.0743,"reach":0.15,"rim":0.065,"radius":0.058,"wide":0.1154,"f":5037.9,"eye":[0.0011,0.5685,-0.6227],"shot":[[6.49218,-0.31912,0.39408,0.41988],[0.0,-5.99834,-4.39997,0.66992],[0.0,-0.62932,0.77715,0.84167]],"gain":[0.993,0.9,0.906],"foot":0.028,"disc":0.058},{"slug":"ricciola","widths":[480,720,818],"top":0.0253,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.179,"f":3445.0,"eye":[-0.0093,0.6498,-0.4127],"shot":[[4.21146,-0.35421,0.26935,0.38068],[0.0,-3.08911,-3.91415,0.39199],[0.0,-0.796,0.60529,0.76704]],"gain":[2.258,2.77,3.339],"foot":0,"disc":0.085},{"slug":"alice","widths":[480,720,1000],"top":0.0234,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.173,"f":4597.1,"eye":[-0.0002,0.6858,-0.4031],"shot":[[4.41605,-0.41931,0.26971,0.39717],[0.0,-3.0249,-4.12764,0.41092],[0.0,-0.84104,0.54097,0.79485]],"gain":[1.541,1.915,2.445],"foot":0,"disc":0.085},{"slug":"sciabola","widths":[720,1000,1163],"top":0.0325,"reach":0.13,"rim":0.015,"radius":0.088,"wide":0.1832,"f":4872.2,"eye":[-0.0011,0.5929,-0.5052],"shot":[[4.18932,-0.35652,0.3413,0.38856],[0.0,-3.69486,-3.57018,0.38701],[0.0,-0.72236,0.69151,0.77763]],"gain":[2.366,2.854,3.329],"foot":0,"disc":0.088},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"rim":0.02,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946],"foot":0,"disc":0},{"slug":"anatra","widths":[720,1000,1367],"top":0.0757,"reach":0.19,"rim":0.022,"radius":0.12,"wide":0.2693,"f":3921.8,"eye":[-0.0166,0.5173,-0.5267],"shot":[[2.86893,-0.26901,0.34124,0.36646],[0.0,-3.28225,-2.47673,0.39333],[0.0,-0.61909,0.78532,0.73387]],"gain":[1.31,1.404,1.574],"foot":0,"disc":0.12},{"slug":"zucca","widths":[720,1000,1400],"top":0.0471,"reach":0.17,"rim":0.0195,"radius":0.11,"wide":0.2278,"f":7669.0,"eye":[0.0062,0.4581,-0.6382],"shot":[[3.43131,-0.28936,0.44134,0.39289],[0.0,-4.5445,-2.64862,0.39155],[0.0,-0.54829,0.83629,0.78494]],"gain":[1.2,1.102,1.107],"foot":0,"disc":0.11},{"slug":"mochi","widths":[480,720],"top":0.0294,"reach":0.1,"rim":0.012,"radius":0.065,"wide":0.1294,"f":7722.8,"eye":[0.002,0.6088,-0.5308],"shot":[[5.94062,-0.38508,0.3437,0.405],[0.0,-5.54549,-5.52767,0.44241],[0.0,-0.74606,0.66588,0.80767]],"gain":[0.908,0.807,0.748],"foot":0,"disc":0.065}];
-  const WOOD = {"size": [1.728, 0.6], "pores": [0.48, 0.3], "depth": 0.2347};
-  const EYE = 0.8;        // from the eye to the plate
-  const CURVE = 1.6;      // radius of the line the dishes travel on; its centre is beyond the counter
-  const FAR = 1.3;        // radius of the far edge of the counter
-  const SEAT = 0.36;      // angle between two dishes along the curve
-  const ROOM = [4.8, 0.3, 2.55, 3.35];  // the wall behind: width, top, height, distance
-  // one pin spot over the place, behind the dish and to the right: where the light of the photographs comes from
-  const LAMP = [0.3, 0.86, 0.4];
-  const LOW = 0.11;
-
-  const gl = canvas.getContext("webgl2", { alpha: false, antialias: true, powerPreference: "high-performance" });
-  const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
-  const mix = (a, b, t) => a + (b - a) * t;
-  const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
-
-  const HEAD = `#version 300 es
+const root = document.querySelector(".giro");
+const stage = root.querySelector(".scena");
+const canvas = root.querySelector(".tela");
+const cards = [...root.querySelectorAll(".scheda")];
+const ticks = [...root.querySelectorAll(".atti button")];
+const arrows = [...root.querySelectorAll(".freccia")];
+const N = cards.length;
+const IMG = "../assets/img/c-";
+const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"rim":0.018,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921],"foot":0,"disc":0},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"rim":0.024,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021],"foot":0,"disc":0},{"slug":"calamaro","widths":[720,1000,1400],"top":0.076,"reach":0.18,"rim":0.06,"radius":0.065,"wide":0.1979,"f":6464.6,"eye":[-0.011,0.5979,-0.5811],"shot":[[3.92745,-0.30677,0.33773,0.42292],[0.0,-4.82646,-3.80855,0.67271],[0.0,-0.67237,0.74022,0.83211]],"gain":[1.241,1.097,1.081],"foot":0.02,"disc":0.065},{"slug":"granchio","widths":[480,776],"top":0.0743,"reach":0.15,"rim":0.065,"radius":0.058,"wide":0.1154,"f":5037.9,"eye":[0.0011,0.5685,-0.6227],"shot":[[6.49218,-0.31912,0.39408,0.41988],[0.0,-5.99834,-4.39997,0.66992],[0.0,-0.62932,0.77715,0.84167]],"gain":[0.993,0.9,0.906],"foot":0.028,"disc":0.058},{"slug":"ricciola","widths":[480,720,818],"top":0.0253,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.179,"f":3445.0,"eye":[-0.0093,0.6498,-0.4127],"shot":[[4.21146,-0.35421,0.26935,0.38068],[0.0,-3.08911,-3.91415,0.39199],[0.0,-0.796,0.60529,0.76704]],"gain":[2.258,2.77,3.339],"foot":0,"disc":0.085},{"slug":"alice","widths":[480,720,1000],"top":0.0234,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.173,"f":4597.1,"eye":[-0.0002,0.6858,-0.4031],"shot":[[4.41605,-0.41931,0.26971,0.39717],[0.0,-3.0249,-4.12764,0.41092],[0.0,-0.84104,0.54097,0.79485]],"gain":[1.541,1.915,2.445],"foot":0,"disc":0.085},{"slug":"sciabola","widths":[720,1000,1163],"top":0.0325,"reach":0.13,"rim":0.015,"radius":0.088,"wide":0.1832,"f":4872.2,"eye":[-0.0011,0.5929,-0.5052],"shot":[[4.18932,-0.35652,0.3413,0.38856],[0.0,-3.69486,-3.57018,0.38701],[0.0,-0.72236,0.69151,0.77763]],"gain":[2.366,2.854,3.329],"foot":0,"disc":0.088},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"rim":0.02,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946],"foot":0,"disc":0},{"slug":"anatra","widths":[720,1000,1367],"top":0.0757,"reach":0.19,"rim":0.022,"radius":0.12,"wide":0.2693,"f":3921.8,"eye":[-0.0166,0.5173,-0.5267],"shot":[[2.86893,-0.26901,0.34124,0.36646],[0.0,-3.28225,-2.47673,0.39333],[0.0,-0.61909,0.78532,0.73387]],"gain":[1.31,1.404,1.574],"foot":0,"disc":0.12},{"slug":"zucca","widths":[720,1000,1400],"top":0.0471,"reach":0.17,"rim":0.0195,"radius":0.11,"wide":0.2278,"f":7669.0,"eye":[0.0062,0.4581,-0.6382],"shot":[[3.43131,-0.28936,0.44134,0.39289],[0.0,-4.5445,-2.64862,0.39155],[0.0,-0.54829,0.83629,0.78494]],"gain":[1.2,1.102,1.107],"foot":0,"disc":0.11},{"slug":"mochi","widths":[480,720],"top":0.0294,"reach":0.1,"rim":0.012,"radius":0.065,"wide":0.1294,"f":7722.8,"eye":[0.002,0.6088,-0.5308],"shot":[[5.94062,-0.38508,0.3437,0.405],[0.0,-5.54549,-5.52767,0.44241],[0.0,-0.74606,0.66588,0.80767]],"gain":[0.908,0.807,0.748],"foot":0,"disc":0.065}];
+const WOOD = {"size": [1.728, 0.6], "pores": [0.48, 0.3], "depth": 0.2347};
+const EYE = 0.8;        // from the eye to the plate
+const CURVE = 1.6;      // radius of the line the dishes travel on; its centre is beyond the counter
+const FAR = 1.3;        // radius of the far edge of the counter
+const SEAT = 0.36;      // angle between two dishes along the curve
+const ROOM = [4.8, 0.3, 2.55, 3.35];  // the wall behind: width, top, height, distance
+const LAMP = [0.3, 0.86, 0.4];
+const LOW = 0.11;
+const gl = canvas.getContext("webgl2", { alpha: false, antialias: true, powerPreference: "high-performance" });
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+const mix = (a, b, t) => a + (b - a) * t;
+const smooth = (a, b, v) => { const t = clamp((v - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+const HEAD = `#version 300 es
 precision highp float;
 uniform vec3 uLamp, uAim, uEye;
-uniform float uPower, uSpread, uSeed;
+uniform float uPower, uSpread, uSeed, uDark;
 out vec4 o;
 const vec3 WARM = vec3(1.0, 0.8, 0.56);
 const vec3 DIM = vec3(0.016, 0.012, 0.009);
-
-// the lamp: a warm beam that thins with the angle from its axis and with the distance;
-// seen from the side its lens is still bright (spill), which is what a polished surface mirrors
+const vec3 INK = vec3(0.0431, 0.0314, 0.0235);
 float spill;
 float beam(vec3 p, out vec3 l) {
-  vec3 d = uLamp - p;
-  float far = length(d);
-  l = d / far;
-  vec3 axis = uAim - uLamp;
-  float along = max(dot(-l, normalize(axis)), 0.001);
-  float off = sqrt(max(1.0 - along * along, 0.0)) / along / (0.165 * uSpread);
-  off *= off;
-  float full = uPower * dot(axis, axis) / (far * far);
-  spill = full / (1.0 + off);
-  return full / (1.0 + off * off);
+vec3 d = uLamp - p;
+float far = length(d);
+l = d / far;
+vec3 axis = uAim - uLamp;
+float along = max(dot(-l, normalize(axis)), 0.001);
+float off = sqrt(max(1.0 - along * along, 0.0)) / along / (0.165 * uSpread);
+off *= off;
+float full = uPower * dot(axis, axis) / (far * far);
+spill = full / (1.0 + off);
+return full / (1.0 + off * off);
 }
-
-// from light to the screen: a soft shoulder, the curve of the display, one grain for every layer
 vec3 develop(vec3 c) {
-  c = mix(c, 0.8 + 0.2 * (1.0 - exp(-(c - 0.8) / 0.2)), step(0.8, c));
-  c = pow(max(c, 0.0), vec3(1.0 / 2.2));
-  float n = fract(sin(dot(gl_FragCoord.xy + uSeed, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
-  return c + n * 0.04 * (0.3 + 0.7 * smoothstep(0.0, 0.35, dot(c, vec3(0.333))));
+c = mix(c, 0.8 + 0.2 * (1.0 - exp(-(c - 0.8) / 0.2)), step(0.8, c));
+c = pow(max(c, 0.0), vec3(1.0 / 2.2));
+float n = fract(sin(dot(gl_FragCoord.xy + uSeed, vec2(12.9898, 78.233))) * 43758.5453) - 0.5;
+return mix(c + n * 0.04 * (0.3 + 0.7 * smoothstep(0.0, 0.35, dot(c, vec3(0.333)))), INK, uDark);
 }
 `;
-
-  const FLAT = `#version 300 es
+const FLAT = `#version 300 es
 in vec2 aPos;
 uniform mat4 uView;
 uniform vec4 uPose;
 out vec3 vPos;
 out float vW;
 void main() {
-  vPos = vec3(uPose.x + uPose.z * aPos.x - uPose.w * aPos.y, 0.0, uPose.y + uPose.w * aPos.x + uPose.z * aPos.y);
-  gl_Position = uView * vec4(vPos, 1.0);
-  vW = gl_Position.w;
+vPos = vec3(uPose.x + uPose.z * aPos.x - uPose.w * aPos.y, 0.0, uPose.y + uPose.w * aPos.x + uPose.z * aPos.y);
+gl_Position = uView * vec4(vPos, 1.0);
+vW = gl_Position.w;
 }`;
-
-  const WALL = `#version 300 es
+const WALL = `#version 300 es
 in vec2 aPos;
 uniform mat4 uView;
 uniform sampler2D uColor;
 uniform vec4 uBox;
 out vec2 vUv;
 void main() {
-  vUv = aPos;
-  // what is nearer in the room stands nearer here too
-  float near = (textureLod(uColor, aPos, 0.0).a - 0.5) * 2.0;
-  gl_Position = uView * vec4((aPos.x - 0.5) * uBox.x, uBox.y - aPos.y * uBox.z, uBox.w - near * 0.9, 1.0);
+vUv = aPos;
+float near = (textureLod(uColor, aPos, 0.0).a - 0.5) * 2.0;
+gl_Position = uView * vec4((aPos.x - 0.5) * uBox.x, uBox.y - aPos.y * uBox.z, uBox.w - near * 0.9, 1.0);
 }`;
-
-  const ROOM_F = HEAD + `
+const ROOM_F = HEAD + `
 uniform sampler2D uColor;
 in vec2 vUv;
 void main() {
-  vec2 e = smoothstep(vec2(0.0), vec2(0.14, 0.1), vUv) * smoothstep(vec2(0.0), vec2(0.14, 0.1), 1.0 - vUv);
-  vec3 c = pow(texture(uColor, vUv).rgb, vec3(2.2)) * (0.62 + 0.12 * uPower) * e.x * e.y;
-  o = vec4(develop(c), 1.0);
+vec2 e = smoothstep(vec2(0.0), vec2(0.14, 0.1), vUv) * smoothstep(vec2(0.0), vec2(0.14, 0.1), 1.0 - vUv);
+vec3 c = pow(texture(uColor, vUv).rgb, vec3(2.2)) * (0.62 + 0.12 * uPower) * e.x * e.y;
+o = vec4(develop(c), 1.0);
 }`;
-
-  const COUNTER_F = HEAD + `
+const COUNTER_F = HEAD + `
 uniform sampler2D uWood, uPores, uMapA, uMapB;
 uniform vec4 uPoseA, uPoseB, uOver, uGrain;
 uniform vec3 uCurve;
@@ -783,612 +851,563 @@ uniform vec4 uFoot;
 uniform float uFocus, uBlur;
 in vec3 vPos;
 in float vW;
-
-// how far a point of the counter is from the outline of a dish seen from straight above, negative under it:
-// a round dish with nothing over its rim is a disc, any other has it in its map
 float edge(sampler2D map, vec4 pose, vec2 over, vec2 foot, vec3 q) {
-  vec2 d = q.xz - pose.xy;
-  if (foot.y > 0.0) return length(d) - foot.y;
-  return (0.5 - textureLod(map, vec2(pose.z * d.x + pose.w * d.y, pose.z * d.y - pose.w * d.x) / (2.0 * over.y) + 0.5, 0.0).a) * 0.08;
+vec2 d = q.xz - pose.xy;
+if (foot.y > 0.0) return length(d) - foot.y;
+return (0.5 - textureLod(map, vec2(pose.z * d.x + pose.w * d.y, pose.z * d.y - pose.w * d.x) / (2.0 * over.y) + 0.5, 0.0).a) * 0.08;
 }
-
-// the shadow a dish casts here: the way from the counter up to the lamp, stopped by the dish, which is as tall as its rim.
-// A lamp is not a point: the further the edge that casts it, the softer the shadow.
-// A bowl stands on its foot (its radius, and the rim's): under its wall the light still reaches the counter.
 float shadow(sampler2D map, vec4 pose, vec2 over, float rim, vec2 foot, vec3 p, vec3 l) {
-  float s = 0.0, t = 0.0012;
-  for (int i = 0; i < 24; i++) {
-    vec3 q = p + l * t;
-    float wide = 0.003 + 0.22 * t;
-    float cover = clamp(0.5 - edge(map, pose, over, foot, q) / wide, 0.0, 1.0) * clamp((rim - q.y) / wide + 0.5, 0.0, 1.0);
-    float wall = clamp((distance(q.xz, pose.xy) - foot.x) / (foot.y - foot.x), 0.0, 1.0);
-    if (foot.x > 0.0) cover *= clamp((q.y - rim * wall * wall) / wide + 0.5, 0.0, 1.0);
-    s = max(s, cover);
-    t *= 1.2;
-  }
-  return s;
+float s = 0.0, t = 0.0012;
+for (int i = 0; i < 24; i++) {
+vec3 q = p + l * t;
+float wide = 0.003 + 0.22 * t;
+float cover = clamp(0.5 - edge(map, pose, over, foot, q) / wide, 0.0, 1.0) * clamp((rim - q.y) / wide + 0.5, 0.0, 1.0);
+float wall = clamp((distance(q.xz, pose.xy) - foot.x) / (foot.y - foot.x), 0.0, 1.0);
+if (foot.x > 0.0) cover *= clamp((q.y - rim * wall * wall) / wide + 0.5, 0.0, 1.0);
+s = max(s, cover);
+t *= 1.2;
 }
-
-// how much of the room a point of the counter still sees: little under the rim of a plate, less than all next to it
+return s;
+}
 float sky(sampler2D map, vec4 pose, vec2 over, float rim, vec2 foot, vec3 p) {
-  float e = edge(map, pose, over, foot, p);
-  float under = clamp(rim * clamp(0.5 - e / 0.013, 0.0, 1.0) / 0.012, 0.0, 1.0);
-  float beside = clamp(rim * clamp(0.5 - e / 0.05, 0.0, 1.0) / 0.02, 0.0, 1.0);
-  return (1.0 - 0.8 * smoothstep(0.15, 1.0, under)) * (1.0 - 0.3 * beside);
+float e = edge(map, pose, over, foot, p);
+float under = clamp(rim * clamp(0.5 - e / 0.013, 0.0, 1.0) / 0.012, 0.0, 1.0);
+float beside = clamp(rim * clamp(0.5 - e / 0.05, 0.0, 1.0) / 0.02, 0.0, 1.0);
+return (1.0 - 0.8 * smoothstep(0.15, 1.0, under)) * (1.0 - 0.3 * beside);
 }
-
 vec3 wood(vec2 uv, float lod, vec2 ax, vec2 ay) {
-  return 0.25 * (textureLod(uWood, uv + ax + ay * 0.4, lod).rgb + textureLod(uWood, uv - ax * 0.4 + ay, lod).rgb
-    + textureLod(uWood, uv - ax - ay * 0.4, lod).rgb + textureLod(uWood, uv + ax * 0.4 - ay, lod).rgb);
+return 0.25 * (textureLod(uWood, uv + ax + ay * 0.4, lod).rgb + textureLod(uWood, uv - ax * 0.4 + ay, lod).rgb
++ textureLod(uWood, uv - ax - ay * 0.4, lod).rgb + textureLod(uWood, uv + ax * 0.4 - ay, lod).rgb);
 }
-
 void main() {
-  vec2 from = vPos.xz - vec2(0.0, uCurve.x);
-  float rad = length(from);
-  // the photograph of a dish is sharp from its near rim to its far one: so is the counter beside it, and softer beyond
-  float soft = uBlur * max(abs(1.0 - uFocus / vW) - 0.12, 0.0);
-  // the far edge, as soft as the lens leaves it at that distance
-  float edge = (rad - uCurve.y) / max(fwidth(rad), 1e-5);
-  float a = smoothstep(-soft - 0.8, soft + 0.8, edge);
-  if (a < 0.004) discard;
-
-  // the grain follows the curve of the counter: metres along it and across it
-  vec2 along = vec2(-from.y, from.x) / rad, across = from / rad;
-  vec2 at = vec2(atan(from.x, -from.y) * uCurve.x, rad - uCurve.y);
-  vec2 uv = at / uGrain.xy, pv = at / uGrain.zw;
-  vec2 tx = uv * vec2(textureSize(uWood, 0));
-  float lod = max(log2(max(length(dFdx(tx)), length(dFdy(tx))) * (1.0 + soft)), 0.0);
-  vec2 ax = dFdx(uv) * soft * 0.5, ay = dFdy(uv) * soft * 0.5;
-  vec3 rings = pow(wood(uv, lod, ax, ay), vec3(2.2));
-  // the pores lie on the rings: a little darker, a little deeper and a little rougher than the wood between them
-  vec2 px = pv * vec2(textureSize(uPores, 0));
-  float fine = max(log2(max(length(dFdx(px)), length(dFdy(px))) * (1.0 + soft)), 0.0);
-  vec2 e = exp2(fine) / vec2(textureSize(uPores, 0));
-  float pore = textureLod(uPores, pv, fine).r;
-  vec2 slope = (vec2(textureLod(uPores, pv + vec2(e.x, 0.0), fine).r, textureLod(uPores, pv + vec2(0.0, e.y), fine).r) - pore) / (e * uGrain.zw) * 0.0002;
-  vec3 albedo = rings * (1.0 + 1.5 * uCurve.z * (pore * 2.0 - 1.0));
-  vec2 tip = along * slope.x + across * slope.y;
-  vec3 n = normalize(vec3(-tip.x, 1.0, -tip.y));
-
-  vec3 l;
-  float lamp = beam(vPos, l);
-  float shade = 0.0, room = 1.0;
-  if (uOver.x > 0.0 && distance(vPos.xz, uPoseA.xy) < 0.36) {
-    shade = shadow(uMapA, uPoseA, uOver.xy, uRim.x, uFoot.xy, vPos, l);
-    room = sky(uMapA, uPoseA, uOver.xy, uRim.x, uFoot.xy, vPos);
-  }
-  if (uOver.z > 0.0 && distance(vPos.xz, uPoseB.xy) < 0.36) {
-    shade = max(shade, shadow(uMapB, uPoseB, uOver.zw, uRim.y, uFoot.zw, vPos, l));
-    room *= sky(uMapB, uPoseB, uOver.zw, uRim.y, uFoot.zw, vPos);
-  }
-
-  // a satin finish over the fibre: the lamp mirrors as a soft streak, drawn out across the grain, and not in the shade
-  vec3 v = normalize(uEye - vPos), h = normalize(l + v);
-  vec2 rough = vec2(0.07, 0.4) * (1.3 - 0.6 * pore);
-  float ht = dot(h.xz, along) / rough.x, hr = dot(h.xz, across) / rough.y, hn = max(dot(h, n), 0.0);
-  float lobe = ht * ht + hr * hr + hn * hn;
-  float sheen = (0.04 + 0.96 * pow(1.0 - max(dot(v, h), 0.0), 5.0)) / (4.0 * rough.x * rough.y * lobe * lobe * max(v.y, 0.2));
-  // in the shade the wood keeps the light that comes back from the wood around it, which has its colour: darker and warmer
-  vec3 oak = pow(textureLod(uWood, vec2(0.5), 12.0).rgb, vec3(2.2));
-  vec3 back = oak / max(oak.r, 1e-3) * l.y * 0.24 * shade * room;
-  vec3 c = albedo * (DIM * room + WARM * lamp * (max(dot(n, l), 0.0) * (1.0 - shade) + back)) + WARM * spill * sheen * 0.6 * (1.0 - shade);
-  // the edge turns away from the light
-  c *= 0.7 + 0.3 * smoothstep(0.0, 0.01, rad - uCurve.y);
-  o = vec4(develop(c) * a, a);
+vec2 from = vPos.xz - vec2(0.0, uCurve.x);
+float rad = length(from);
+float soft = uBlur * max(abs(1.0 - uFocus / vW) - 0.12, 0.0);
+float edge = (rad - uCurve.y) / max(fwidth(rad), 1e-5);
+float a = smoothstep(-soft - 0.8, soft + 0.8, edge);
+if (a < 0.004) discard;
+vec2 along = vec2(-from.y, from.x) / rad, across = from / rad;
+vec2 at = vec2(atan(from.x, -from.y) * uCurve.x, rad - uCurve.y);
+vec2 uv = at / uGrain.xy, pv = at / uGrain.zw;
+vec2 tx = uv * vec2(textureSize(uWood, 0));
+float lod = max(log2(max(length(dFdx(tx)), length(dFdy(tx))) * (1.0 + soft)), 0.0);
+vec2 ax = dFdx(uv) * soft * 0.5, ay = dFdy(uv) * soft * 0.5;
+vec3 rings = pow(wood(uv, lod, ax, ay), vec3(2.2));
+vec2 px = pv * vec2(textureSize(uPores, 0));
+float fine = max(log2(max(length(dFdx(px)), length(dFdy(px))) * (1.0 + soft)), 0.0);
+vec2 e = exp2(fine) / vec2(textureSize(uPores, 0));
+float pore = textureLod(uPores, pv, fine).r;
+vec2 slope = (vec2(textureLod(uPores, pv + vec2(e.x, 0.0), fine).r, textureLod(uPores, pv + vec2(0.0, e.y), fine).r) - pore) / (e * uGrain.zw) * 0.0002;
+vec3 albedo = rings * (1.0 + 1.5 * uCurve.z * (pore * 2.0 - 1.0));
+vec2 tip = along * slope.x + across * slope.y;
+vec3 n = normalize(vec3(-tip.x, 1.0, -tip.y));
+vec3 l;
+float lamp = beam(vPos, l);
+float shade = 0.0, room = 1.0;
+if (uOver.x > 0.0 && distance(vPos.xz, uPoseA.xy) < 0.36) {
+shade = shadow(uMapA, uPoseA, uOver.xy, uRim.x, uFoot.xy, vPos, l);
+room = sky(uMapA, uPoseA, uOver.xy, uRim.x, uFoot.xy, vPos);
+}
+if (uOver.z > 0.0 && distance(vPos.xz, uPoseB.xy) < 0.36) {
+shade = max(shade, shadow(uMapB, uPoseB, uOver.zw, uRim.y, uFoot.zw, vPos, l));
+room *= sky(uMapB, uPoseB, uOver.zw, uRim.y, uFoot.zw, vPos);
+}
+vec3 v = normalize(uEye - vPos), h = normalize(l + v);
+vec2 rough = vec2(0.07, 0.4) * (1.3 - 0.6 * pore);
+float ht = dot(h.xz, along) / rough.x, hr = dot(h.xz, across) / rough.y, hn = max(dot(h, n), 0.0);
+float lobe = ht * ht + hr * hr + hn * hn;
+float sheen = (0.04 + 0.96 * pow(1.0 - max(dot(v, h), 0.0), 5.0)) / (4.0 * rough.x * rough.y * lobe * lobe * max(v.y, 0.2));
+vec3 oak = pow(textureLod(uWood, vec2(0.5), 12.0).rgb, vec3(2.2));
+vec3 back = oak / max(oak.r, 1e-3) * l.y * 0.24 * shade * room;
+vec3 c = albedo * (DIM * room + WARM * lamp * (max(dot(n, l), 0.0) * (1.0 - shade) + back)) + WARM * spill * sheen * 0.6 * (1.0 - shade);
+c *= 0.7 + 0.3 * smoothstep(0.0, 0.01, rad - uCurve.y);
+o = vec4(develop(c) * a, a);
 }`;
-
-  const DISH_F = HEAD + `
+const DISH_F = HEAD + `
 uniform sampler2D uColor, uMap;
 uniform vec4 uR[3];
 uniform vec3 uEyeD, uEye0, uGain;
 uniform vec2 uYaw;
 uniform float uTop, uSoft;
 in vec3 vPos;
-
 vec2 shot(vec3 q) {
-  vec4 h = vec4(q, 1.0);
-  return vec2(dot(uR[0], h), dot(uR[1], h)) / dot(uR[2], h);
+vec4 h = vec4(q, 1.0);
+return vec2(dot(uR[0], h), dot(uR[1], h)) / dot(uR[2], h);
 }
-
 void main() {
-  // the head has moved: what stands taller slides a little over what lies lower
-  float high = textureLod(uMap, shot(vPos), 0.0).b * uTop;
-  vec3 q = vPos + high * ((vPos - uEye0) / (uEye0.y - high) - (vPos - uEye) / (uEye.y - high));
-  q.y = 0.0;
-  vec2 uv = shot(q);
-  vec4 m = textureLod(uMap, uv, 0.0);
-  high = m.b * uTop;
-
-  // the photograph has its own depth of field: only a dish away from its place, or on the move, gets softer
-  vec2 tx = uv * vec2(textureSize(uColor, 0));
-  float lod = max(log2(max(length(dFdx(tx)), length(dFdy(tx))) * (1.0 + uSoft)) - 0.25, 0.0);
-  vec2 ax = dFdx(uv) * uSoft * 0.5, ay = dFdy(uv) * uSoft * 0.5;
-  vec4 t = 0.25 * (textureLod(uColor, uv + ax + ay * 0.4, lod) + textureLod(uColor, uv - ax * 0.4 + ay, lod)
-    + textureLod(uColor, uv - ax - ay * 0.4, lod) + textureLod(uColor, uv + ax * 0.4 - ay, lod));
-  if (t.a < 0.004) discard;
-  vec3 albedo = pow(t.rgb / t.a, vec3(2.2)) * uGain;
-
-  vec2 tilt = m.rg * 2.0 - 1.0;
-  vec3 n = vec3(uYaw.x * tilt.x - uYaw.y * tilt.y, sqrt(max(1.0 - dot(tilt, tilt), 0.0)), uYaw.y * tilt.x + uYaw.x * tilt.y);
-  // where the surface really is, for the light
-  vec3 x = q + (uEyeD - q) * (high / uEyeD.y);
-  vec3 l;
-  float lit = beam(x, l);
-  // the photograph already carries its own shading: the lamp only leans on it
-  float e = lit * l.y * mix(1.0, clamp(dot(n, l) / max(l.y, 0.25), 0.0, 1.6), 0.3);
-  float nh = max(dot(n, normalize(l + normalize(uEye - x))), 0.0);
-  // only what is wet shines: sauces and fish have colour, the plate does not
-  float wet = smoothstep(0.06, 0.3, max(albedo.r, max(albedo.g, albedo.b)) - min(albedo.r, min(albedo.g, albedo.b)));
-  float glint = (pow(nh, 140.0) * 0.45 + pow(nh, 36.0) * 0.04) * smoothstep(0.2, 0.7, dot(albedo, vec3(0.333))) * lit * wet;
-  vec3 c = albedo * (DIM + WARM * e) + WARM * glint;
-  o = vec4(develop(c) * t.a, t.a);
+float high = textureLod(uMap, shot(vPos), 0.0).b * uTop;
+vec3 q = vPos + high * ((vPos - uEye0) / (uEye0.y - high) - (vPos - uEye) / (uEye.y - high));
+q.y = 0.0;
+vec2 uv = shot(q);
+vec4 m = textureLod(uMap, uv, 0.0);
+high = m.b * uTop;
+vec2 tx = uv * vec2(textureSize(uColor, 0));
+float lod = max(log2(max(length(dFdx(tx)), length(dFdy(tx))) * (1.0 + uSoft)) - 0.25, 0.0);
+vec2 ax = dFdx(uv) * uSoft * 0.5, ay = dFdy(uv) * uSoft * 0.5;
+vec4 t = 0.25 * (textureLod(uColor, uv + ax + ay * 0.4, lod) + textureLod(uColor, uv - ax * 0.4 + ay, lod)
++ textureLod(uColor, uv - ax - ay * 0.4, lod) + textureLod(uColor, uv + ax * 0.4 - ay, lod));
+if (t.a < 0.004) discard;
+vec3 albedo = pow(t.rgb / t.a, vec3(2.2)) * uGain;
+vec2 tilt = m.rg * 2.0 - 1.0;
+vec3 n = vec3(uYaw.x * tilt.x - uYaw.y * tilt.y, sqrt(max(1.0 - dot(tilt, tilt), 0.0)), uYaw.y * tilt.x + uYaw.x * tilt.y);
+vec3 x = q + (uEyeD - q) * (high / uEyeD.y);
+vec3 l;
+float lit = beam(x, l);
+float e = lit * l.y * mix(1.0, clamp(dot(n, l) / max(l.y, 0.25), 0.0, 1.6), 0.3);
+float nh = max(dot(n, normalize(l + normalize(uEye - x))), 0.0);
+float wet = smoothstep(0.06, 0.3, max(albedo.r, max(albedo.g, albedo.b)) - min(albedo.r, min(albedo.g, albedo.b)));
+float glint = (pow(nh, 140.0) * 0.45 + pow(nh, 36.0) * 0.04) * smoothstep(0.2, 0.7, dot(albedo, vec3(0.333))) * lit * wet;
+vec3 c = albedo * (DIM + WARM * e) + WARM * glint;
+o = vec4(develop(c) * t.a, t.a);
 }`;
-
-  function program(vert, frag) {
-    const p = gl.createProgram();
-    for (const [type, src] of [[gl.VERTEX_SHADER, vert], [gl.FRAGMENT_SHADER, frag]]) {
-      const s = gl.createShader(type);
-      gl.shaderSource(s, src);
-      gl.compileShader(s);
-      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
-      gl.attachShader(p, s);
-    }
-    gl.bindAttribLocation(p, 0, "aPos");
-    gl.linkProgram(p);
-    if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
-    const u = { p };
-    for (let i = 0; i < gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); i++) {
-      const name = gl.getActiveUniform(p, i).name;
-      u[name.replace("[0]", "")] = gl.getUniformLocation(p, name);
-    }
-    return u;
-  }
-  const room = program(WALL, ROOM_F), counter = program(FLAT, COUNTER_F), dish = program(FLAT, DISH_F);
-
-  function shape(points, index) {
-    const vao = gl.createVertexArray();
-    gl.bindVertexArray(vao);
-    gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
-    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
-    gl.enableVertexAttribArray(0);
-    gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
-    if (index) {
-      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
-      gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index), gl.STATIC_DRAW);
-    }
-    return vao;
-  }
-  const top = shape([-2.6, -0.45, 2.6, -0.45, -2.6, 2, 2.6, 2]);
-  const GX = 32, GY = 16, grid = [], cells = [];
-  for (let j = 0; j <= GY; j++) for (let i = 0; i <= GX; i++) grid.push(i / GX, j / GY);
-  for (let j = 0; j < GY; j++) for (let i = 0; i < GX; i++) {
-    const a = j * (GX + 1) + i, b = a + GX + 1;
-    cells.push(a, b, a + 1, a + 1, b, b + 1);
-  }
-  const wall = shape(grid, cells);
-
-  gl.enable(gl.BLEND);
-  gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
-  gl.clearColor(11 / 255, 8 / 255, 6 / 255, 1);
-
-  function texture(source, opt = {}) {
-    const t = gl.createTexture();
-    gl.bindTexture(gl.TEXTURE_2D, t);
-    gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
-    gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, !!opt.premultiply);
-    if (opt.w) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, opt.w, opt.h, 0, gl.RGBA, gl.UNSIGNED_BYTE, source);
-    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
-    if (opt.mips) gl.generateMipmap(gl.TEXTURE_2D);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, opt.mips ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
-    const wrap = opt.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
-    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
-    return t;
-  }
-
-  function load(name, done) {
-    const im = new Image();
-    im.onload = () => done(im);
-    im.onerror = () => { im.onerror = null; im.src = IMG + name + ".webp"; };
-    im.src = IMG + name + ".avif";
-  }
-
-  const scene = {};
-  function fetchScene(done) {
-    let left = 3;
-    const one = () => { if (!--left) done(); };
-    load("rovere", (im) => { scene.wood = texture(im, { mips: true, repeat: true }); one(); });
-    load("rovere-fibra", (im) => { scene.pores = texture(im, { mips: true, repeat: true }); one(); });
-    load("sala", (im) => { scene.room = texture(im); one(); });
-  }
-
-  // Each dish is its photograph laid on the counter: seen from where it was taken, it is that photograph.
-  for (const d of DISHES) {
-    d.back = Math.hypot(d.eye[0], d.eye[2]);
-    d.towards = Math.atan2(d.eye[2], d.eye[0]);
-    const [U, V, W] = d.shot;
-    // the corners of the cut-out, on the counter
-    d.vao = shape([[0, 0], [1, 0], [0, 1], [1, 1]].flatMap(([u, v]) => {
-      const a = U[0] - u * W[0], b = U[2] - u * W[2], c = u * W[3] - U[3];
-      const e = V[0] - v * W[0], f = V[2] - v * W[2], g = v * W[3] - V[3];
-      const det = a * f - b * e;
-      return [(c * f - b * g) / det, (a * g - c * e) / det];
-    }));
-  }
-
-  function fetchDish(i, done) {
-    const d = DISHES[i];
-    if (!d || d.asked) return;
-    d.asked = true;
-    let left = 2;
-    const one = () => { if (!--left) { d.ready = true; kick(); if (done) done(); } };
-    // the smallest file that still has a pixel of its own for every pixel of the screen; the cut-out is f / shot wide in its photograph
-    const need = (frame_.focal * fit(d) * Math.min(devicePixelRatio, 2)) / d.shot[0][0];
-    load(d.slug + "-" + (d.widths.find((w) => w >= need * 0.97) || d.widths[d.widths.length - 1]), (im) => {
-      d.color = texture(im, { mips: true, premultiply: true });
-      one();
-    });
-    load(d.slug + "-map", (im) => {
-      // four grey tiles, top to bottom: normal x, normal z, height, distance from the outline seen from above
-      const w = im.naturalWidth, h = im.naturalHeight / 4;
-      const c = document.createElement("canvas");
-      c.width = w;
-      c.height = h * 4;
-      const g = c.getContext("2d", { willReadFrequently: true });
-      g.drawImage(im, 0, 0);
-      const src = g.getImageData(0, 0, w, h * 4).data;
-      const data = new Uint8Array(w * h * 4);
-      for (let p = 0; p < w * h; p++) for (let k = 0; k < 4; k++) data[p * 4 + k] = src[(p + k * w * h) * 4];
-      d.map = texture(data, { w, h, mips: true });
-      one();
-    });
-  }
-
-  // a dish is asked for when the guest gets to the one beside it: the one in front and its two neighbours
-  const near = (n) => { for (const k of [n, n + 1, n - 1]) fetchDish(k); };
-
-  let step = 1, start = 0, gone = 0, pos = 0, raf = 0, last = 0, idle = 0, seed = 0, smear = 0, passing = 0;
-  let drag = null, touching = false;
-  let cur = 0, lit = -1, aim = -1, lamp = 0, named = 0, ready = false, stepped = 0;
-  // the lamp and the guest's head, each easing towards where it should be
-  let power = 0, wantPower = 0, spread = 0.3, head = [0, 0], wantHead = [0, 0];
-  const frame_ = { w: 1, h: 1, plate: 1, focal: 1, x: 0, y: 0 };
-  // a dish steps back until it fits the screen and its photograph is not stretched past its own pixels
-  const fit = (d) => Math.min(1, (0.9 * frame_.w * EYE) / (d.wide * frame_.focal),
-    (1.1 * d.f) / (frame_.focal * Math.min(devicePixelRatio, 2)));
-
-  const raw = () => (scrollY - start) / step;
-  const progress = () => clamp(raw(), 0, N - 1);
-  // flat around each dish, steep halfway: the soft click
-  const detent = (p) => { const n = Math.round(p), f = p - n; return n + Math.sign(f) * 4 * Math.abs(f) ** 3; };
-
-  function measure() {
-    step = stage.offsetHeight * 0.5 || 1;
-    start = root.offsetTop;
-    gone = start + root.offsetHeight;
-    const w = stage.clientWidth, h = stage.clientHeight, narrow = w < 900;
-    // how wide a plate of 25 cm is on screen, and where the dish sits
-    const plate = narrow ? w * 0.8 : clamp(w * 0.37, 420, 600);
-    Object.assign(frame_, { w, h, plate, focal: (plate * EYE) / 0.25, x: w * (narrow ? 0.5 : 0.6), y: h * (narrow ? 0.42 : 0.57) });
-    const dpr = Math.min(devicePixelRatio, 2);
-    canvas.width = Math.round(w * dpr);
-    canvas.height = Math.round(h * dpr);
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-
-  const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
-  const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
-  const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-  const unit = (a) => { const n = Math.hypot(...a); return [a[0] / n, a[1] / n, a[2] / n]; };
-  function axes(eye, look) {
-    const fwd = unit(sub(look, eye)), right = unit(cross([0, 1, 0], fwd));
-    return [right, cross(fwd, right), fwd];
-  }
-
-  function render() {
-    gl.clear(gl.COLOR_BUFFER_BIT);
-    if (!scene.wood || !scene.pores || !scene.room) return;
-    const a = clamp(Math.floor(pos), 0, N - 1), b = Math.min(a + 1, N - 1), t = smooth(0, 1, pos - a);
-    // the guest's eye: where the photographer stood for the dish in front, moving a little with the head
-    const eye0 = [0, mix(DISHES[a].eye[1], DISHES[b].eye[1], t), -mix(DISHES[a].back, DISHES[b].back, t)];
-    const look = [0, 0.02, 0];
-    let [right, up, fwd] = axes(eye0, look);
-    const eye = eye0.map((e, i) => e + right[i] * head[0] * 0.02 + up[i] * head[1] * 0.012);
-    [right, up, fwd] = axes(eye, look);
-
-    // the dish stays on the axis of the lens and is moved to its place on screen by shifting the frame
-    const { w, h } = frame_;
-    const focal = frame_.focal * mix(fit(DISHES[a]), fit(DISHES[b]), t);
-    const sx = (2 * frame_.x) / w - 1, sy = 1 - (2 * frame_.y) / h, near = 0.05, far = 30;
-    const row = (v, k) => [v[0] * k, v[1] * k, v[2] * k, -dot(v, eye) * k];
-    const R = row(right, (2 * focal) / w), T = row(up, (2 * focal) / h), F = row(fwd, 1);
-    const view = new Float32Array(16);
-    for (let c = 0; c < 4; c++) {
-      view[c * 4] = R[c] + sx * F[c];
-      view[c * 4 + 1] = T[c] + sy * F[c];
-      view[c * 4 + 2] = ((far + near) / (far - near)) * F[c] - (c === 3 ? (2 * far * near) / (far - near) : 0);
-      view[c * 4 + 3] = F[c];
-    }
-    const focus = dot(fwd, sub(look, eye));
-    const blur = 0.013 * focal * Math.min(devicePixelRatio, 2);
-    const bulb = [LAMP[0] + head[0] * 0.06, LAMP[1], LAMP[2] - head[1] * 0.05];
-    const target = [0.01 + head[0] * 0.012, 0, -head[1] * 0.008];
-
-    // where each dish is on the curve, turned so that it faces the guest as it faced its camera
-    const placed = DISHES.map((d, i) => {
-      const al = (i - pos) * SEAT, P = [CURVE * Math.sin(al), CURVE * (1 - Math.cos(al))];
-      const yaw = Math.atan2(eye0[2] - P[1], eye0[0] - P[0]) - d.towards, c = Math.cos(yaw), s = Math.sin(yaw);
-      return {
-        d, P, c, s, away: Math.abs(i - pos),
-        rows: d.shot.flatMap((r) => [r[0] * c - r[2] * s, r[1], r[0] * s + r[2] * c, r[3] - r[0] * (c * P[0] + s * P[1]) - r[2] * (c * P[1] - s * P[0])]),
-        eyeD: [P[0] + c * d.eye[0] - s * d.eye[2], d.eye[1], P[1] + s * d.eye[0] + c * d.eye[2]],
-      };
-    }).filter((k) => k.d.ready && k.away < 1.7).sort((m, n) => m.away - n.away);
-
-    const common = (u) => {
-      gl.useProgram(u.p);
-      gl.uniformMatrix4fv(u.uView, false, view);
-      gl.uniform3fv(u.uLamp, bulb);
-      gl.uniform3fv(u.uAim, target);
-      gl.uniform3fv(u.uEye, eye);
-      gl.uniform1f(u.uPower, power);
-      gl.uniform1f(u.uSpread, spread);
-      gl.uniform1f(u.uSeed, seed);
-      gl.uniform1f(u.uFocus, focus);
-      gl.uniform1f(u.uBlur, blur);
-    };
-    const bind = (unit, tex, where) => {
-      gl.activeTexture(gl.TEXTURE0 + unit);
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.uniform1i(where, unit);
-    };
-
-    common(room);
-    bind(0, scene.room, room.uColor);
-    gl.uniform4fv(room.uBox, ROOM);
-    gl.bindVertexArray(wall);
-    gl.drawElements(gl.TRIANGLES, cells.length, gl.UNSIGNED_SHORT, 0);
-
-    common(counter);
-    bind(0, scene.wood, counter.uWood);
-    const [one, two] = placed;
-    bind(1, (one || {}).d ? one.d.map : scene.wood, counter.uMapA);
-    bind(2, (two || {}).d ? two.d.map : scene.wood, counter.uMapB);
-    if (one) gl.uniform4f(counter.uPoseA, one.P[0], one.P[1], one.c, one.s);
-    if (two) gl.uniform4f(counter.uPoseB, two.P[0], two.P[1], two.c, two.s);
-    gl.uniform4f(counter.uOver, one ? one.d.top : 0, one ? one.d.reach : 1, two ? two.d.top : 0, two ? two.d.reach : 1);
-    bind(3, scene.pores, counter.uPores);
-    gl.uniform2f(counter.uRim, one ? one.d.rim : 0, two ? two.d.rim : 0);
-    gl.uniform4f(counter.uFoot, one ? one.d.foot : 0, one ? one.d.disc : 0, two ? two.d.foot : 0, two ? two.d.disc : 0);
-    gl.uniform3f(counter.uCurve, CURVE, FAR, WOOD.depth);
-    gl.uniform4f(counter.uGrain, ...WOOD.size, ...WOOD.pores);
-    gl.uniform4f(counter.uPose, 0, 0, 1, 0);
-    gl.bindVertexArray(top);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-
-    common(dish);
-    gl.uniform3fv(dish.uEye0, eye0);
-    for (const k of placed.reverse()) {
-      gl.uniform1f(dish.uSoft, smear + blur * Math.abs(1 - focus / dot(fwd, sub([k.P[0], look[1], k.P[1]], eye))));
-      bind(0, k.d.color, dish.uColor);
-      bind(1, k.d.map, dish.uMap);
-      gl.uniform4fv(dish.uR, k.rows);
-      gl.uniform3fv(dish.uEyeD, k.eyeD);
-      gl.uniform3fv(dish.uGain, k.d.gain);
-      gl.uniform2f(dish.uYaw, k.c, k.s);
-      gl.uniform1f(dish.uTop, k.d.top);
-      gl.uniform4f(dish.uPose, k.P[0], k.P[1], k.c, k.s);
-      gl.bindVertexArray(k.d.vao);
-      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-    }
-  }
-
-  function dark() {
-    clearTimeout(lamp);
-    clearTimeout(named);
-    lamp = 0;
-    if (lit < 0) return;
-    cards[lit].classList.remove("is-on");
-    lit = -1;
-    wantPower = LOW;
-    kick();
-  }
-  // the lamp settles on the dish: the beam opens from its centre, then the name enters
-  function light(n) {
-    lit = n;
-    wantPower = 1;
-    spread = 0.3;
-    named = setTimeout(() => cards[n].classList.add("is-on"), 420);
-    kick();
-  }
-
-  // which dish is in front follows the scroll itself, not the eased curve
-  function follow() {
-    const r = raw();
-    if (aim >= 0 && Math.abs(r - aim) < 0.05) aim = -1;
-    const n = aim >= 0 ? aim : clamp(Math.round(r), 0, N - 1);
-    if (n !== cur) {
-      ticks[cur].removeAttribute("aria-current");
-      ticks[n].setAttribute("aria-current", "true");
-      cur = n;
-      ends();
-      near(n);
-    }
-    const resting = Math.abs(progress() - cur) < 0.05 && Math.abs(pos - cur) < 0.012;
-    if (!resting || (lit >= 0 && lit !== cur)) dark();
-    if (resting && ready && DISHES[cur].ready && lit !== cur && !lamp) {
-      lamp = setTimeout(() => { lamp = 0; light(cur); }, 170);
-    }
-  }
-
-  function frame(t) {
-    const target = detent(progress());
-    const dt = Math.min(64, t - last);
-    last = t;
-    const ease = (ms) => 1 - Math.exp(-dt / ms);
-    const before = pos;
-    pos += (target - pos) * ease(190);
-    if (Math.abs(target - pos) < 0.0005) pos = target;
-    // a dish on the move is a little soft, as in a photograph
-    smear = Math.min((Math.abs(pos - before) / Math.max(dt, 1)) * 2600, 5) * Math.min(devicePixelRatio, 2);
-    power += (wantPower - power) * ease(wantPower > power ? 260 : 110);
-    spread += (1 - spread) * ease(420);
-    head[0] += (wantHead[0] - head[0]) * ease(140);
-    head[1] += (wantHead[1] - head[1]) * ease(140);
-    const still = pos === target && Math.abs(wantPower - power) < 0.002 && spread > 0.998
-      && Math.abs(wantHead[0] - head[0]) + Math.abs(wantHead[1] - head[1]) < 0.002;
-    if (!still) seed = (seed + 7.31) % 89;
-    // on a long jump the dishes passed on the way are asked for as they come near
-    if (Math.round(pos) !== passing) near(passing = Math.round(pos));
-    render();
-    follow();
-    raf = still ? 0 : requestAnimationFrame(frame);
-  }
-  function kick() {
-    // past the tour the stage is off the screen: nothing to draw
-    if (raf || scrollY >= gone) return;
-    last = performance.now();
-    raf = requestAnimationFrame(frame);
-  }
-
-  function go(n) {
-    aim = clamp(n, 0, N - 1);
-    scrollTo({ top: start + aim * step, behavior: "smooth" });
-    kick();
-  }
-  function ends() {
-    arrows[0].disabled = cur === 0;
-    arrows[1].disabled = cur === N - 1;
-  }
-  // one dish per press; a hurried second press is dropped so nothing is skipped half way
-  function nudge(dir) {
-    const now = performance.now();
-    const n = clamp(cur + dir, 0, N - 1);
-    if (n === cur || now - stepped < 280) return;
-    stepped = now;
-    go(n);
-  }
-  // a click on the outer thirds of the stage moves one dish
-  function side(x) {
-    const r = stage.getBoundingClientRect();
-    const f = (x - r.left) / r.width;
-    const dir = f < 1 / 3 ? -1 : f > 2 / 3 ? 1 : 0;
-    return cur + dir < 0 || cur + dir > N - 1 ? 0 : dir;
-  }
-  function hint(e) {
-    const dir = e.pointerType === "mouse" && !e.target.closest("a, button") ? side(e.clientX) : 0;
-    stage.dataset.zona = dir < 0 ? "prec" : dir > 0 ? "succ" : "";
-  }
-  function settle() {
-    const r = raw();
-    if (drag || touching || r <= 0 || r >= N - 1) return;
-    if (Math.abs(r - Math.round(r)) > 0.02) go(Math.round(r));
-  }
-  const free = () => { aim = -1; };
-
-  addEventListener("scroll", () => {
-    kick();
-    clearTimeout(idle);
-    idle = setTimeout(settle, 140);
-  }, { passive: true });
-  addEventListener("wheel", free, { passive: true });
-  addEventListener("touchstart", () => { touching = true; free(); }, { passive: true });
-  addEventListener("touchend", () => {
-    touching = false;
-    clearTimeout(idle);
-    idle = setTimeout(settle, 140);
-  }, { passive: true });
-  addEventListener("resize", () => { measure(); pos = detent(progress()); kick(); });
-
-  addEventListener("keydown", (e) => {
-    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
-    const r = raw();
-    if (r < -0.5 || r > N - 0.5) return;
-    e.preventDefault();
-    nudge(e.key === "ArrowRight" ? 1 : -1);
-  });
-
-  ticks.forEach((b, i) => b.addEventListener("click", () => go(i)));
-  arrows.forEach((b, i) => b.addEventListener("click", () => nudge(i ? 1 : -1)));
-
-  stage.addEventListener("pointerdown", (e) => {
-    if (e.button || e.target.closest("a, button")) return;
-    drag = { id: e.pointerId, x: e.clientX, y: e.clientY, from: scrollY, on: false, v: 0, lx: e.clientX, lt: e.timeStamp };
-  });
-  stage.addEventListener("pointermove", (e) => {
-    // the head follows the mouse over the stage, or the finger from where it came down
-    const r = stage.getBoundingClientRect();
-    if (e.pointerType === "mouse") wantHead = [clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1), clamp(1 - ((e.clientY - r.top) / r.height) * 2, -1, 1)];
-    else if (drag) wantHead = [clamp((e.clientX - drag.x) / 120, -1, 1), clamp((drag.y - e.clientY) / 120, -1, 1)];
-    kick();
-    if (!drag) hint(e);
-    if (!drag || e.pointerId !== drag.id) return;
-    const dx = e.clientX - drag.x;
-    if (!drag.on) {
-      if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return;
-      drag.on = true;
-      free();
-      stage.setPointerCapture(e.pointerId);
-      stage.classList.add("is-drag");
-    }
-    drag.v = (e.clientX - drag.lx) / Math.max(1, e.timeStamp - drag.lt);
-    drag.lx = e.clientX;
-    drag.lt = e.timeStamp;
-    const reach = Math.min(380, innerWidth * 0.5);
-    scrollTo(0, clamp(drag.from - (dx / reach) * step, start, start + (N - 1) * step));
-  });
-  const drop = (e) => {
-    if (e.pointerType !== "mouse") { wantHead = [0, 0]; kick(); }
-    if (!drag) return;
-    const was = drag;
-    drag = null;
-    stage.classList.remove("is-drag");
-    if (was.on) go(Math.round(progress() - clamp(was.v * 0.7, -0.5, 0.5)));
-    else if (e.type === "pointerup" && e.pointerType === "mouse") nudge(side(e.clientX));
-  };
-  stage.addEventListener("pointerup", drop);
-  stage.addEventListener("pointercancel", drop);
-  stage.addEventListener("pointerleave", () => { stage.dataset.zona = ""; wantHead = [0, 0]; kick(); });
-
-  measure();
-  pos = detent(progress());
-  cur = clamp(Math.round(pos), 0, N - 1);
-  if (cur) {
-    ticks[0].removeAttribute("aria-current");
-    ticks[cur].setAttribute("aria-current", "true");
-  }
-  ends();
-
-  // the room in half-light first, then the lamp finds the first dish
-  let waiting = 2;
-  const open = () => {
-    if (--waiting) return;
-    wantPower = LOW;
-    kick();
-    setTimeout(() => {
-      ready = true;
-      follow();
-      kick();
-      setTimeout(() => { fetchDish(cur + 1); fetchDish(cur - 1); }, 1600);
-    }, 700);
-  };
-  fetchScene(open);
-  fetchDish(cur, open);
-})();
-
-// after the dishes: each room comes up as it is reached, and the film of the hands runs only while it is on screen
-(() => {
-  const rooms = new IntersectionObserver((seen) => seen.forEach((e) => {
-    if (!e.isIntersecting) return;
-    e.target.classList.add("is-in");
-    rooms.unobserve(e.target);
-    // the door of the dishes and the door that books stand in the same corner: a second click of the same press must not book
-    setTimeout(() => e.target.classList.add("is-open"), 700);
-  }), { threshold: 0.2 });
-  document.querySelectorAll(".serata").forEach((room) => rooms.observe(room));
-  const film = document.querySelector(".serata video");
-  if (!film || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-  new IntersectionObserver(([e]) => { if (e.isIntersecting) film.play().catch(() => {}); else film.pause(); }, { rootMargin: "25% 0px" }).observe(film);
+function program(vert, frag) {
+const p = gl.createProgram();
+for (const [type, src] of [[gl.VERTEX_SHADER, vert], [gl.FRAGMENT_SHADER, frag]]) {
+const s = gl.createShader(type);
+gl.shaderSource(s, src);
+gl.compileShader(s);
+if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+gl.attachShader(p, s);
+}
+gl.bindAttribLocation(p, 0, "aPos");
+gl.linkProgram(p);
+if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+const u = { p };
+for (let i = 0; i < gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS); i++) {
+const name = gl.getActiveUniform(p, i).name;
+u[name.replace("[0]", "")] = gl.getUniformLocation(p, name);
+}
+return u;
+}
+const room = program(WALL, ROOM_F), counter = program(FLAT, COUNTER_F), dish = program(FLAT, DISH_F);
+function shape(points, index) {
+const vao = gl.createVertexArray();
+gl.bindVertexArray(vao);
+gl.bindBuffer(gl.ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(points), gl.STATIC_DRAW);
+gl.enableVertexAttribArray(0);
+gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+if (index) {
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, gl.createBuffer());
+gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(index), gl.STATIC_DRAW);
+}
+return vao;
+}
+const top = shape([-2.6, -0.45, 2.6, -0.45, -2.6, 2, 2.6, 2]);
+const GX = 32, GY = 16, grid = [], cells = [];
+for (let j = 0; j <= GY; j++) for (let i = 0; i <= GX; i++) grid.push(i / GX, j / GY);
+for (let j = 0; j < GY; j++) for (let i = 0; i < GX; i++) {
+const a = j * (GX + 1) + i, b = a + GX + 1;
+cells.push(a, b, a + 1, a + 1, b, b + 1);
+}
+const wall = shape(grid, cells);
+gl.enable(gl.BLEND);
+gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA);
+gl.clearColor(11 / 255, 8 / 255, 6 / 255, 1);
+function texture(source, opt = {}) {
+const t = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, t);
+gl.pixelStorei(gl.UNPACK_COLORSPACE_CONVERSION_WEBGL, gl.NONE);
+gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, !!opt.premultiply);
+if (opt.w) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, opt.w, opt.h, 0, gl.RGBA, gl.UNSIGNED_BYTE, source);
+else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, source);
+if (opt.mips) gl.generateMipmap(gl.TEXTURE_2D);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, opt.mips ? gl.LINEAR_MIPMAP_LINEAR : gl.LINEAR);
+const wrap = opt.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+return t;
+}
+function load(name, done) {
+const im = new Image();
+im.onload = () => done(im);
+im.onerror = () => { im.onerror = null; im.src = IMG + name + ".webp"; };
+im.src = IMG + name + ".avif";
+}
+const scene = {};
+function fetchScene(done) {
+let left = 3;
+const one = () => { if (!--left) done(); };
+load("rovere", (im) => { scene.wood = texture(im, { mips: true, repeat: true }); one(); });
+load("rovere-fibra", (im) => { scene.pores = texture(im, { mips: true, repeat: true }); one(); });
+load("sala", (im) => { scene.room = texture(im); one(); });
+}
+for (const d of DISHES) {
+d.back = Math.hypot(d.eye[0], d.eye[2]);
+d.towards = Math.atan2(d.eye[2], d.eye[0]);
+const [U, V, W] = d.shot;
+d.vao = shape([[0, 0], [1, 0], [0, 1], [1, 1]].flatMap(([u, v]) => {
+const a = U[0] - u * W[0], b = U[2] - u * W[2], c = u * W[3] - U[3];
+const e = V[0] - v * W[0], f = V[2] - v * W[2], g = v * W[3] - V[3];
+const det = a * f - b * e;
+return [(c * f - b * g) / det, (a * g - c * e) / det];
+}));
+}
+function fetchDish(i, done) {
+const d = DISHES[i];
+if (!d || d.asked) return;
+d.asked = true;
+let left = 2;
+const one = () => { if (!--left) { d.ready = true; kick(); if (done) done(); } };
+const need = (frame_.focal * fit(d) * Math.min(devicePixelRatio, 2)) / d.shot[0][0];
+load(d.slug + "-" + (d.widths.find((w) => w >= need * 0.97) || d.widths[d.widths.length - 1]), (im) => {
+d.color = texture(im, { mips: true, premultiply: true });
+one();
+});
+load(d.slug + "-map", (im) => {
+const w = im.naturalWidth, h = im.naturalHeight / 4;
+const c = document.createElement("canvas");
+c.width = w;
+c.height = h * 4;
+const g = c.getContext("2d", { willReadFrequently: true });
+g.drawImage(im, 0, 0);
+const src = g.getImageData(0, 0, w, h * 4).data;
+const data = new Uint8Array(w * h * 4);
+for (let p = 0; p < w * h; p++) for (let k = 0; k < 4; k++) data[p * 4 + k] = src[(p + k * w * h) * 4];
+d.map = texture(data, { w, h, mips: true });
+one();
+});
+}
+const near = (n) => { for (const k of [n, n + 1, n - 1]) fetchDish(k); };
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let hold = 1, start = 0, pos = 0, want = 0, vel = 0, raf = 0, last = 0, seed = 0, smear = 0, passing = 0;
+let drag = null, sweep = 0, swept = false, pause = 0;
+let cur = 0, lit = -1, lamp = 0, named = 0, ready = false, stepped = 0;
+let dim = 0, shown = -1, shut = false, leaving = null;
+let power = 0, wantPower = 0, spread = 0.3, head = [0, 0], wantHead = [0, 0];
+const frame_ = { w: 1, h: 1, plate: 1, focal: 1, x: 0, y: 0 };
+const fit = (d) => Math.min(1, (0.9 * frame_.w * EYE) / (d.wide * frame_.focal),
+(1.1 * d.f) / (frame_.focal * Math.min(devicePixelRatio, 2)));
+const detent = (p) => { const n = Math.round(p), f = p - n; return n + Math.sign(f) * 4 * Math.abs(f) ** 3; };
+function measure() {
+start = root.offsetTop;
+hold = root.offsetHeight - stage.offsetHeight || 1;
+const w = stage.clientWidth, h = stage.clientHeight, narrow = w < 900;
+const plate = narrow ? w * 0.8 : clamp(w * 0.37, 420, 600);
+Object.assign(frame_, { w, h: canvas.clientHeight, plate, focal: (plate * EYE) / 0.25, x: w * (narrow ? 0.5 : 0.6), y: h * (narrow ? 0.42 : 0.57) });
+const dpr = Math.min(devicePixelRatio, 2);
+canvas.width = Math.round(w * dpr);
+canvas.height = Math.round(frame_.h * dpr);
+gl.viewport(0, 0, canvas.width, canvas.height);
+}
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const unit = (a) => { const n = Math.hypot(...a); return [a[0] / n, a[1] / n, a[2] / n]; };
+function axes(eye, look) {
+const fwd = unit(sub(look, eye)), right = unit(cross([0, 1, 0], fwd));
+return [right, cross(fwd, right), fwd];
+}
+function render() {
+gl.clear(gl.COLOR_BUFFER_BIT);
+if (!scene.wood || !scene.pores || !scene.room || dim >= 1) return;
+const a = clamp(Math.floor(pos), 0, N - 1), b = Math.min(a + 1, N - 1), t = smooth(0, 1, pos - a);
+const eye0 = [0, mix(DISHES[a].eye[1], DISHES[b].eye[1], t), -mix(DISHES[a].back, DISHES[b].back, t)];
+const look = [0, 0.02, 0];
+let [right, up, fwd] = axes(eye0, look);
+const eye = eye0.map((e, i) => e + right[i] * head[0] * 0.02 + up[i] * head[1] * 0.012);
+[right, up, fwd] = axes(eye, look);
+const { w, h } = frame_;
+const focal = frame_.focal * mix(fit(DISHES[a]), fit(DISHES[b]), t);
+const sx = (2 * frame_.x) / w - 1, sy = 1 - (2 * frame_.y) / h, near = 0.05, far = 30;
+const row = (v, k) => [v[0] * k, v[1] * k, v[2] * k, -dot(v, eye) * k];
+const R = row(right, (2 * focal) / w), T = row(up, (2 * focal) / h), F = row(fwd, 1);
+const view = new Float32Array(16);
+for (let c = 0; c < 4; c++) {
+view[c * 4] = R[c] + sx * F[c];
+view[c * 4 + 1] = T[c] + sy * F[c];
+view[c * 4 + 2] = ((far + near) / (far - near)) * F[c] - (c === 3 ? (2 * far * near) / (far - near) : 0);
+view[c * 4 + 3] = F[c];
+}
+const focus = dot(fwd, sub(look, eye));
+const blur = 0.013 * focal * Math.min(devicePixelRatio, 2);
+const bulb = [LAMP[0] + head[0] * 0.06, LAMP[1], LAMP[2] - head[1] * 0.05];
+const target = [0.01 + head[0] * 0.012, 0, -head[1] * 0.008];
+const placed = DISHES.map((d, i) => {
+const al = (i - pos) * SEAT, P = [CURVE * Math.sin(al), CURVE * (1 - Math.cos(al))];
+const yaw = Math.atan2(eye0[2] - P[1], eye0[0] - P[0]) - d.towards, c = Math.cos(yaw), s = Math.sin(yaw);
+return {
+d, P, c, s, away: Math.abs(i - pos),
+rows: d.shot.flatMap((r) => [r[0] * c - r[2] * s, r[1], r[0] * s + r[2] * c, r[3] - r[0] * (c * P[0] + s * P[1]) - r[2] * (c * P[1] - s * P[0])]),
+eyeD: [P[0] + c * d.eye[0] - s * d.eye[2], d.eye[1], P[1] + s * d.eye[0] + c * d.eye[2]],
+};
+}).filter((k) => k.d.ready && k.away < 1.7).sort((m, n) => m.away - n.away);
+const common = (u) => {
+gl.useProgram(u.p);
+gl.uniformMatrix4fv(u.uView, false, view);
+gl.uniform3fv(u.uLamp, bulb);
+gl.uniform3fv(u.uAim, target);
+gl.uniform3fv(u.uEye, eye);
+gl.uniform1f(u.uPower, power * (1 - smooth(0, 0.6, dim)));
+gl.uniform1f(u.uDark, smooth(0.3, 1, dim));
+gl.uniform1f(u.uSpread, spread);
+gl.uniform1f(u.uSeed, seed);
+gl.uniform1f(u.uFocus, focus);
+gl.uniform1f(u.uBlur, blur);
+};
+const bind = (unit, tex, where) => {
+gl.activeTexture(gl.TEXTURE0 + unit);
+gl.bindTexture(gl.TEXTURE_2D, tex);
+gl.uniform1i(where, unit);
+};
+common(room);
+bind(0, scene.room, room.uColor);
+gl.uniform4fv(room.uBox, ROOM);
+gl.bindVertexArray(wall);
+gl.drawElements(gl.TRIANGLES, cells.length, gl.UNSIGNED_SHORT, 0);
+common(counter);
+bind(0, scene.wood, counter.uWood);
+const [one, two] = placed;
+bind(1, (one || {}).d ? one.d.map : scene.wood, counter.uMapA);
+bind(2, (two || {}).d ? two.d.map : scene.wood, counter.uMapB);
+if (one) gl.uniform4f(counter.uPoseA, one.P[0], one.P[1], one.c, one.s);
+if (two) gl.uniform4f(counter.uPoseB, two.P[0], two.P[1], two.c, two.s);
+gl.uniform4f(counter.uOver, one ? one.d.top : 0, one ? one.d.reach : 1, two ? two.d.top : 0, two ? two.d.reach : 1);
+bind(3, scene.pores, counter.uPores);
+gl.uniform2f(counter.uRim, one ? one.d.rim : 0, two ? two.d.rim : 0);
+gl.uniform4f(counter.uFoot, one ? one.d.foot : 0, one ? one.d.disc : 0, two ? two.d.foot : 0, two ? two.d.disc : 0);
+gl.uniform3f(counter.uCurve, CURVE, FAR, WOOD.depth);
+gl.uniform4f(counter.uGrain, ...WOOD.size, ...WOOD.pores);
+gl.uniform4f(counter.uPose, 0, 0, 1, 0);
+gl.bindVertexArray(top);
+gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+common(dish);
+gl.uniform3fv(dish.uEye0, eye0);
+for (const k of placed.reverse()) {
+gl.uniform1f(dish.uSoft, smear + blur * Math.abs(1 - focus / dot(fwd, sub([k.P[0], look[1], k.P[1]], eye))));
+bind(0, k.d.color, dish.uColor);
+bind(1, k.d.map, dish.uMap);
+gl.uniform4fv(dish.uR, k.rows);
+gl.uniform3fv(dish.uEyeD, k.eyeD);
+gl.uniform3fv(dish.uGain, k.d.gain);
+gl.uniform2f(dish.uYaw, k.c, k.s);
+gl.uniform1f(dish.uTop, k.d.top);
+gl.uniform4f(dish.uPose, k.P[0], k.P[1], k.c, k.s);
+gl.bindVertexArray(k.d.vao);
+gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+}
+}
+function dark() {
+clearTimeout(lamp);
+clearTimeout(named);
+lamp = 0;
+if (lit < 0) return;
+cards[lit].classList.remove("is-on");
+lit = -1;
+wantPower = LOW;
+kick();
+}
+function light(n) {
+lit = n;
+wantPower = 1;
+if (calm) cards[n].classList.add("is-on");
+else {
+spread = 0.3;
+named = setTimeout(() => cards[n].classList.add("is-on"), 420);
+}
+kick();
+}
+function follow() {
+const n = Math.round(want);
+if (n !== cur) {
+ticks[cur].removeAttribute("aria-current");
+ticks[n].setAttribute("aria-current", "true");
+cur = n;
+ends();
+near(n);
+}
+const resting = Math.abs(want - cur) < 0.05 && Math.abs(pos - cur) < 0.012;
+if (!resting || (lit >= 0 && lit !== cur)) dark();
+if (resting && ready && DISHES[cur].ready && lit !== cur && !lamp) {
+if (calm) light(cur);
+else lamp = setTimeout(() => { lamp = 0; light(cur); }, 170);
+}
+}
+function night(t) {
+const d = clamp((scrollY - start) / hold, 0, 1);
+if (!leaving) return d;
+const k = calm ? 1 : clamp((t - leaving.t) / 520, 0, 1);
+if (k === 1) return arrive(), 1;
+return Math.max(d, mix(leaving.from, 1, k * k * (3 - 2 * k)));
+}
+function frame(t) {
+const target = detent(want);
+const dt = Math.min(64, t - last);
+last = t;
+const ease = (ms) => 1 - Math.exp(-dt / ms);
+const before = pos;
+const s = dt / 1000, x = pos - target, push = vel + 10 * x, k = Math.exp(-10 * s);
+pos = target + (x + push * s) * k;
+vel = (vel - push * 10 * s) * k;
+if (Math.abs(pos - before) > 12 * s) {
+pos = before + Math.sign(pos - before) * 12 * s;
+vel = Math.sign(vel) * 12;
+}
+if (calm || (Math.abs(target - pos) < 0.0005 && Math.abs(vel) < 0.01)) {
+pos = target;
+vel = 0;
+}
+if (calm) {
+power = wantPower;
+spread = 1;
+wantHead = [0, 0];
+}
+dim = night(t);
+if (dim !== shown) {
+shown = dim;
+stage.style.setProperty("--luce", (1 - smooth(0, 0.55, dim)).toFixed(3));
+stage.classList.toggle("is-buio", dim > 0.4);
+if (dim > 0) {
+document.documentElement.classList.add("via");
+if (!root.nextElementSibling.classList.contains("is-in")) enter(root.nextElementSibling);
+}
+}
+smear = calm ? 0 : Math.min((Math.abs(pos - before) / Math.max(dt, 1)) * 2600, 5) * Math.min(devicePixelRatio, 2);
+power += (wantPower - power) * ease(wantPower > power ? 260 : 110);
+spread += (1 - spread) * ease(420);
+head[0] += (wantHead[0] - head[0]) * ease(140);
+head[1] += (wantHead[1] - head[1]) * ease(140);
+const still = pos === target && !leaving && Math.abs(wantPower - power) < 0.002 && spread > 0.998
+&& Math.abs(wantHead[0] - head[0]) + Math.abs(wantHead[1] - head[1]) < 0.002;
+shut = dim >= 1;
+if (!still) seed = (seed + 7.31) % 89;
+if (Math.round(pos) !== passing) near(passing = Math.round(pos));
+render();
+follow();
+raf = still ? 0 : requestAnimationFrame(frame);
+}
+function kick() {
+if (raf || (shut && !leaving && scrollY >= start + hold)) return;
+last = performance.now();
+raf = requestAnimationFrame(frame);
+}
+function go(n) {
+want = clamp(n, 0, N - 1);
+kick();
+}
+function ends() {
+arrows[0].disabled = cur === 0;
+arrows[1].disabled = cur === N - 1;
+}
+function nudge(dir) {
+const now = performance.now();
+const n = clamp(cur + dir, 0, N - 1);
+if (n === cur || now - stepped < 280) return;
+stepped = now;
+go(n);
+}
+function side(x) {
+const r = stage.getBoundingClientRect();
+const f = (x - r.left) / r.width;
+const dir = f < 1 / 3 ? -1 : f > 2 / 3 ? 1 : 0;
+return cur + dir < 0 || cur + dir > N - 1 ? 0 : dir;
+}
+function hint(e) {
+const dir = e.pointerType === "mouse" && !e.target.closest("a, button") ? side(e.clientX) : 0;
+stage.dataset.zona = dir < 0 ? "prec" : dir > 0 ? "succ" : "";
+}
+addEventListener("scroll", kick, { passive: true });
+addEventListener("resize", () => { measure(); shut = false; kick(); });
+stage.addEventListener("wheel", (e) => {
+if (Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+e.preventDefault();
+clearTimeout(pause);
+pause = setTimeout(() => { sweep = 0; swept = false; }, 120);
+if (swept || dim > 0.4) return;
+sweep += e.deltaX;
+if (Math.abs(sweep) > 30) {
+swept = true;
+nudge(Math.sign(sweep));
+}
+}, { passive: false });
+addEventListener("keydown", (e) => {
+if ((e.key !== "ArrowRight" && e.key !== "ArrowLeft") || dim > 0.4) return;
+e.preventDefault();
+nudge(e.key === "ArrowRight" ? 1 : -1);
+});
+ticks.forEach((b, i) => b.addEventListener("click", () => go(i)));
+arrows.forEach((b, i) => b.addEventListener("click", () => nudge(i ? 1 : -1)));
+stage.addEventListener("pointerdown", (e) => {
+if (e.button || dim > 0.4 || e.target.closest("a, button")) return;
+drag = { id: e.pointerId, x: e.clientX, y: e.clientY, from: pos, on: false, v: 0, lx: e.clientX, lt: e.timeStamp };
+});
+stage.addEventListener("pointermove", (e) => {
+const r = stage.getBoundingClientRect();
+if (e.pointerType === "mouse") wantHead = [clamp(((e.clientX - r.left) / r.width) * 2 - 1, -1, 1), clamp(1 - ((e.clientY - r.top) / r.height) * 2, -1, 1)];
+else if (drag) wantHead = [clamp((e.clientX - drag.x) / 120, -1, 1), clamp((drag.y - e.clientY) / 120, -1, 1)];
+kick();
+if (!drag) hint(e);
+if (!drag || e.pointerId !== drag.id) return;
+const dx = e.clientX - drag.x;
+if (!drag.on) {
+if (Math.abs(dx) < 8 || Math.abs(dx) < Math.abs(e.clientY - drag.y)) return;
+drag.on = true;
+stage.setPointerCapture(e.pointerId);
+stage.classList.add("is-drag");
+}
+drag.v = (e.clientX - drag.lx) / Math.max(1, e.timeStamp - drag.lt);
+drag.lx = e.clientX;
+drag.lt = e.timeStamp;
+want = clamp(drag.from - dx / Math.min(380, innerWidth * 0.5), 0, N - 1);
+});
+const drop = (e) => {
+if (e.pointerType !== "mouse") { wantHead = [0, 0]; kick(); }
+if (!drag) return;
+const was = drag;
+drag = null;
+stage.classList.remove("is-drag");
+if (was.on) go(Math.round(want - clamp(was.v * 0.7, -0.5, 0.5)));
+else if (e.type === "pointerup" && e.pointerType === "mouse") nudge(side(e.clientX));
+};
+stage.addEventListener("pointerup", drop);
+stage.addEventListener("pointercancel", drop);
+stage.addEventListener("pointerleave", () => { stage.dataset.zona = ""; wantHead = [0, 0]; kick(); });
+function enter(room, risen) {
+room.classList.remove("is-in", "is-open", "sale");
+void room.offsetWidth;
+room.classList.add("is-in");
+room.classList.toggle("sale", !!risen);
+setTimeout(() => room.classList.add("is-open"), 700);
+}
+const rooms = new IntersectionObserver((seen) => seen.forEach((e) => {
+if (!e.isIntersecting) return;
+rooms.unobserve(e.target);
+if (!e.target.classList.contains("is-in")) enter(e.target);
+}), { threshold: 0.2 });
+document.querySelectorAll(".serata").forEach((room) => rooms.observe(room));
+const film = document.querySelector(".serata video");
+if (film && !calm) new IntersectionObserver(([e]) => { if (e.isIntersecting) film.play().catch(() => {}); else film.pause(); }, { rootMargin: "25% 0px" }).observe(film);
+root.querySelectorAll(".porta").forEach((a) => a.addEventListener("click", (e) => {
+e.preventDefault();
+if (leaving) return;
+leaving = { to: document.querySelector(a.hash), from: dim, t: performance.now() };
+kick();
+}));
+addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") document.documentElement.classList.add("punta"); }, { passive: true });
+function arrive() {
+const { to } = leaving;
+leaving = null;
+document.documentElement.classList.remove("punta");
+scrollTo(0, to.offsetTop);
+enter(to, true);
+to.focus({ preventScroll: true });
+}
+measure();
+ends();
+let waiting = 2;
+const open = () => {
+if (--waiting) return;
+wantPower = LOW;
+kick();
+setTimeout(() => {
+ready = true;
+follow();
+kick();
+setTimeout(() => { fetchDish(cur + 1); fetchDish(cur - 1); }, 1600);
+}, calm ? 0 : 700);
+};
+fetchScene(open);
+fetchDish(cur, open);
 })();
 </script>
 </body>
