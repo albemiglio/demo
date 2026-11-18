@@ -80,7 +80,6 @@ html:not(.js) .giro {
   outline-offset: -4px;
 }
 
-/* the scene: one canvas behind the words */
 .scena > .tela {
   position: absolute;
   top: 0;
@@ -89,10 +88,9 @@ html:not(.js) .giro {
   width: 100%;
   height: 100%;
 }
-/* on a phone the bars of the browser fold away as the page moves: the scene goes on under them, down to where the dishes end */
 @supports (overflow: clip) and (height: 100lvh) {
   .giro {
-    overflow: clip;
+    overflow-x: clip;
   }
   .scena {
     overflow: visible;
@@ -218,7 +216,6 @@ html:not(.js) .scheda:first-child {
   outline-offset: -6px;
 }
 
-/* marks the doors that lead out */
 .va {
   margin-left: 0.5rem;
   color: var(--ash);
@@ -272,7 +269,6 @@ a:hover > .va {
   }
 }
 
-/* names, lines and doors in the face closest to their own lettering */
 @font-face {
   font-family: "Bodoni Moda";
   src: url("../assets/fonts/bodoni-moda-latin.woff2") format("woff2");
@@ -298,10 +294,34 @@ a:hover > .va {
   color: rgba(236, 228, 216, 0.86);
   text-shadow: 0 0 10px rgba(11, 8, 6, 0.55);
 }
-/* the star they hold hangs under the name, centred on its letters, in the red of the Guide; another would line up beside it */
 .insegna {
   position: relative;
+  z-index: 5;
   justify-self: start;
+  display: block;
+  text-decoration: none;
+  cursor: default;
+  transition: opacity 0.3s var(--ease);
+}
+.insegna .marchio {
+  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+}
+.insegna::before {
+  content: "";
+  position: absolute;
+  inset: -14px -14px -2.4em;
+}
+.buio .insegna {
+  cursor: pointer;
+}
+.punta.buio .insegna:hover {
+  opacity: 0.7;
+}
+.buio .insegna:active {
+  opacity: 0.5;
+}
+.dono {
+  grid-column: 2;
 }
 .stelle {
   position: absolute;
@@ -320,7 +340,6 @@ a:hover > .va {
   height: 0.7em;
   fill: currentColor;
 }
-/* each numeral is inside its own button, so the whole of it can be pressed */
 .atti span {
   margin: 0;
 }
@@ -337,13 +356,11 @@ a:hover > .va {
   flex: none;
   margin: 0;
 }
-/* the two doors are as wide as the longer name needs, and equal */
 @media (min-width: 900px) {
   .scena > .porte {
     width: max-content;
   }
 }
-/* the doors are buttons: each has its edge and its ground, and turns to bone under the hand */
 .porte {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 10px;
@@ -354,7 +371,6 @@ a:hover > .va {
   background: rgba(11, 8, 6, 0.45);
   transition: color 0s 0.06s, border-color 0.25s var(--ease), transform 0.2s var(--ease);
 }
-/* the words change ink when the ground is half way, so they are never the colour of what is under them */
 .porte > .porta::before {
   transition-duration: 0.25s;
 }
@@ -391,12 +407,25 @@ a:hover > .va {
 .porte > .porta:focus-visible {
   outline-offset: 3px;
 }
-/* as the light goes down the words go with it */
 .scena > :not(.tela) {
   opacity: var(--luce, 1);
 }
-.scena.is-buio > * {
+.buio .scena,
+.buio .scena > * {
   pointer-events: none;
+}
+.giro + .serata {
+  margin-top: -100svh;
+}
+.js .giro + .serata.is-in > * {
+  opacity: var(--sala, 1);
+  transition-property: none;
+}
+.js .giro + .serata.sale > * {
+  transition-property: opacity;
+}
+.oltre .scena {
+  visibility: hidden;
 }
 @media (max-width: 899px) {
   .atti {
@@ -421,7 +450,6 @@ a:hover > .va {
     line-height: 1.55;
   }
 }
-/* the numerals of every dish on the narrowest phones: closer together, between narrower arrows or none */
 @media (max-width: 389px) {
   .porte {
     gap: 8px;
@@ -446,15 +474,57 @@ a:hover > .va {
     display: none;
   }
 }
-/* the room goes dark towards the top edge, behind the name and the star */
-.scena::after {
+.scena::after,
+main::after {
+  --g: linear-gradient(rgba(11, 8, 6, 1.000) 0px, rgba(11, 8, 6, 0.993) 13.125px, rgba(11, 8, 6, 0.971) 26.25px, rgba(11, 8, 6, 0.936) 39.375px, rgba(11, 8, 6, 0.888) 52.5px, rgba(11, 8, 6, 0.828) 65.625px, rgba(11, 8, 6, 0.758) 78.75px, rgba(11, 8, 6, 0.680) 91.875px, rgba(11, 8, 6, 0.595) 105px, rgba(11, 8, 6, 0.505) 118.125px, rgba(11, 8, 6, 0.414) 131.25px, rgba(11, 8, 6, 0.324) 144.375px, rgba(11, 8, 6, 0.237) 157.5px, rgba(11, 8, 6, 0.156) 170.625px, rgba(11, 8, 6, 0.086) 183.75px, rgba(11, 8, 6, 0.031) 196.875px, rgba(11, 8, 6, 0.000) 210px);
   content: "";
-  position: absolute;
-  z-index: 2;
   inset: 0 0 auto;
   height: 210px;
   pointer-events: none;
-  background: linear-gradient(rgba(11, 8, 6, 1.000) 0px, rgba(11, 8, 6, 0.993) 13.125px, rgba(11, 8, 6, 0.971) 26.25px, rgba(11, 8, 6, 0.936) 39.375px, rgba(11, 8, 6, 0.888) 52.5px, rgba(11, 8, 6, 0.828) 65.625px, rgba(11, 8, 6, 0.758) 78.75px, rgba(11, 8, 6, 0.680) 91.875px, rgba(11, 8, 6, 0.595) 105px, rgba(11, 8, 6, 0.505) 118.125px, rgba(11, 8, 6, 0.414) 131.25px, rgba(11, 8, 6, 0.324) 144.375px, rgba(11, 8, 6, 0.237) 157.5px, rgba(11, 8, 6, 0.156) 170.625px, rgba(11, 8, 6, 0.086) 183.75px, rgba(11, 8, 6, 0.031) 196.875px, rgba(11, 8, 6, 0.000) 210px);
+}
+.scena::after {
+  position: absolute;
+  z-index: 2;
+  background: var(--g);
+}
+.scena {
+  z-index: 4;
+}
+main::before {
+  content: "";
+  position: fixed;
+  z-index: 1;
+  inset: 0 0 auto;
+  height: var(--nome, 6rem);
+  pointer-events: none;
+  background: var(--ink);
+}
+.quadro {
+  z-index: 2;
+}
+main::after {
+  position: fixed;
+  z-index: 3;
+  background: linear-gradient(rgba(11, 8, 6, 0.5), rgba(11, 8, 6, 0) 140px), var(--g);
+}
+.tetto {
+  position: absolute;
+  z-index: 3;
+  top: -160px;
+  left: 0;
+  right: 0;
+  height: 176px;
+  pointer-events: none;
+  background: var(--ink);
+}
+@media (min-width: 900px) {
+  main::before {
+    right: 66%;
+  }
+  main::after,
+  .tetto {
+    display: none;
+  }
 }
 
 .serata {
@@ -468,7 +538,6 @@ a:hover > .va {
 .serata:focus {
   outline: 0;
 }
-/* a picture without a box is not asked for: the rooms cost nothing until the guest starts to leave the dishes */
 .js:not(.via) .quadro img {
   display: none;
 }
@@ -518,7 +587,6 @@ a:hover > .va {
 .porte.una {
   grid-template-columns: 1fr;
 }
-/* each room comes up as it is reached; from a door of the dishes, out of the dark and a little from below */
 .js .serata > * {
   opacity: 0;
 }
@@ -599,6 +667,11 @@ a:hover > .va {
     padding-top: 40px;
   }
 }
+.js.torna .serata.is-in > *,
+.torna .piede {
+  opacity: 0;
+  transition: opacity 0.4s var(--ease);
+}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -611,14 +684,14 @@ a:hover > .va {
 </head>
 <body>
 <main>
-<section class="giro" aria-label="Le portate">
+<section class="giro" id="portate" aria-label="Le portate">
   <div class="scena">
     <canvas class="tela" aria-hidden="true"></canvas>
     <header class="testa">
-      <div class="insegna">
+      <a class="insegna" href="#portate" aria-label="Akoya, torna al banco">
         <h1 class="marchio">Akoya</h1>
         <span class="stelle" role="img" aria-label="Una stella Michelin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.9 6.63a3.7 3.7 0 1 1 6.2 0 3.7 3.7 0 1 1 3.1 5.37 3.7 3.7 0 1 1-3.1 5.37 3.7 3.7 0 1 1-6.2 0 3.7 3.7 0 1 1-3.1-5.37 3.7 3.7 0 1 1 3.1-5.37z"/></svg></span>
-      </div>
+      </a>
       <a class="dono" href="https://spaziomusa.net/akoya/" target="_blank" rel="noopener" aria-label="Buono regalo" title="Buono regalo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3.5" y="8" width="17" height="4" rx="0.5"/>
@@ -631,47 +704,36 @@ a:hover > .va {
     <ol class="schede" aria-live="polite">
       <li class="scheda">
         <h2>Astice Chawanmushi</h2>
-        <p class="riga">Il budino, l’olio, il caviale: grasso su grasso. Poi il nasturzio.</p>
       </li>
       <li class="scheda">
         <h2>Shime Saba</h2>
-        <p class="riga">Un pesce che conosciamo bene, in una forma che non ci aspettiamo.</p>
       </li>
       <li class="scheda">
         <h2>Calamaro Somen</h2>
-        <p class="riga">Il mare, in due consistenze: il calamaro e le uova di salmone.</p>
       </li>
       <li class="scheda">
         <h2>Granchio Shiitake</h2>
-        <p class="riga">Due tradizioni lontane nello stesso boccone.</p>
       </li>
       <li class="scheda">
         <h2>Ricciola</h2>
-        <p class="riga">Otto grammi di tecnica. Mille anni di storia.</p>
       </li>
       <li class="scheda">
         <h2>Alice marinata</h2>
-        <p class="riga">Zenzero, erba cipollina.</p>
       </li>
       <li class="scheda">
         <h2>Pesce sciabola</h2>
-        <p class="riga">Riso, pesce, mani e aria: un gesto che respira, leggero e preciso.</p>
       </li>
       <li class="scheda">
         <h2>Nigiri Tonno</h2>
-        <p class="riga">Taglio netto, colore vivo, consistenza che si scioglie sul riso tiepido.</p>
       </li>
       <li class="scheda">
         <h2>Anatra Yuzu</h2>
-        <p class="riga">Brace, mela verde e yuzu: la complicità tra affumicatura e acidità.</p>
       </li>
       <li class="scheda">
         <h2>Zucca</h2>
-        <p class="riga">La zucca si fa sfoglia e si chiude a raviolo. Dentro, il miso.</p>
       </li>
       <li class="scheda">
         <h2>Mochi Cioccolato Caviale</h2>
-        <p class="riga">C’è un solo modo di capire questo piatto: chiuderlo in un morso.</p>
       </li>
     </ol>
 
@@ -769,6 +831,9 @@ const canvas = root.querySelector(".tela");
 const cards = [...root.querySelectorAll(".scheda")];
 const ticks = [...root.querySelectorAll(".atti button")];
 const arrows = [...root.querySelectorAll(".freccia")];
+const header = root.querySelector(".testa");
+const sign = root.querySelector(".insegna");
+const first = root.nextElementSibling;
 const N = cards.length;
 const IMG = "../assets/img/c-";
 const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"rim":0.018,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921],"foot":0,"disc":0},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"rim":0.024,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021],"foot":0,"disc":0},{"slug":"calamaro","widths":[720,1000,1400],"top":0.076,"reach":0.18,"rim":0.06,"radius":0.065,"wide":0.1979,"f":6464.6,"eye":[-0.011,0.5979,-0.5811],"shot":[[3.92745,-0.30677,0.33773,0.42292],[0.0,-4.82646,-3.80855,0.67271],[0.0,-0.67237,0.74022,0.83211]],"gain":[1.241,1.097,1.081],"foot":0.02,"disc":0.065},{"slug":"granchio","widths":[480,776],"top":0.0743,"reach":0.15,"rim":0.065,"radius":0.058,"wide":0.1154,"f":5037.9,"eye":[0.0011,0.5685,-0.6227],"shot":[[6.49218,-0.31912,0.39408,0.41988],[0.0,-5.99834,-4.39997,0.66992],[0.0,-0.62932,0.77715,0.84167]],"gain":[0.993,0.9,0.906],"foot":0.028,"disc":0.058},{"slug":"ricciola","widths":[480,720,818],"top":0.0253,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.179,"f":3445.0,"eye":[-0.0093,0.6498,-0.4127],"shot":[[4.21146,-0.35421,0.26935,0.38068],[0.0,-3.08911,-3.91415,0.39199],[0.0,-0.796,0.60529,0.76704]],"gain":[2.258,2.77,3.339],"foot":0,"disc":0.085},{"slug":"alice","widths":[480,720,1000],"top":0.0234,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.173,"f":4597.1,"eye":[-0.0002,0.6858,-0.4031],"shot":[[4.41605,-0.41931,0.26971,0.39717],[0.0,-3.0249,-4.12764,0.41092],[0.0,-0.84104,0.54097,0.79485]],"gain":[1.541,1.915,2.445],"foot":0,"disc":0.085},{"slug":"sciabola","widths":[720,1000,1163],"top":0.0325,"reach":0.13,"rim":0.015,"radius":0.088,"wide":0.1832,"f":4872.2,"eye":[-0.0011,0.5929,-0.5052],"shot":[[4.18932,-0.35652,0.3413,0.38856],[0.0,-3.69486,-3.57018,0.38701],[0.0,-0.72236,0.69151,0.77763]],"gain":[2.366,2.854,3.329],"foot":0,"disc":0.088},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"rim":0.02,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946],"foot":0,"disc":0},{"slug":"anatra","widths":[720,1000,1367],"top":0.0757,"reach":0.19,"rim":0.022,"radius":0.12,"wide":0.2693,"f":3921.8,"eye":[-0.0166,0.5173,-0.5267],"shot":[[2.86893,-0.26901,0.34124,0.36646],[0.0,-3.28225,-2.47673,0.39333],[0.0,-0.61909,0.78532,0.73387]],"gain":[1.31,1.404,1.574],"foot":0,"disc":0.12},{"slug":"zucca","widths":[720,1000,1400],"top":0.0471,"reach":0.17,"rim":0.0195,"radius":0.11,"wide":0.2278,"f":7669.0,"eye":[0.0062,0.4581,-0.6382],"shot":[[3.43131,-0.28936,0.44134,0.39289],[0.0,-4.5445,-2.64862,0.39155],[0.0,-0.54829,0.83629,0.78494]],"gain":[1.2,1.102,1.107],"foot":0,"disc":0.11},{"slug":"mochi","widths":[480,720],"top":0.0294,"reach":0.1,"rim":0.012,"radius":0.065,"wide":0.1294,"f":7722.8,"eye":[0.002,0.6088,-0.5308],"shot":[[5.94062,-0.38508,0.3437,0.405],[0.0,-5.54549,-5.52767,0.44241],[0.0,-0.74606,0.66588,0.80767]],"gain":[0.908,0.807,0.748],"foot":0,"disc":0.065}];
@@ -1073,13 +1138,20 @@ const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
 let hold = 1, start = 0, pos = 0, want = 0, vel = 0, raf = 0, last = 0, seed = 0, smear = 0, passing = 0;
 let drag = null, sweep = 0, swept = false, pause = 0;
 let cur = 0, lit = -1, lamp = 0, named = 0, ready = false, stepped = 0;
-let dim = 0, shown = -1, shut = false, leaving = null;
+let dim = 0, shown = -1, lifted = -1, shut = false, leaving = null, back = null;
 let power = 0, wantPower = 0, spread = 0.3, head = [0, 0], wantHead = [0, 0];
 const frame_ = { w: 1, h: 1, plate: 1, focal: 1, x: 0, y: 0 };
 const fit = (d) => Math.min(1, (0.9 * frame_.w * EYE) / (d.wide * frame_.focal),
 (1.1 * d.f) / (frame_.focal * Math.min(devicePixelRatio, 2)));
 const detent = (p) => { const n = Math.round(p), f = p - n; return n + Math.sign(f) * 4 * Math.abs(f) ** 3; };
 function measure() {
+header.prepend(sign);
+sign.style.cssText = header.style.minHeight = "";
+const at = sign.getBoundingClientRect(), from = stage.getBoundingClientRect();
+header.style.minHeight = header.getBoundingClientRect().height + "px";
+document.documentElement.style.setProperty("--nome", Math.round(sign.lastElementChild.getBoundingClientRect().bottom - from.top + 12) + "px");
+sign.style.cssText = `position:fixed;top:${at.top - from.top}px;left:${at.left - from.left}px`;
+document.body.prepend(sign);
 start = root.offsetTop;
 hold = root.offsetHeight - stage.offsetHeight || 1;
 const w = stage.clientWidth, h = stage.clientHeight, narrow = w < 900;
@@ -1203,7 +1275,7 @@ wantPower = 1;
 if (calm) cards[n].classList.add("is-on");
 else {
 spread = 0.3;
-named = setTimeout(() => cards[n].classList.add("is-on"), 420);
+named = setTimeout(() => cards[n].classList.add("is-on"), 340);
 }
 kick();
 }
@@ -1220,11 +1292,24 @@ const resting = Math.abs(want - cur) < 0.05 && Math.abs(pos - cur) < 0.012;
 if (!resting || (lit >= 0 && lit !== cur)) dark();
 if (resting && ready && DISHES[cur].ready && lit !== cur && !lamp) {
 if (calm) light(cur);
-else lamp = setTimeout(() => { lamp = 0; light(cur); }, 170);
+else lamp = setTimeout(() => { lamp = 0; light(cur); }, 120);
 }
 }
+const fall = () => clamp((scrollY - start) / hold, 0, 1);
 function night(t) {
-const d = clamp((scrollY - start) / hold, 0, 1);
+const d = fall();
+if (back) {
+const k = (t - back.t) / 700;
+if (k < 0) return 1;
+if (!back.home) {
+back.home = true;
+scrollTo(0, start);
+document.documentElement.classList.remove("torna");
+return 1;
+}
+if (k >= 1) return back = null, d;
+return Math.max(d, 1 - k * k * (3 - 2 * k));
+}
 if (!leaving) return d;
 const k = calm ? 1 : clamp((t - leaving.t) / 520, 0, 1);
 if (k === 1) return arrive(), 1;
@@ -1253,21 +1338,27 @@ spread = 1;
 wantHead = [0, 0];
 }
 dim = night(t);
-if (dim !== shown) {
+const under = fall();
+if (dim !== shown || under !== lifted) {
 shown = dim;
-stage.style.setProperty("--luce", (1 - smooth(0, 0.55, dim)).toFixed(3));
-stage.classList.toggle("is-buio", dim > 0.4);
+lifted = under;
+stage.style.setProperty("--luce", (1 - smooth(0, 0.4, dim)).toFixed(3));
+stage.style.opacity = (1 - smooth(0.25, 0.55, under)).toFixed(3);
+first.style.setProperty("--sala", smooth(0.2, 0.8, under).toFixed(3));
+document.documentElement.classList.toggle("buio", dim > 0.4);
+document.documentElement.classList.toggle("oltre", under >= 0.55);
 if (dim > 0) {
 document.documentElement.classList.add("via");
-if (!root.nextElementSibling.classList.contains("is-in")) enter(root.nextElementSibling);
+if (!first.classList.contains("is-in")) enter(first);
 }
+roll();
 }
 smear = calm ? 0 : Math.min((Math.abs(pos - before) / Math.max(dt, 1)) * 2600, 5) * Math.min(devicePixelRatio, 2);
-power += (wantPower - power) * ease(wantPower > power ? 260 : 110);
-spread += (1 - spread) * ease(420);
+power += (wantPower - power) * ease(wantPower > power ? 200 : 110);
+spread += (1 - spread) * ease(340);
 head[0] += (wantHead[0] - head[0]) * ease(140);
 head[1] += (wantHead[1] - head[1]) * ease(140);
-const still = pos === target && !leaving && Math.abs(wantPower - power) < 0.002 && spread > 0.998
+const still = pos === target && !leaving && !back && Math.abs(wantPower - power) < 0.002 && spread > 0.998
 && Math.abs(wantHead[0] - head[0]) + Math.abs(wantHead[1] - head[1]) < 0.002;
 shut = dim >= 1;
 if (!still) seed = (seed + 7.31) % 89;
@@ -1277,7 +1368,7 @@ follow();
 raf = still ? 0 : requestAnimationFrame(frame);
 }
 function kick() {
-if (raf || (shut && !leaving && scrollY >= start + hold)) return;
+if (raf || (shut && !leaving && !back && scrollY >= start + hold)) return;
 last = performance.now();
 raf = requestAnimationFrame(frame);
 }
@@ -1374,16 +1465,37 @@ if (!e.isIntersecting) return;
 rooms.unobserve(e.target);
 if (!e.target.classList.contains("is-in")) enter(e.target);
 }), { threshold: 0.2 });
-document.querySelectorAll(".serata").forEach((room) => rooms.observe(room));
+document.querySelectorAll(".serata ~ .serata").forEach((room) => rooms.observe(room));
 const film = document.querySelector(".serata video");
-if (film && !calm) new IntersectionObserver(([e]) => { if (e.isIntersecting) film.play().catch(() => {}); else film.pause(); }, { rootMargin: "25% 0px" }).observe(film);
+let sight = false, rolling = false;
+function roll() {
+const on = sight && dim > 0;
+if (on === rolling) return;
+rolling = on;
+if (on) film.play().catch(() => {});
+else film.pause();
+}
+if (film && !calm) new IntersectionObserver(([e]) => { sight = e.isIntersecting; roll(); }, { rootMargin: "25% 0px" }).observe(film);
 root.querySelectorAll(".porta").forEach((a) => a.addEventListener("click", (e) => {
 e.preventDefault();
 if (leaving) return;
 leaving = { to: document.querySelector(a.hash), from: dim, t: performance.now() };
 kick();
 }));
+const cap = root.parentElement.appendChild(document.createElement("div"));
+cap.className = "tetto";
+const cover = () => { cap.style.transform = `translateY(${scrollY}px)`; };
+addEventListener("scroll", cover, { passive: true });
+cover();
 addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") document.documentElement.classList.add("punta"); }, { passive: true });
+sign.addEventListener("click", (e) => {
+e.preventDefault();
+if (leaving || back || dim <= 0.4) return;
+if (calm || scrollY < start + hold) return scrollTo({ top: start, behavior: calm ? "auto" : "smooth" });
+document.documentElement.classList.add("torna");
+back = { t: performance.now() + 420 };
+kick();
+});
 function arrive() {
 const { to } = leaving;
 leaving = null;
@@ -1394,6 +1506,8 @@ to.focus({ preventScroll: true });
 }
 measure();
 ends();
+kick();
+if (document.fonts) document.fonts.ready.then(() => { measure(); shut = false; kick(); });
 let waiting = 2;
 const open = () => {
 if (--waiting) return;
