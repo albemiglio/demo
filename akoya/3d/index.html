@@ -18,667 +18,659 @@ if (!document.createElement("canvas").getContext("webgl2")) location.replace("..
 <link rel="stylesheet" href="../assets/base.css">
 <style>
 .giro {
-  height: 146svh;
+height: 146svh;
 }
 html:not(.js) .giro {
-  height: auto;
+height: auto;
 }
-
 .scena {
-  position: sticky;
-  top: 0;
-  display: grid;
-  grid-template:
-    "testa testa" auto
-    "schede pozze" 1fr
-    "porte giri" auto / minmax(0, 34fr) minmax(0, 66fr);
-  height: 100svh;
-  overflow: hidden;
-  touch-action: pan-y;
-  cursor: grab;
-  user-select: none;
-  -webkit-user-select: none;
+position: sticky;
+top: 0;
+display: grid;
+grid-template:
+"testa testa" auto
+"schede pozze" 1fr
+"porte giri" auto / minmax(0, 34fr) minmax(0, 66fr);
+height: 100svh;
+overflow: hidden;
+touch-action: pan-y;
+cursor: grab;
+user-select: none;
+-webkit-user-select: none;
 }
 .scena[data-zona="prec"] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40' fill='none' stroke='%23ece4d8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 20H8M16 12l-8 8 8 8'/%3E%3C/svg%3E") 20 20, w-resize;
+cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40' fill='none' stroke='%23ece4d8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 20H8M16 12l-8 8 8 8'/%3E%3C/svg%3E") 20 20, w-resize;
 }
 .scena[data-zona="succ"] {
-  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40' fill='none' stroke='%23ece4d8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20h24M24 12l8 8-8 8'/%3E%3C/svg%3E") 20 20, e-resize;
+cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40' fill='none' stroke='%23ece4d8' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 20h24M24 12l8 8-8 8'/%3E%3C/svg%3E") 20 20, e-resize;
 }
 .scena.is-drag {
-  cursor: grabbing;
+cursor: grabbing;
 }
 .scena > * {
-  z-index: 3;
+z-index: 3;
 }
 .scena > .testa {
-  grid-area: testa;
+grid-area: testa;
 }
 .scena > .testa {
-  grid-template-columns: 1fr auto;
+grid-template-columns: 1fr auto;
 }
 .scena .marchio {
-  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+font-size: clamp(1.125rem, 1.5vw, 1.5rem);
 }
 .dono {
-  justify-self: end;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  margin: -12px -12px -12px 0;
-  cursor: pointer;
-  transition: opacity 0.3s var(--ease);
+justify-self: end;
+display: grid;
+place-items: center;
+width: 48px;
+height: 48px;
+margin: -12px -12px -12px 0;
+cursor: pointer;
+transition: opacity 0.3s var(--ease);
 }
 .dono:hover {
-  opacity: 0.7;
+opacity: 0.7;
 }
 .dono:active {
-  opacity: 0.5;
+opacity: 0.5;
 }
 .dono:focus-visible {
-  outline-offset: -4px;
+outline-offset: -4px;
 }
-
 .scena > .tela {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
-  width: 100%;
-  height: 100%;
+position: absolute;
+top: 0;
+left: 0;
+z-index: 1;
+width: 100%;
+height: 100%;
 }
 @supports (overflow: clip) and (height: 100lvh) {
-  .giro {
-    overflow-x: clip;
-  }
-  .scena {
-    overflow: visible;
-  }
-  .scena > .tela {
-    height: 100lvh;
-  }
+.giro {
+overflow-x: clip;
 }
-
+.scena {
+overflow: visible;
+}
+.scena > .tela {
+height: 100lvh;
+}
+}
 .schede {
-  grid-area: schede;
-  display: grid;
-  align-content: center;
-  padding-left: var(--gutter);
+grid-area: schede;
+display: grid;
+align-content: center;
+padding-left: var(--gutter);
 }
 .scheda {
-  grid-area: 1 / 1;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(10px);
-  transition: opacity 0.18s linear, transform 0s 0.18s, visibility 0s 0.18s;
+grid-area: 1 / 1;
+opacity: 0;
+visibility: hidden;
+transform: translateY(10px);
+transition: opacity 0.18s linear, transform 0s 0.18s, visibility 0s 0.18s;
 }
 .scheda.is-on,
 html:not(.js) .scheda:first-child {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-  transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
+opacity: 1;
+visibility: visible;
+transform: none;
+transition: opacity 0.7s var(--ease), transform 0.8s var(--ease);
 }
 .scheda h2 {
-  max-width: 11ch;
-  margin: 0 0 1rem;
-  font: 400 clamp(2.125rem, 3.7vw, 3.625rem)/1.08 var(--serif);
-  letter-spacing: -0.01em;
+max-width: 11ch;
+margin: 0 0 1rem;
+font: 400 clamp(2.125rem, 3.7vw, 3.625rem)/1.08 var(--serif);
+letter-spacing: -0.01em;
 }
 .riga {
-  max-width: 30ch;
-  font-size: 0.9375rem;
-  color: var(--ash);
+max-width: 30ch;
+font-size: 0.9375rem;
+color: var(--ash);
 }
-
 .scena > .porte {
-  grid-area: porte;
-  align-self: end;
-  margin: 0 0 var(--gutter) var(--gutter);
-  cursor: pointer;
+grid-area: porte;
+align-self: end;
+margin: 0 0 var(--gutter) var(--gutter);
+cursor: pointer;
 }
-
 .giri {
-  grid-area: giri;
-  justify-self: end;
-  align-self: end;
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin: 0 calc(var(--gutter) - 12px) calc(var(--gutter) - 8px) 0;
+grid-area: giri;
+justify-self: end;
+align-self: end;
+display: flex;
+align-items: center;
+gap: 4px;
+margin: 0 calc(var(--gutter) - 12px) calc(var(--gutter) - 8px) 0;
 }
 .freccia {
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  border: 0;
-  background: none;
-  color: var(--bone);
-  cursor: pointer;
-  transition: opacity 0.3s var(--ease);
+display: grid;
+place-items: center;
+width: 48px;
+height: 48px;
+padding: 0;
+border: 0;
+background: none;
+color: var(--bone);
+cursor: pointer;
+transition: opacity 0.3s var(--ease);
 }
 .freccia:hover {
-  opacity: 0.7;
+opacity: 0.7;
 }
 .freccia:disabled {
-  opacity: 0.22;
-  cursor: default;
+opacity: 0.22;
+cursor: default;
 }
 .freccia:focus-visible {
-  outline-offset: -6px;
+outline-offset: -6px;
 }
 .atti {
-  display: flex;
-  gap: 14px;
+display: flex;
+gap: 14px;
 }
 .atti li {
-  display: flex;
-  align-items: center;
+display: flex;
+align-items: center;
 }
 .atti span {
-  margin-right: 6px;
-  font: 400 0.9375rem/1 var(--serif);
-  color: var(--ash);
+margin-right: 6px;
+font: 400 0.9375rem/1 var(--serif);
+color: var(--ash);
 }
 .atti button {
-  position: relative;
-  width: 24px;
-  height: 48px;
-  padding: 0;
-  border: 0;
-  background: none;
-  cursor: pointer;
+position: relative;
+width: 24px;
+height: 48px;
+padding: 0;
+border: 0;
+background: none;
+cursor: pointer;
 }
 .atti button::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 1px;
-  height: 22px;
-  margin: -11px 0 0 -0.5px;
-  background: var(--bone);
-  opacity: 0.32;
-  transform: scaleY(0.5);
-  transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
+content: "";
+position: absolute;
+left: 50%;
+top: 50%;
+width: 1px;
+height: 22px;
+margin: -11px 0 0 -0.5px;
+background: var(--bone);
+opacity: 0.32;
+transform: scaleY(0.5);
+transition: transform 0.3s var(--ease), opacity 0.3s var(--ease);
 }
 .atti button:hover::before {
-  opacity: 0.7;
+opacity: 0.7;
 }
 .atti button[aria-current]::before {
-  opacity: 1;
-  transform: none;
+opacity: 1;
+transform: none;
 }
 .atti button:focus-visible {
-  outline-offset: -6px;
+outline-offset: -6px;
 }
-
 .va {
-  margin-left: 0.5rem;
-  color: var(--ash);
-  transition: transform 0.35s var(--ease);
+margin-left: 0.5rem;
+color: var(--ash);
+transition: transform 0.35s var(--ease);
 }
 a:hover > * > .va,
 a:hover > .va {
-  transform: translate(2px, -2px);
+transform: translate(2px, -2px);
 }
 @media (max-width: 899px) {
-  .scena {
-    grid-template:
-      "testa" auto
-      "pozze" 1fr
-      "schede" auto
-      "giri" auto
-      "porte" auto / 100%;
-  }
-  .schede {
-    padding: 0 var(--gutter);
-  }
-  .scheda h2 {
-    max-width: none;
-    margin: 0 0 0.5rem;
-    font-size: 1.875rem;
-  }
-  .riga {
-    max-width: 36ch;
-    min-height: 3.2em;
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-  .giri {
-    justify-self: stretch;
-    justify-content: space-between;
-    gap: 0;
-    margin: 4px calc(var(--gutter) - 12px) 6px;
-  }
-  .atti {
-    gap: 8px;
-  }
-  .atti span {
-    margin-right: 4px;
-  }
-  .atti button {
-    width: 18px;
-  }
-  .scena > .porte {
-    width: auto;
-    margin: 0 var(--gutter) var(--gutter);
-  }
+.scena {
+grid-template:
+"testa" auto
+"pozze" 1fr
+"schede" auto
+"giri" auto
+"porte" auto / 100%;
 }
-
-@font-face {
-  font-family: "Bodoni Moda";
-  src: url("../assets/fonts/bodoni-moda-latin.woff2") format("woff2");
-  font-weight: 400 500;
-  font-display: swap;
-}
-:root {
-  --serif: "Bodoni Moda", "Bodoni 72", Didot, "Times New Roman", serif;
-}
-.riga {
-  max-width: 31ch;
-  font: 400 1.0625rem/1.6 var(--serif);
-  color: var(--bone);
-  text-shadow: 0 0 14px rgba(11, 8, 6, 0.6), 0 1px 2px rgba(11, 8, 6, 0.45);
+.schede {
+padding: 0 var(--gutter);
 }
 .scheda h2 {
-  text-shadow: 0 0 22px rgba(11, 8, 6, 0.45);
+max-width: none;
+margin: 0 0 0.5rem;
+font-size: 1.875rem;
 }
-.porta-nome {
-  white-space: nowrap;
+.riga {
+max-width: 36ch;
+min-height: 3.2em;
+font-size: 0.875rem;
+line-height: 1.5;
 }
-.porta-cosa {
-  color: rgba(236, 228, 216, 0.86);
-  text-shadow: 0 0 10px rgba(11, 8, 6, 0.55);
+.giri {
+justify-self: stretch;
+justify-content: space-between;
+gap: 0;
+margin: 4px calc(var(--gutter) - 12px) 6px;
 }
-.insegna {
-  position: relative;
-  z-index: 5;
-  justify-self: start;
-  display: block;
-  text-decoration: none;
-  cursor: default;
-  transition: opacity 0.3s var(--ease);
-}
-.insegna .marchio {
-  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
-}
-.insegna::before {
-  content: "";
-  position: absolute;
-  inset: -14px -14px -2.4em;
-}
-.buio .insegna {
-  cursor: pointer;
-}
-.punta.buio .insegna:hover {
-  opacity: 0.7;
-}
-.buio .insegna:active {
-  opacity: 0.5;
-}
-.dono {
-  grid-column: 2;
-}
-.stelle {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0.46em;
-  display: flex;
-  justify-content: center;
-  gap: 0.3em;
-  margin-top: 0.55em;
-  font-size: clamp(1.125rem, 1.5vw, 1.5rem);
-  color: #d4082d;
-}
-.stelle svg {
-  width: 0.7em;
-  height: 0.7em;
-  fill: currentColor;
+.atti {
+gap: 8px;
 }
 .atti span {
-  margin: 0;
+margin-right: 4px;
 }
 .atti button {
-  display: flex;
-  align-items: center;
-  gap: 17px;
-  width: auto;
-  padding: 0 12px 0 0;
+width: 18px;
+}
+.scena > .porte {
+width: auto;
+margin: 0 var(--gutter) var(--gutter);
+}
+}
+@font-face {
+font-family: "Bodoni Moda";
+src: url("../assets/fonts/bodoni-moda-latin.woff2") format("woff2");
+font-weight: 400 500;
+font-display: swap;
+}
+:root {
+--serif: "Bodoni Moda", "Bodoni 72", Didot, "Times New Roman", serif;
+}
+.riga {
+max-width: 31ch;
+font: 400 1.0625rem/1.6 var(--serif);
+color: var(--bone);
+text-shadow: 0 0 14px rgba(11, 8, 6, 0.6), 0 1px 2px rgba(11, 8, 6, 0.45);
+}
+.scheda h2 {
+text-shadow: 0 0 22px rgba(11, 8, 6, 0.45);
+}
+.porta-nome {
+white-space: nowrap;
+}
+.porta-cosa {
+color: rgba(236, 228, 216, 0.86);
+text-shadow: 0 0 10px rgba(11, 8, 6, 0.55);
+}
+.insegna {
+position: relative;
+z-index: 5;
+justify-self: start;
+display: block;
+text-decoration: none;
+cursor: default;
+transition: opacity 0.3s var(--ease);
+}
+.insegna .marchio {
+font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+}
+.insegna::before {
+content: "";
+position: absolute;
+inset: -14px -14px -2.4em;
+}
+.buio .insegna {
+cursor: pointer;
+}
+.punta.buio .insegna:hover {
+opacity: 0.7;
+}
+.buio .insegna:active {
+opacity: 0.5;
+}
+.dono {
+grid-column: 2;
+}
+.stelle {
+position: absolute;
+top: 100%;
+left: 0;
+right: 0.46em;
+display: flex;
+justify-content: center;
+gap: 0.3em;
+margin-top: 0.55em;
+font-size: clamp(1.125rem, 1.5vw, 1.5rem);
+color: #d4082d;
+}
+.stelle svg {
+width: 0.7em;
+height: 0.7em;
+fill: currentColor;
+}
+.atti span {
+margin: 0;
+}
+.atti button {
+display: flex;
+align-items: center;
+gap: 17px;
+width: auto;
+padding: 0 12px 0 0;
 }
 .atti button::before {
-  position: static;
-  order: 1;
-  flex: none;
-  margin: 0;
+position: static;
+order: 1;
+flex: none;
+margin: 0;
 }
 @media (min-width: 900px) {
-  .scena > .porte {
-    width: max-content;
-  }
+.scena > .porte {
+width: max-content;
+}
 }
 .porte {
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-  gap: 10px;
-  border: 0;
+grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+gap: 10px;
+border: 0;
 }
 .porte > .porta {
-  border: 1px solid rgba(236, 228, 216, 0.6);
-  background: rgba(11, 8, 6, 0.45);
-  transition: color 0s 0.06s, border-color 0.25s var(--ease), transform 0.2s var(--ease);
+border: 1px solid rgba(236, 228, 216, 0.6);
+background: rgba(11, 8, 6, 0.45);
+transition: color 0s 0.06s, border-color 0.25s var(--ease), transform 0.2s var(--ease);
 }
 .porte > .porta::before {
-  transition-duration: 0.25s;
+transition-duration: 0.25s;
 }
 .porta > * {
-  position: relative;
+position: relative;
 }
 .porta .va {
-  color: inherit;
-  opacity: 0.7;
+color: inherit;
+opacity: 0.7;
 }
 .punta .porte > .porta:hover {
-  border-color: var(--bone);
-  color: var(--ink);
+border-color: var(--bone);
+color: var(--ink);
 }
 .punta .porte > .porta:hover::before {
-  opacity: 1;
+opacity: 1;
 }
 .porta:hover .giu {
-  transform: translateY(3px);
+transform: translateY(3px);
 }
 .porte > .porta:active {
-  border-color: var(--bone);
-  color: var(--ink);
-  transform: scale(0.98);
+border-color: var(--bone);
+color: var(--ink);
+transform: scale(0.98);
 }
 .porte > .porta:active::before {
-  opacity: 0.86;
+opacity: 0.86;
 }
 .punta .porta:hover .porta-cosa,
 .porta:active .porta-cosa {
-  color: inherit;
-  text-shadow: none;
+color: inherit;
+text-shadow: none;
 }
 .porte > .porta:focus-visible {
-  outline-offset: 3px;
+outline-offset: 3px;
 }
 .scena > :not(.tela) {
-  opacity: var(--luce, 1);
+opacity: var(--luce, 1);
 }
 .buio .scena,
 .buio .scena > * {
-  pointer-events: none;
+pointer-events: none;
 }
 .giro + .serata {
-  margin-top: -100svh;
+margin-top: -100svh;
 }
 .js .giro + .serata.is-in > * {
-  opacity: var(--sala, 1);
-  transition-property: none;
+opacity: var(--sala, 1);
+transition-property: none;
 }
 .js .giro + .serata.sale > * {
-  transition-property: opacity;
+transition-property: opacity;
 }
 .oltre .scena {
-  visibility: hidden;
+visibility: hidden;
 }
 @media (max-width: 899px) {
-  .atti {
-    flex: 1;
-    justify-content: space-between;
-    gap: 0;
-  }
-  .atti span {
-    margin: 0;
-    font-size: 0.875rem;
-  }
-  .atti button {
-    justify-content: center;
-    gap: 5px;
-    min-width: 24px;
-    padding: 0 4px;
-  }
-  .riga {
-    max-width: 34ch;
-    min-height: 3.1em;
-    font-size: 1rem;
-    line-height: 1.55;
-  }
+.atti {
+flex: 1;
+justify-content: space-between;
+gap: 0;
+}
+.atti span {
+margin: 0;
+font-size: 0.875rem;
+}
+.atti button {
+justify-content: center;
+gap: 5px;
+min-width: 24px;
+padding: 0 4px;
+}
+.riga {
+max-width: 34ch;
+min-height: 3.1em;
+font-size: 1rem;
+line-height: 1.55;
+}
 }
 @media (max-width: 389px) {
-  .porte {
-    gap: 8px;
-  }
-  .porte > .porta {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
-  .freccia {
-    width: 40px;
-  }
-  .atti span {
-    font-size: 0.75rem;
-  }
-  .atti button {
-    gap: 3px;
-    padding: 0 2px;
-  }
+.porte {
+gap: 8px;
+}
+.porte > .porta {
+padding-left: 10px;
+padding-right: 10px;
+}
+.freccia {
+width: 40px;
+}
+.atti span {
+font-size: 0.75rem;
+}
+.atti button {
+gap: 3px;
+padding: 0 2px;
+}
 }
 @media (max-width: 349px) {
-  .freccia {
-    display: none;
-  }
+.freccia {
+display: none;
+}
 }
 .scena::after,
 main::after {
-  --g: linear-gradient(rgba(11, 8, 6, 1.000) 0px, rgba(11, 8, 6, 0.993) 13.125px, rgba(11, 8, 6, 0.971) 26.25px, rgba(11, 8, 6, 0.936) 39.375px, rgba(11, 8, 6, 0.888) 52.5px, rgba(11, 8, 6, 0.828) 65.625px, rgba(11, 8, 6, 0.758) 78.75px, rgba(11, 8, 6, 0.680) 91.875px, rgba(11, 8, 6, 0.595) 105px, rgba(11, 8, 6, 0.505) 118.125px, rgba(11, 8, 6, 0.414) 131.25px, rgba(11, 8, 6, 0.324) 144.375px, rgba(11, 8, 6, 0.237) 157.5px, rgba(11, 8, 6, 0.156) 170.625px, rgba(11, 8, 6, 0.086) 183.75px, rgba(11, 8, 6, 0.031) 196.875px, rgba(11, 8, 6, 0.000) 210px);
-  content: "";
-  inset: 0 0 auto;
-  height: 210px;
-  pointer-events: none;
+--g: linear-gradient(rgba(11, 8, 6, 1.000) 0px, rgba(11, 8, 6, 0.993) 13.125px, rgba(11, 8, 6, 0.971) 26.25px, rgba(11, 8, 6, 0.936) 39.375px, rgba(11, 8, 6, 0.888) 52.5px, rgba(11, 8, 6, 0.828) 65.625px, rgba(11, 8, 6, 0.758) 78.75px, rgba(11, 8, 6, 0.680) 91.875px, rgba(11, 8, 6, 0.595) 105px, rgba(11, 8, 6, 0.505) 118.125px, rgba(11, 8, 6, 0.414) 131.25px, rgba(11, 8, 6, 0.324) 144.375px, rgba(11, 8, 6, 0.237) 157.5px, rgba(11, 8, 6, 0.156) 170.625px, rgba(11, 8, 6, 0.086) 183.75px, rgba(11, 8, 6, 0.031) 196.875px, rgba(11, 8, 6, 0.000) 210px);
+content: "";
+inset: 0 0 auto;
+height: 210px;
+pointer-events: none;
 }
 .scena::after {
-  position: absolute;
-  z-index: 2;
-  background: var(--g);
+position: absolute;
+z-index: 2;
+background: var(--g);
 }
 .scena {
-  z-index: 4;
+z-index: 4;
 }
 main::before {
-  content: "";
-  position: fixed;
-  z-index: 1;
-  inset: 0 0 auto;
-  height: var(--nome, 6rem);
-  pointer-events: none;
-  background: var(--ink);
+content: "";
+position: fixed;
+z-index: 1;
+inset: 0 0 auto;
+height: var(--nome, 6rem);
+pointer-events: none;
+background: var(--ink);
 }
 .quadro {
-  z-index: 2;
+z-index: 2;
 }
 main::after {
-  position: fixed;
-  z-index: 3;
-  background: linear-gradient(rgba(11, 8, 6, 0.5), rgba(11, 8, 6, 0) 140px), var(--g);
+position: fixed;
+z-index: 3;
+background: linear-gradient(rgba(11, 8, 6, 0.5), rgba(11, 8, 6, 0) 140px), var(--g);
 }
 .tetto {
-  position: absolute;
-  z-index: 3;
-  top: -160px;
-  left: 0;
-  right: 0;
-  height: 176px;
-  pointer-events: none;
-  background: var(--ink);
+position: absolute;
+z-index: 3;
+top: -160px;
+left: 0;
+right: 0;
+height: 176px;
+pointer-events: none;
+background: var(--ink);
 }
 @media (min-width: 900px) {
-  main::before {
-    right: 66%;
-  }
-  main::after,
-  .tetto {
-    display: none;
-  }
+main::before {
+right: 66%;
 }
-
+main::after,
+.tetto {
+display: none;
+}
+}
 .serata {
-  display: grid;
-  grid-template:
-    "testo quadro ." 1fr
-    "porte quadro ." auto / minmax(0, 34fr) minmax(0, 52fr) minmax(0, 14fr);
-  min-height: 100svh;
-  padding: var(--gutter) 0;
+display: grid;
+grid-template:
+"testo quadro ." 1fr
+"porte quadro ." auto / minmax(0, 34fr) minmax(0, 52fr) minmax(0, 14fr);
+min-height: 100svh;
+padding: var(--gutter) 0;
 }
 .serata:focus {
-  outline: 0;
+outline: 0;
 }
 .js:not(.via) .quadro img {
-  display: none;
+display: none;
 }
 .serata-testo {
-  grid-area: testo;
-  align-self: center;
-  padding-left: var(--gutter);
+grid-area: testo;
+align-self: center;
+padding-left: var(--gutter);
 }
 .serata h2 {
-  margin: 0 0 1.5rem;
-  font: 400 clamp(2.125rem, 3.7vw, 3.625rem)/1.08 var(--serif);
-  letter-spacing: -0.01em;
+margin: 0 0 1.5rem;
+font: 400 clamp(2.125rem, 3.7vw, 3.625rem)/1.08 var(--serif);
+letter-spacing: -0.01em;
 }
 .serata .riga {
-  max-width: none;
-  min-height: 0;
-  text-shadow: none;
+max-width: none;
+min-height: 0;
+text-shadow: none;
 }
 .serata .riga + .riga {
-  margin-top: 1.3em;
+margin-top: 1.3em;
 }
 .quadro {
-  grid-area: quadro;
-  place-self: center;
-  position: relative;
-  height: min(78svh, 47.5rem);
-  aspect-ratio: 9 / 16;
-  overflow: hidden;
+grid-area: quadro;
+place-self: center;
+position: relative;
+height: min(78svh, 47.5rem);
+aspect-ratio: 9 / 16;
+overflow: hidden;
 }
 .quadro.largo {
-  aspect-ratio: 4 / 5;
+aspect-ratio: 4 / 5;
 }
 .quadro img,
 .quadro video {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+position: absolute;
+inset: 0;
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 .serata > .porte {
-  grid-area: porte;
-  align-self: end;
-  width: max-content;
-  margin-left: var(--gutter);
+grid-area: porte;
+align-self: end;
+width: max-content;
+margin-left: var(--gutter);
 }
 .porte.una {
-  grid-template-columns: 1fr;
+grid-template-columns: 1fr;
 }
 .js .serata > * {
-  opacity: 0;
+opacity: 0;
 }
 .js .serata.is-in > * {
-  opacity: 1;
-  transition: opacity 1.1s var(--ease);
+opacity: 1;
+transition: opacity 1.1s var(--ease);
 }
 .js .serata.is-in > .serata-testo {
-  transition-delay: 0.15s;
+transition-delay: 0.15s;
 }
 .js .serata.is-in > .porte {
-  transition-delay: 0.3s;
+transition-delay: 0.3s;
 }
 .js .serata.sale > * {
-  animation: sale 1s var(--ease);
+animation: sale 1s var(--ease);
 }
 @keyframes sale {
-  from {
-    transform: translateY(1.5rem);
-  }
+from {
+transform: translateY(1.5rem);
+}
 }
 .js .serata:not(.is-open) > .porte {
-  pointer-events: none;
+pointer-events: none;
 }
 .piede {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0 2.5rem;
-  padding: clamp(40px, 7vh, 80px) var(--gutter) 32px;
-  font: 400 1.0625rem/1.6 var(--serif);
+display: flex;
+flex-wrap: wrap;
+align-items: center;
+gap: 0 2.5rem;
+padding: clamp(40px, 7vh, 80px) var(--gutter) 32px;
+font: 400 1.0625rem/1.6 var(--serif);
 }
 .piede a {
-  display: inline-flex;
-  align-items: center;
-  min-height: 48px;
-  text-decoration: underline;
-  text-decoration-color: var(--line);
-  text-underline-offset: 6px;
+display: inline-flex;
+align-items: center;
+min-height: 48px;
+text-decoration: underline;
+text-decoration-color: var(--line);
+text-underline-offset: 6px;
 }
 .piede a:hover {
-  text-decoration-color: var(--bone);
+text-decoration-color: var(--bone);
 }
 @media (max-width: 899px) {
-  .serata {
-    grid-template:
-      "quadro" auto
-      "testo" auto
-      "porte" auto / 100%;
-    align-content: start;
-    gap: 28px;
-    min-height: 0;
-    padding: 0 0 var(--gutter);
-  }
-  .quadro,
-  .quadro.largo {
-    width: 100%;
-    height: 46svh;
-    aspect-ratio: auto;
-  }
-  .serata-testo {
-    padding: 0 var(--gutter);
-  }
-  .serata h2 {
-    margin-bottom: 1rem;
-    font-size: 1.875rem;
-  }
-  .serata > .porte {
-    width: auto;
-    margin: 0 var(--gutter);
-  }
-  .porte.una {
-    width: 50%;
-  }
-  .piede {
-    display: grid;
-    gap: 0;
-    padding-top: 40px;
-  }
+.serata {
+grid-template:
+"quadro" auto
+"testo" auto
+"porte" auto / 100%;
+align-content: start;
+gap: 28px;
+min-height: 0;
+padding: 0 0 var(--gutter);
+}
+.quadro,
+.quadro.largo {
+width: 100%;
+height: 46svh;
+aspect-ratio: auto;
+}
+.serata-testo {
+padding: 0 var(--gutter);
+}
+.serata h2 {
+margin-bottom: 1rem;
+font-size: 1.875rem;
+}
+.serata > .porte {
+width: auto;
+margin: 0 var(--gutter);
+}
+.porte.una {
+width: 50%;
+}
+.piede {
+display: grid;
+gap: 0;
+padding-top: 40px;
+}
 }
 .js.torna .serata.is-in > *,
 .torna .piede {
-  opacity: 0;
-  transition: opacity 0.4s var(--ease);
+opacity: 0;
+transition: opacity 0.4s var(--ease);
 }
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition: none !important;
-    animation: none !important;
-  }
+*,
+*::before,
+*::after {
+transition: none !important;
+animation: none !important;
+}
 }
 </style>
 </head>
@@ -692,7 +684,7 @@ main::after {
         <h1 class="marchio">Akoya</h1>
         <span class="stelle" role="img" aria-label="Una stella Michelin"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8.9 6.63a3.7 3.7 0 1 1 6.2 0 3.7 3.7 0 1 1 3.1 5.37 3.7 3.7 0 1 1-3.1 5.37 3.7 3.7 0 1 1-6.2 0 3.7 3.7 0 1 1-3.1-5.37 3.7 3.7 0 1 1 3.1-5.37z"/></svg></span>
       </a>
-      <a class="dono" href="https://spaziomusa.net/akoya/" target="_blank" rel="noopener" aria-label="Buono regalo" title="Buono regalo">
+      <a class="dono" href="#regalo" aria-label="Buono regalo" title="Buono regalo">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <rect x="3.5" y="8" width="17" height="4" rx="0.5"/>
           <path d="M5 12v8.5h14V12M12 8v12.5"/>
@@ -815,12 +807,32 @@ main::after {
     </a>
   </nav>
 </section>
+
+<section class="serata" id="regalo" aria-labelledby="t-regalo" tabindex="-1">
+  <div class="serata-testo">
+    <h2 id="t-regalo">Buono regalo</h2>
+    <p class="riga">Il banco<br>Omakase Ma Kaiseki<br>150 €</p>
+    <p class="riga">La lounge</p>
+    <p class="riga">Bonjour Tokyo<br>Brunch della domenica</p>
+  </div>
+  <picture class="quadro largo">
+      <source type="image/avif" srcset="../assets/img/buono-1024.avif 1024w, ../assets/img/buono-640.avif 640w" sizes="(max-width: 899px) 100vw, 36rem">
+      <source type="image/webp" srcset="../assets/img/buono-1024.webp 1024w, ../assets/img/buono-640.webp 640w" sizes="(max-width: 899px) 100vw, 36rem">
+      <img src="../assets/img/buono-640.webp" width="1024" height="1280" alt="Un cartoncino con il nome Akoya e la stella rossa, appoggiato sul rovere del banco sotto la lampada" loading="lazy" decoding="async">
+  </picture>
+  <nav class="porte una" aria-label="Richiedi il buono regalo">
+    <a class="porta" href="https://spaziomusa.net/akoya/" target="_blank" rel="noopener" aria-label="Richiedi il buono regalo sul sito di Akoya">
+      <span class="porta-nome">Richiedi<svg class="va" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 11.5 7-7M5.5 4.5h6v6"/></svg></span>
+      <span class="porta-cosa">Buono regalo</span>
+    </a>
+  </nav>
+</section>
 </main>
 
 <footer class="piede">
   <span>Via della Consolata 11/E, Torino</span>
   <a href="tel:+390115538730">011 553 8730</a>
-  <a href="https://spaziomusa.net/akoya/" target="_blank" rel="noopener">Buono regalo<svg class="va" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4.5 11.5 7-7M5.5 4.5h6v6"/></svg></a>
+  <a href="#regalo">Buono regalo</a>
 </footer>
 
 <script>
@@ -1476,7 +1488,7 @@ if (on) film.play().catch(() => {});
 else film.pause();
 }
 if (film && !calm) new IntersectionObserver(([e]) => { sight = e.isIntersecting; roll(); }, { rootMargin: "25% 0px" }).observe(film);
-root.querySelectorAll(".porta").forEach((a) => a.addEventListener("click", (e) => {
+root.querySelectorAll(".porta, .dono").forEach((a) => a.addEventListener("click", (e) => {
 e.preventDefault();
 if (leaving) return;
 leaving = { to: document.querySelector(a.hash), from: dim, t: performance.now() };
@@ -1490,11 +1502,26 @@ cover();
 addEventListener("pointermove", (e) => { if (e.pointerType === "mouse") document.documentElement.classList.add("punta"); }, { passive: true });
 sign.addEventListener("click", (e) => {
 e.preventDefault();
-if (leaving || back || dim <= 0.4) return;
+if (leaving || back || dim <= 0.4 || document.documentElement.classList.contains("torna")) return;
 if (calm || scrollY < start + hold) return scrollTo({ top: start, behavior: calm ? "auto" : "smooth" });
 document.documentElement.classList.add("torna");
 back = { t: performance.now() + 420 };
 kick();
+});
+const up = document.querySelector('.piede a[href^="#"]');
+up.addEventListener("click", (e) => {
+e.preventDefault();
+const to = document.querySelector(up.hash);
+if (leaving || back || document.documentElement.classList.contains("torna")) return;
+const land = () => {
+document.documentElement.classList.remove("torna");
+scrollTo(0, to.offsetTop);
+enter(to, true);
+to.focus({ preventScroll: true });
+};
+if (calm) return land();
+document.documentElement.classList.add("torna");
+setTimeout(land, 420);
 });
 function arrive() {
 const { to } = leaving;
