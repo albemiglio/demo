@@ -707,15 +707,6 @@ animation: none !important;
         <h2>Granchio Shiitake</h2>
       </li>
       <li class="scheda">
-        <h2>Ricciola</h2>
-      </li>
-      <li class="scheda">
-        <h2>Alice marinata</h2>
-      </li>
-      <li class="scheda">
-        <h2>Pesce sciabola</h2>
-      </li>
-      <li class="scheda">
         <h2>Nigiri Tonno</h2>
       </li>
       <li class="scheda">
@@ -747,13 +738,10 @@ animation: none !important;
         <li><button type="button" aria-label="Shime Saba"><span aria-hidden="true">II</span></button></li>
         <li><button type="button" aria-label="Calamaro Somen"><span aria-hidden="true">III</span></button></li>
         <li><button type="button" aria-label="Granchio Shiitake"><span aria-hidden="true">IV</span></button></li>
-        <li><button type="button" aria-label="Ricciola"><span aria-hidden="true">V</span></button></li>
-        <li><button type="button" aria-label="Alice marinata"><span aria-hidden="true">VI</span></button></li>
-        <li><button type="button" aria-label="Pesce sciabola"><span aria-hidden="true">VII</span></button></li>
-        <li><button type="button" aria-label="Nigiri Tonno"><span aria-hidden="true">VIII</span></button></li>
-        <li><button type="button" aria-label="Anatra Yuzu"><span aria-hidden="true">IX</span></button></li>
-        <li><button type="button" aria-label="Zucca"><span aria-hidden="true">X</span></button></li>
-        <li><button type="button" aria-label="Mochi Cioccolato Caviale"><span aria-hidden="true">XI</span></button></li>
+        <li><button type="button" aria-label="Nigiri Tonno"><span aria-hidden="true">V</span></button></li>
+        <li><button type="button" aria-label="Anatra Yuzu"><span aria-hidden="true">VI</span></button></li>
+        <li><button type="button" aria-label="Zucca"><span aria-hidden="true">VII</span></button></li>
+        <li><button type="button" aria-label="Mochi Cioccolato Caviale"><span aria-hidden="true">VIII</span></button></li>
       </ol>
       <button class="freccia" type="button" aria-label="Piatto successivo"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.5 5.5 16 12l-6.5 6.5"/></svg></button>
     </div>
@@ -848,7 +836,7 @@ const sign = root.querySelector(".insegna");
 const first = root.nextElementSibling;
 const N = cards.length;
 const IMG = "../assets/img/c-";
-const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"rim":0.018,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921],"foot":0,"disc":0},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"rim":0.024,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021],"foot":0,"disc":0},{"slug":"calamaro","widths":[720,1000,1400],"top":0.076,"reach":0.18,"rim":0.06,"radius":0.065,"wide":0.1979,"f":6464.6,"eye":[-0.011,0.5979,-0.5811],"shot":[[3.92745,-0.30677,0.33773,0.42292],[0.0,-4.82646,-3.80855,0.67271],[0.0,-0.67237,0.74022,0.83211]],"gain":[1.241,1.097,1.081],"foot":0.02,"disc":0.065},{"slug":"granchio","widths":[480,776],"top":0.0743,"reach":0.15,"rim":0.065,"radius":0.058,"wide":0.1154,"f":5037.9,"eye":[0.0011,0.5685,-0.6227],"shot":[[6.49218,-0.31912,0.39408,0.41988],[0.0,-5.99834,-4.39997,0.66992],[0.0,-0.62932,0.77715,0.84167]],"gain":[0.993,0.9,0.906],"foot":0.028,"disc":0.058},{"slug":"ricciola","widths":[480,720,818],"top":0.0253,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.179,"f":3445.0,"eye":[-0.0093,0.6498,-0.4127],"shot":[[4.21146,-0.35421,0.26935,0.38068],[0.0,-3.08911,-3.91415,0.39199],[0.0,-0.796,0.60529,0.76704]],"gain":[2.258,2.77,3.339],"foot":0,"disc":0.085},{"slug":"alice","widths":[480,720,1000],"top":0.0234,"reach":0.12,"rim":0.013,"radius":0.085,"wide":0.173,"f":4597.1,"eye":[-0.0002,0.6858,-0.4031],"shot":[[4.41605,-0.41931,0.26971,0.39717],[0.0,-3.0249,-4.12764,0.41092],[0.0,-0.84104,0.54097,0.79485]],"gain":[1.541,1.915,2.445],"foot":0,"disc":0.085},{"slug":"sciabola","widths":[720,1000,1163],"top":0.0325,"reach":0.13,"rim":0.015,"radius":0.088,"wide":0.1832,"f":4872.2,"eye":[-0.0011,0.5929,-0.5052],"shot":[[4.18932,-0.35652,0.3413,0.38856],[0.0,-3.69486,-3.57018,0.38701],[0.0,-0.72236,0.69151,0.77763]],"gain":[2.366,2.854,3.329],"foot":0,"disc":0.088},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"rim":0.02,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946],"foot":0,"disc":0},{"slug":"anatra","widths":[720,1000,1367],"top":0.0757,"reach":0.19,"rim":0.022,"radius":0.12,"wide":0.2693,"f":3921.8,"eye":[-0.0166,0.5173,-0.5267],"shot":[[2.86893,-0.26901,0.34124,0.36646],[0.0,-3.28225,-2.47673,0.39333],[0.0,-0.61909,0.78532,0.73387]],"gain":[1.31,1.404,1.574],"foot":0,"disc":0.12},{"slug":"zucca","widths":[720,1000,1400],"top":0.0471,"reach":0.17,"rim":0.0195,"radius":0.11,"wide":0.2278,"f":7669.0,"eye":[0.0062,0.4581,-0.6382],"shot":[[3.43131,-0.28936,0.44134,0.39289],[0.0,-4.5445,-2.64862,0.39155],[0.0,-0.54829,0.83629,0.78494]],"gain":[1.2,1.102,1.107],"foot":0,"disc":0.11},{"slug":"mochi","widths":[480,720],"top":0.0294,"reach":0.1,"rim":0.012,"radius":0.065,"wide":0.1294,"f":7722.8,"eye":[0.002,0.6088,-0.5308],"shot":[[5.94062,-0.38508,0.3437,0.405],[0.0,-5.54549,-5.52767,0.44241],[0.0,-0.74606,0.66588,0.80767]],"gain":[0.908,0.807,0.748],"foot":0,"disc":0.065}];
+const DISHES = [{"slug":"astice","widths":[720,1000,1185],"top":0.0497,"reach":0.2,"rim":0.018,"radius":0.14,"wide":0.291,"f":3117.5,"eye":[0.0146,0.4508,-0.6343],"shot":[[2.63078,-0.29628,0.46062,0.38729],[0.0,-3.92141,-2.1595,0.39798],[0.0,-0.54097,0.84104,0.77731]],"gain":[1.029,0.885,0.921],"foot":0,"disc":0},{"slug":"shime-saba","widths":[720,1000,1400],"top":0.0346,"reach":0.2,"rim":0.024,"radius":0.125,"wide":0.2462,"f":6268.3,"eye":[-0.0056,0.497,-0.672],"shot":[[3.16581,-0.28386,0.38713,0.41887],[0.0,-4.64054,-2.72381,0.47618],[0.0,-0.59131,0.80644,0.83584]],"gain":[1.232,1.049,1.021],"foot":0,"disc":0},{"slug":"calamaro","widths":[720,1000,1400],"top":0.076,"reach":0.18,"rim":0.06,"radius":0.065,"wide":0.1979,"f":6464.6,"eye":[-0.011,0.5979,-0.5811],"shot":[[3.92745,-0.30677,0.33773,0.42292],[0.0,-4.82646,-3.80855,0.67271],[0.0,-0.67237,0.74022,0.83211]],"gain":[1.241,1.097,1.081],"foot":0.02,"disc":0.065},{"slug":"granchio","widths":[480,776],"top":0.0743,"reach":0.15,"rim":0.065,"radius":0.058,"wide":0.1154,"f":5037.9,"eye":[0.0011,0.5685,-0.6227],"shot":[[6.49218,-0.31912,0.39408,0.41988],[0.0,-5.99834,-4.39997,0.66992],[0.0,-0.62932,0.77715,0.84167]],"gain":[0.993,0.9,0.906],"foot":0.028,"disc":0.058},{"slug":"nigiri","widths":[720,1000,1255],"top":0.0353,"reach":0.18,"rim":0.02,"radius":0.105,"wide":0.2257,"f":4281.2,"eye":[-0.0238,0.3832,-0.6599],"shot":[[3.41128,-0.17762,0.34859,0.37915],[0.0,-5.77891,-2.71201,0.42472],[0.0,-0.45399,0.89101,0.76196]],"gain":[1.062,1.088,0.946],"foot":0,"disc":0},{"slug":"anatra","widths":[720,1000,1367],"top":0.0757,"reach":0.19,"rim":0.022,"radius":0.12,"wide":0.2693,"f":3921.8,"eye":[-0.0166,0.5173,-0.5267],"shot":[[2.86893,-0.26901,0.34124,0.36646],[0.0,-3.28225,-2.47673,0.39333],[0.0,-0.61909,0.78532,0.73387]],"gain":[1.31,1.404,1.574],"foot":0,"disc":0.12},{"slug":"zucca","widths":[720,1000,1400],"top":0.0471,"reach":0.17,"rim":0.0195,"radius":0.11,"wide":0.2278,"f":7669.0,"eye":[0.0062,0.4581,-0.6382],"shot":[[3.43131,-0.28936,0.44134,0.39289],[0.0,-4.5445,-2.64862,0.39155],[0.0,-0.54829,0.83629,0.78494]],"gain":[1.2,1.102,1.107],"foot":0,"disc":0.11},{"slug":"mochi","widths":[480,720],"top":0.0294,"reach":0.1,"rim":0.012,"radius":0.065,"wide":0.1294,"f":7722.8,"eye":[0.002,0.6088,-0.5308],"shot":[[5.94062,-0.38508,0.3437,0.405],[0.0,-5.54549,-5.52767,0.44241],[0.0,-0.74606,0.66588,0.80767]],"gain":[0.908,0.807,0.748],"foot":0,"disc":0.065}];
 const WOOD = {"size": [1.728, 0.6], "pores": [0.48, 0.3], "depth": 0.2347};
 const EYE = 0.8;        // from the eye to the plate
 const CURVE = 1.6;      // radius of the line the dishes travel on; its centre is beyond the counter
